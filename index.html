@@ -6,331 +6,238 @@
 <title>Transcript — Ticket</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=gg+sans:wght@400;500;600;700&display=swap');
-
   :root {
-    --bg-primary:    #313338;
-    --bg-secondary:  #2b2d31;
-    --bg-tertiary:   #1e1f22;
-    --bg-hover:      #35373c;
-    --bg-msg-hover:  #2e3035;
-    --text-normal:   #dbdee1;
-    --text-muted:    #80848e;
-    --text-link:     #00a8fc;
-    --brand:         #5865f2;
-    --green:         #23a55a;
-    --red:           #f23f43;
-    --yellow:        #f0b232;
-    --border:        #3f4147;
-    --embed-border:  #1e1f22;
-    --scrollbar:     #202225;
-    --font:          'gg sans', 'Noto Sans', Whitney, sans-serif;
+    --bg-primary:   #313338;
+    --bg-secondary: #2b2d31;
+    --bg-tertiary:  #1e1f22;
+    --bg-hover:     #35373c;
+    --bg-msg-hover: #2e3035;
+    --text-normal:  #dbdee1;
+    --text-muted:   #80848e;
+    --text-link:    #00a8fc;
+    --brand:        #5865f2;
+    --green:        #23a55a;
+    --red:          #f23f43;
+    --yellow:       #f0b232;
+    --border:       #3f4147;
+    --scrollbar:    #202225;
+    --font:         'gg sans', 'Noto Sans', Whitney, sans-serif;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg-primary);
-    color: var(--text-normal);
-    font-family: var(--font);
-    font-size: 16px;
-    line-height: 1.375;
-    min-height: 100vh;
-  }
-
-  /* ── SCROLLBAR ── */
+  body { background: var(--bg-primary); color: var(--text-normal); font-family: var(--font); font-size: 16px; line-height: 1.375; min-height: 100vh; }
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: var(--bg-tertiary); }
   ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 4px; }
 
   /* ── LOADING ── */
-  #loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    gap: 16px;
-    color: var(--text-muted);
-    font-size: 15px;
-  }
-  .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid var(--border);
-    border-top-color: var(--brand);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
+  #loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 16px; color: var(--text-muted); font-size: 15px; }
+  .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── HEADER ── */
-  #header {
+  /* ── PASSWORD GATE ── */
+  #password-gate {
+    display: none;
+    min-height: 100vh;
+    background: var(--bg-primary);
+    flex-direction: column;
+  }
+  .gate-topbar {
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border);
-    padding: 12px 20px;
+    padding: 0 24px;
+    height: 52px;
     display: flex;
     align-items: center;
     gap: 12px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
   }
-  #header .channel-icon {
-    color: var(--text-muted);
-    font-size: 20px;
-    font-weight: 700;
-  }
-  #header .channel-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-normal);
-  }
-  #header .channel-topic {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-left: 8px;
-    padding-left: 8px;
-    border-left: 1px solid var(--border);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 400px;
-  }
-  #header .badge {
-    margin-left: auto;
-    background: var(--bg-tertiary);
-    color: var(--text-muted);
-    font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-weight: 500;
-  }
+  .gate-topbar .logo { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .gate-topbar .logo-icon { width: 32px; height: 32px; background: var(--brand); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .gate-topbar .spacer { flex: 1; }
+  .gate-topbar .discord-link { background: #5865f2; color: #fff; border: none; border-radius: 4px; padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; }
 
-  /* ── INFO BAR ── */
-  #info-bar {
-    background: var(--bg-tertiary);
-    border-bottom: 1px solid var(--border);
-    padding: 8px 20px;
+  .gate-main {
     display: flex;
     gap: 24px;
-    font-size: 13px;
-    color: var(--text-muted);
+    padding: 32px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
     flex-wrap: wrap;
   }
+
+  /* Password card */
+  .gate-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    flex: 1;
+    min-width: 280px;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .gate-icon { font-size: 56px; }
+  .gate-title { font-size: 22px; font-weight: 700; text-align: center; }
+  .gate-subtitle { font-size: 14px; color: var(--text-muted); text-align: center; line-height: 1.5; }
+  .gate-input-wrap { width: 100%; position: relative; }
+  .gate-input {
+    width: 100%;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-normal);
+    font-family: var(--font);
+    font-size: 18px;
+    font-weight: 600;
+    padding: 14px 16px;
+    outline: none;
+    text-align: center;
+    letter-spacing: 4px;
+    transition: border-color 0.2s;
+  }
+  .gate-input:focus { border-color: var(--brand); }
+  .gate-input.error { border-color: var(--red); animation: shake 0.3s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+  .gate-btn {
+    width: 100%;
+    background: var(--brand);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .gate-btn:hover { background: #4752c4; }
+  .gate-btn:active { transform: scale(0.98); }
+  .gate-error { color: var(--red); font-size: 13px; text-align: center; display: none; }
+  .gate-hint { font-size: 12px; color: var(--text-muted); text-align: center; }
+
+  /* Ads sidebar */
+  .gate-sidebar {
+    flex: 1;
+    min-width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .ad-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ad-card-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  .ad-card-title { font-size: 16px; font-weight: 700; color: var(--text-normal); }
+  .ad-card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .ad-card-btn {
+    background: var(--brand);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    transition: background 0.15s;
+  }
+  .ad-card-btn:hover { background: #4752c4; }
+  .ad-card-btn.green { background: var(--green); }
+  .ad-card-btn.green:hover { background: #1a8a45; }
+  .ad-card-btn.yellow { background: #c49b0a; }
+  .ad-card.highlight { border-color: var(--brand); background: #1e2036; }
+  .ad-features { display: flex; flex-direction: column; gap: 6px; }
+  .ad-feature { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); }
+  .ad-feature span { color: var(--green); font-size: 14px; }
+
+  /* Gate footer */
+  .gate-footer {
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: auto;
+  }
+  .gate-footer a { color: var(--text-link); text-decoration: none; }
+  .gate-footer strong { color: var(--text-normal); }
+
+  /* ── TRANSCRIPT PAGE ── */
+  #transcript-page { display: none; }
+  #header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  #header .channel-icon { color: var(--text-muted); font-size: 20px; font-weight: 700; }
+  #header .channel-name { font-size: 16px; font-weight: 600; color: var(--text-normal); }
+  #header .channel-topic { font-size: 13px; color: var(--text-muted); margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px; }
+  #header .badge { margin-left: auto; background: var(--bg-tertiary); color: var(--text-muted); font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 500; }
+  #info-bar { background: var(--bg-tertiary); border-bottom: 1px solid var(--border); padding: 8px 20px; display: flex; gap: 24px; font-size: 13px; color: var(--text-muted); flex-wrap: wrap; }
   #info-bar span { display: flex; align-items: center; gap: 5px; }
   #info-bar strong { color: var(--text-normal); }
-
-  /* ── MESSAGES ── */
-  #messages {
-    padding: 16px 0 40px;
-    max-width: 100%;
-  }
-
-  /* Date divider */
-  .date-divider {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 16px 20px 8px;
-    color: var(--text-muted);
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .date-divider::before,
-  .date-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* Message group */
-  .msg-group {
-    padding: 2px 20px;
-    display: flex;
-    gap: 16px;
-    transition: background 0.05s;
-  }
+  #messages { padding: 16px 0 40px; max-width: 100%; }
+  .date-divider { display: flex; align-items: center; gap: 8px; padding: 16px 20px 8px; color: var(--text-muted); font-size: 12px; font-weight: 600; }
+  .date-divider::before,.date-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .msg-group { padding: 2px 20px; display: flex; gap: 16px; transition: background 0.05s; }
   .msg-group:hover { background: var(--bg-msg-hover); }
   .msg-group.first-in-group { margin-top: 16px; }
-
-  /* Avatar */
   .avatar-col { width: 40px; flex-shrink: 0; }
-  .avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-  }
-  .avatar-placeholder {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--brand);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 700; color: #fff;
-  }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; cursor: pointer; }
+  .avatar-placeholder { width: 40px; height: 40px; border-radius: 50%; background: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: #fff; }
   .avatar-spacer { width: 40px; }
-
-  /* Message content */
   .msg-content { flex: 1; min-width: 0; }
-
-  .msg-header {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 2px;
-  }
-  .author-name {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text-normal);
-    cursor: pointer;
-  }
+  .msg-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+  .author-name { font-size: 15px; font-weight: 500; color: var(--text-normal); cursor: pointer; }
   .author-name:hover { text-decoration: underline; }
-  .author-name.bot-name { color: #fff; }
-  .bot-badge {
-    background: var(--brand);
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 1px 5px;
-    border-radius: 3px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    line-height: 16px;
-  }
-  .app-badge {
-    background: #4752c4;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 1px 5px;
-    border-radius: 3px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    line-height: 16px;
-  }
-  .timestamp {
-    font-size: 11px;
-    color: var(--text-muted);
-    cursor: default;
-  }
-  .msg-text {
-    font-size: 15px;
-    color: var(--text-normal);
-    word-wrap: break-word;
-    white-space: pre-wrap;
-  }
-  .msg-text .mention {
-    background: rgba(88,101,242,.3);
-    color: #c9cdfb;
-    border-radius: 3px;
-    padding: 0 2px;
-    cursor: pointer;
-  }
+  .app-badge { background: #4752c4; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.3px; line-height: 16px; }
+  .timestamp { font-size: 11px; color: var(--text-muted); cursor: default; }
+  .msg-text { font-size: 15px; color: var(--text-normal); word-wrap: break-word; white-space: pre-wrap; }
+  .msg-text .mention { background: rgba(88,101,242,.3); color: #c9cdfb; border-radius: 3px; padding: 0 2px; cursor: pointer; }
   .msg-text .mention:hover { background: var(--brand); color: #fff; }
-  .timestamp-inline {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-left: 4px;
-    opacity: 0;
-    transition: opacity 0.1s;
-  }
+  .timestamp-inline { font-size: 11px; color: var(--text-muted); margin-left: 4px; opacity: 0; transition: opacity 0.1s; }
   .msg-group:hover .timestamp-inline { opacity: 1; }
-
-  /* ── EMBEDS ── */
   .embed-wrapper { margin-top: 4px; max-width: 520px; }
-  .embed {
-    border-left: 4px solid var(--brand);
-    background: #2b2d31;
-    border-radius: 0 4px 4px 0;
-    padding: 12px 16px 16px;
-    display: grid;
-    gap: 8px;
-  }
-  .embed-author {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; font-weight: 600; color: var(--text-normal);
-  }
+  .embed { border-left: 4px solid var(--brand); background: #2b2d31; border-radius: 0 4px 4px 0; padding: 12px 16px 16px; display: grid; gap: 8px; }
+  .embed-author { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-normal); }
   .embed-author img { width: 24px; height: 24px; border-radius: 50%; }
-  .embed-title {
-    font-size: 15px; font-weight: 700;
-    color: var(--text-normal);
-  }
-  .embed-description {
-    font-size: 14px; color: var(--text-normal);
-    white-space: pre-wrap; word-wrap: break-word;
-  }
-  .embed-fields {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 8px;
-  }
+  .embed-title { font-size: 15px; font-weight: 700; color: var(--text-normal); }
+  .embed-description { font-size: 14px; color: var(--text-normal); white-space: pre-wrap; word-wrap: break-word; }
+  .embed-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
   .embed-field { min-width: 0; }
   .embed-field.full { grid-column: 1 / -1; }
-  .embed-field-name {
-    font-size: 13px; font-weight: 600;
-    color: var(--text-normal); margin-bottom: 2px;
-  }
-  .embed-field-value {
-    font-size: 13px; color: var(--text-normal);
-    word-wrap: break-word; white-space: pre-wrap;
-  }
-  .embed-footer {
-    font-size: 12px; color: var(--text-muted);
-    display: flex; align-items: center; gap: 6px;
-    border-top: 1px solid var(--border); padding-top: 8px; margin-top: 4px;
-  }
-  .embed-thumbnail {
-    width: 80px; height: 80px;
-    border-radius: 4px; object-fit: cover;
-    float: right; margin-left: 16px;
-  }
+  .embed-field-name { font-size: 13px; font-weight: 600; color: var(--text-normal); margin-bottom: 2px; }
+  .embed-field-value { font-size: 13px; color: var(--text-normal); word-wrap: break-word; white-space: pre-wrap; }
+  .embed-footer { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; border-top: 1px solid var(--border); padding-top: 8px; margin-top: 4px; }
+  .embed-thumbnail { width: 80px; height: 80px; border-radius: 4px; object-fit: cover; float: right; margin-left: 16px; }
   .embed-image { width: 100%; border-radius: 4px; margin-top: 8px; max-width: 400px; }
-
-  /* Buttons row */
-  .btn-row {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    margin-top: 4px;
-  }
-  .discord-btn {
-    padding: 6px 16px;
-    border-radius: 3px;
-    border: none;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: not-allowed;
-    font-family: var(--font);
-  }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .discord-btn { padding: 6px 16px; border-radius: 3px; border: none; font-size: 14px; font-weight: 500; cursor: not-allowed; font-family: var(--font); }
   .btn-primary   { background: var(--brand);  color: #fff; }
   .btn-secondary { background: #4e5058;       color: #fff; }
   .btn-success   { background: var(--green);  color: #fff; }
   .btn-danger    { background: var(--red);    color: #fff; }
   .btn-disabled  { opacity: 0.5; }
-
-  /* Attachments */
   .attachment { margin-top: 8px; }
   .attachment img { max-width: 400px; max-height: 300px; border-radius: 4px; display: block; }
+  #footer { background: var(--bg-tertiary); border-top: 1px solid var(--border); padding: 12px 20px; font-size: 12px; color: var(--text-muted); text-align: center; }
+  #error { display: flex; align-items: center; justify-content: center; min-height: 100vh; font-size: 15px; color: var(--red); padding: 20px; text-align: center; }
 
-  /* ── FOOTER ── */
-  #footer {
-    background: var(--bg-tertiary);
-    border-top: 1px solid var(--border);
-    padding: 12px 20px;
-    font-size: 12px;
-    color: var(--text-muted);
-    text-align: center;
-  }
-
-  /* ── ERROR ── */
-  #error {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    font-size: 15px;
-    color: var(--red);
-    padding: 20px;
-    text-align: center;
+  @media (max-width: 700px) {
+    .gate-main { flex-direction: column; padding: 16px; }
+    .gate-card { max-width: 100%; }
   }
 </style>
 </head>
@@ -338,52 +245,38 @@
 <div id="app">
   <div id="loading">
     <div class="spinner"></div>
-    <span>Carregando transcript...</span>
+    <span>Carregando...</span>
   </div>
 </div>
 
+<!-- TRANSCRIPT PAGE -->
+<div id="transcript-page"></div>
+
 <script>
-// ── CONFIGURAÇÃO SUPABASE ─────────────────────────────────────────────────────
-// Substitua pelos seus valores do Supabase
-const SUPABASE_URL    = 'https://auewibqfkohkhogzwzvb.supabase.co';
-const SUPABASE_ANON   = 'sb_publishable_TLvMyIt2KnmR1oGRJ6pKKQ_L2VoNp7h';
+const SUPABASE_URL  = 'https://auewibqfkohkhogzwzvb.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_TLvMyIt2KnmR1oGRJ6pKKQ_L2VoNp7h';
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-
-// Mapa de ID → nome, preenchido ao carregar as mensagens
 const userMap = {};
+let _rowData = null;
 
 function buildUserMap(messages) {
   for (const msg of messages) {
-    if (msg.author_id && msg.author) {
-      userMap[msg.author_id] = msg.author;
-    }
+    if (msg.author_id && msg.author) userMap[msg.author_id] = msg.author;
   }
 }
 
 function esc(str) {
   if (!str) return '';
-  return String(str)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function parseMarkdown(text) {
   if (!text) return '';
-  // Resolve <@ID> e <@!ID> antes de escapar
-  text = text.replace(/<@!?(\d+)>/g, (_, id) => {
-    const name = userMap[id] || id;
-    return `@${name}`;
-  });
-  // Resolve <#ID> (canal)
+  text = text.replace(/<@!?(\d+)>/g, (_, id) => '@' + (userMap[id] || id));
   text = text.replace(/<#(\d+)>/g, '#canal');
-  // Resolve <t:TIMESTAMP:F> e variantes de timestamp Discord
   text = text.replace(/<t:(\d+)(?::[A-Za-z])?>/g, (_, ts) => {
     const d = new Date(parseInt(ts) * 1000);
-    return d.toLocaleString('pt-BR', {
-      day: '2-digit', month: 'long', year: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    });
+    return d.toLocaleString('pt-BR', { day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
   });
   text = esc(text);
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
@@ -397,80 +290,53 @@ function parseMarkdown(text) {
 
 function formatTime(iso) {
   if (!iso) return '';
-  const d = new Date(iso);
-  return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  return new Date(iso).toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
 }
-
 function formatFull(iso) {
   if (!iso) return '';
-  const d = new Date(iso);
-  return d.toLocaleString('pt-BR', {
-    day:'2-digit', month:'long', year:'numeric',
-    hour:'2-digit', minute:'2-digit'
-  });
+  return new Date(iso).toLocaleString('pt-BR', { day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
 }
-
 function formatDate(iso) {
   if (!iso) return '';
-  const d = new Date(iso);
-  const today = new Date();
-  const diff  = Math.floor((today - d) / 86400000);
+  const d = new Date(iso), today = new Date();
+  const diff = Math.floor((today - d) / 86400000);
   if (diff === 0) return 'Hoje';
   if (diff === 1) return 'Ontem';
   return d.toLocaleDateString('pt-BR', { day:'numeric', month:'long', year:'numeric' });
 }
 
 function avatarEl(msg) {
-  if (msg.avatar_url) {
-    return `<img class="avatar" src="${esc(msg.avatar_url)}" alt="${esc(msg.author)}" onerror="this.replaceWith(fallbackAvatar('${esc(msg.author)}'))">`;
-  }
-  const letter = (msg.author || '?')[0].toUpperCase();
-  return `<div class="avatar-placeholder">${letter}</div>`;
+  if (msg.avatar_url) return `<img class="avatar" src="${esc(msg.avatar_url)}" alt="${esc(msg.author)}" onerror="this.replaceWith(fallbackAvatar('${esc(msg.author)}'))">`;
+  return `<div class="avatar-placeholder">${(msg.author||'?')[0].toUpperCase()}</div>`;
 }
-
 function fallbackAvatar(name) {
   const el = document.createElement('div');
   el.className = 'avatar-placeholder';
-  el.textContent = (name || '?')[0].toUpperCase();
+  el.textContent = (name||'?')[0].toUpperCase();
   return el;
 }
-
 function embedColor(hex) {
   if (!hex) return 'var(--brand)';
   if (typeof hex === 'number') return '#' + hex.toString(16).padStart(6,'0');
   return hex;
 }
 
-// ── Render embed ──────────────────────────────────────────────────────────────
 function renderEmbed(e) {
   const color = embedColor(e.color);
   let html = `<div class="embed" style="border-left-color:${color}">`;
-
-  if (e.thumbnail) {
-    html += `<img class="embed-thumbnail" src="${esc(e.thumbnail)}" alt="thumbnail" onerror="this.style.display='none'">`;
-  }
-  if (e.author) {
-    html += `<div class="embed-author">`;
-    if (e.author_icon) html += `<img src="${esc(e.author_icon)}" alt="">`;
-    html += `${esc(e.author)}</div>`;
-  }
+  if (e.thumbnail) html += `<img class="embed-thumbnail" src="${esc(e.thumbnail)}" alt="thumbnail" onerror="this.style.display='none'">`;
+  if (e.author) { html += `<div class="embed-author">`; if (e.author_icon) html += `<img src="${esc(e.author_icon)}" alt="">`; html += `${esc(e.author)}</div>`; }
   if (e.title)       html += `<div class="embed-title">${parseMarkdown(e.title)}</div>`;
   if (e.description) html += `<div class="embed-description">${parseMarkdown(e.description)}</div>`;
-
   if (e.fields && e.fields.length) {
     html += `<div class="embed-fields">`;
     for (const f of e.fields) {
       const full = f.inline === false ? ' full' : '';
-      html += `<div class="embed-field${full}">
-        <div class="embed-field-name">${parseMarkdown(f.name)}</div>
-        <div class="embed-field-value">${parseMarkdown(f.value)}</div>
-      </div>`;
+      html += `<div class="embed-field${full}"><div class="embed-field-name">${parseMarkdown(f.name)}</div><div class="embed-field-value">${parseMarkdown(f.value)}</div></div>`;
     }
     html += `</div>`;
   }
-
   if (e.image) html += `<img class="embed-image" src="${esc(e.image)}" alt="image" onerror="this.style.display='none'">`;
-
   if (e.footer) {
     html += `<div class="embed-footer">`;
     if (e.footer_icon) html += `<img src="${esc(e.footer_icon)}" style="width:16px;height:16px;border-radius:50%">`;
@@ -478,12 +344,10 @@ function renderEmbed(e) {
     if (e.timestamp) html += ` • ${formatFull(e.timestamp)}`;
     html += `</div>`;
   }
-
   html += `</div>`;
   return `<div class="embed-wrapper">${html}</div>`;
 }
 
-// ── Render buttons ────────────────────────────────────────────────────────────
 function renderButtons(btns) {
   if (!btns || !btns.length) return '';
   const styleMap = { danger:'btn-danger', primary:'btn-primary', secondary:'btn-secondary', success:'btn-success' };
@@ -498,82 +362,45 @@ function renderButtons(btns) {
   return html;
 }
 
-// ── Render messages ───────────────────────────────────────────────────────────
 function renderMessages(messages) {
-  let html = '';
-  let lastDate = null;
-  let lastAuthorId = null;
-  let lastTs = null;
-
+  let html = '', lastDate = null, lastAuthorId = null, lastTs = null;
   for (const msg of messages) {
     const msgDate = msg.timestamp ? new Date(msg.timestamp).toDateString() : null;
-
     if (msgDate && msgDate !== lastDate) {
       html += `<div class="date-divider">${formatDate(msg.timestamp)}</div>`;
-      lastDate = msgDate;
-      lastAuthorId = null;
+      lastDate = msgDate; lastAuthorId = null;
     }
-
     const sameAuthor = msg.author_id && msg.author_id === lastAuthorId;
-    const withinTime  = lastTs && msg.timestamp && (new Date(msg.timestamp) - new Date(lastTs)) < 420000;
-    const isGrouped   = sameAuthor && withinTime;
-
-    const firstClass = isGrouped ? '' : ' first-in-group';
-
-    html += `<div class="msg-group${firstClass}">`;
-
-    if (!isGrouped) {
-      html += `<div class="avatar-col">${avatarEl(msg)}</div>`;
-    } else {
-      html += `<div class="avatar-col"><div class="avatar-spacer"></div></div>`;
-    }
-
+    const withinTime = lastTs && msg.timestamp && (new Date(msg.timestamp) - new Date(lastTs)) < 420000;
+    const isGrouped  = sameAuthor && withinTime;
+    html += `<div class="msg-group${isGrouped ? '' : ' first-in-group'}">`;
+    html += isGrouped ? `<div class="avatar-col"><div class="avatar-spacer"></div></div>` : `<div class="avatar-col">${avatarEl(msg)}</div>`;
     html += `<div class="msg-content">`;
-
     if (!isGrouped) {
-      const isBot = msg.is_bot;
-      const nameColor = msg.color ? `color:${msg.color}` : '';
-      html += `<div class="msg-header">
-        <span class="author-name${isBot ? ' bot-name' : ''}" style="${nameColor}">${esc(msg.author)}</span>`;
-      if (isBot) html += `<span class="app-badge">APP</span>`;
-      html += `<span class="timestamp" title="${formatFull(msg.timestamp)}">${formatFull(msg.timestamp)}</span>
-      </div>`;
+      html += `<div class="msg-header"><span class="author-name${msg.is_bot ? ' bot-name' : ''}">${esc(msg.author)}</span>`;
+      if (msg.is_bot) html += `<span class="app-badge">APP</span>`;
+      html += `<span class="timestamp" title="${formatFull(msg.timestamp)}">${formatFull(msg.timestamp)}</span></div>`;
     }
-
     if (msg.content) {
       html += `<div class="msg-text">${parseMarkdown(msg.content)}`;
       if (isGrouped) html += `<span class="timestamp-inline">${formatTime(msg.timestamp)}</span>`;
       html += `</div>`;
     }
-
-    if (msg.embeds) {
-      for (const e of msg.embeds) html += renderEmbed(e);
-    }
-
+    if (msg.embeds) for (const e of msg.embeds) html += renderEmbed(e);
     if (msg.buttons) html += renderButtons(msg.buttons);
-
-    if (msg.attachments) {
-      for (const a of msg.attachments) {
-        if (/\.(png|jpg|jpeg|gif|webp)$/i.test(a.url)) {
-          html += `<div class="attachment"><img src="${esc(a.url)}" alt="${esc(a.filename)}" onerror="this.style.display='none'"></div>`;
-        }
-      }
+    if (msg.attachments) for (const a of msg.attachments) {
+      if (/\.(png|jpg|jpeg|gif|webp)$/i.test(a.url))
+        html += `<div class="attachment"><img src="${esc(a.url)}" alt="${esc(a.filename)}" onerror="this.style.display='none'"></div>`;
     }
-
     html += `</div></div>`;
-
-    lastAuthorId = msg.author_id;
-    lastTs       = msg.timestamp;
+    lastAuthorId = msg.author_id; lastTs = msg.timestamp;
   }
   return html;
 }
 
-// ── Build page ────────────────────────────────────────────────────────────────
-function buildPage(row) {
-  const meta     = row.data && row.data.meta     ? row.data.meta     : {};
-  const messages = row.data && row.data.messages ? row.data.messages : [];
-
-  // Fallback: preenche meta com colunas diretas se o meta estiver vazio
+function buildTranscriptPage(row) {
+  const meta     = row.data?.meta     || {};
+  const messages = row.data?.messages || [];
   const channel   = meta.channel   || row.channel_name || 'ticket';
   const topic     = meta.topic     || '';
   const openedBy  = meta.opened_by || row.opened_by    || '—';
@@ -583,21 +410,27 @@ function buildPage(row) {
   const openedAt  = meta.opened_at ? formatFull(meta.opened_at) : '—';
   const closedAt  = meta.closed_at ? formatFull(meta.closed_at) : formatFull(row.created_at);
   const guild     = meta.guild     || '';
-  const totalMsgs = messages.length;
+  const avNota    = row.avaliacao_nota;
+  const avComent  = row.avaliacao_comentario || '';
+  const avPor     = row.avaliacao_por || '';
 
   document.title = `Transcript — ${channel}`;
-
-  // Constrói mapa de ID → nome para resolver mentions
   buildUserMap(messages);
+
+  // Avaliação badge
+  let avaliacaoHtml = '';
+  if (avNota) {
+    const estrelas = '⭐'.repeat(avNota) + '☆'.repeat(5 - avNota);
+    avaliacaoHtml = `<span>⭐ Avaliação <strong>${estrelas} (${avNota}/5)</strong>${avComent ? ' — ' + esc(avComent) : ''}</span>`;
+  }
 
   const html = `
     <div id="header">
       <span class="channel-icon">#</span>
       <span class="channel-name">${esc(channel)}</span>
       <span class="channel-topic">${esc(topic)}</span>
-      <span class="badge">${totalMsgs} mensagens</span>
+      <span class="badge">${messages.length} mensagens</span>
     </div>
-
     <div id="info-bar">
       <span>👤 Aberto por <strong>${esc(openedBy)}</strong></span>
       <span>📁 Categoria <strong>${esc(categoria)}</strong></span>
@@ -605,39 +438,34 @@ function buildPage(row) {
       <span>🔒 Fechado em <strong>${closedAt}</strong></span>
       <span>👮 Fechado por <strong>${esc(closedBy)}</strong></span>
       <span>📋 Motivo <strong>${esc(motivo)}</strong></span>
+      ${avaliacaoHtml}
     </div>
-
-    <div id="messages">
-      ${renderMessages(messages)}
-    </div>
-
+    <div id="messages">${renderMessages(messages)}</div>
     <div id="footer">
-      • ${esc(guild)} • ${closedAt} &nbsp;|&nbsp; Sistema desenvolvido por <strong>Greg White</strong> • <a href="https://discord.gg/5psmxHD5KV" target="_blank" style="color:var(--text-link)">Entrar no Discord</a>
+      • ${esc(guild)} • ${closedAt} &nbsp;|&nbsp; Sistema desenvolvido por <strong>Greg White</strong> •
+      <a href="https://discord.gg/5psmxHD5KV" target="_blank" style="color:var(--text-link)">Entrar no Discord</a>
     </div>
   `;
-
-  document.getElementById('app').innerHTML = html;
+  document.getElementById('transcript-page').innerHTML = html;
+  document.getElementById('transcript-page').style.display = 'block';
 }
 
 function showError(msg) {
   document.getElementById('app').innerHTML = `<div id="error">⚠️ ${esc(msg)}</div>`;
 }
 
-// ── Entry point ───────────────────────────────────────────────────────────────
 (async function() {
   const params   = new URLSearchParams(window.location.search);
   const ticketId = params.get('id');
+  const rawData  = params.get('data');
 
-  // Compatibilidade retroativa: suporta o formato antigo ?data=base64
-  const rawData = params.get('data');
+  // Compatibilidade com formato antigo base64
   if (!ticketId && rawData) {
     try {
       const data = JSON.parse(decodeURIComponent(atob(rawData)));
-      buildPage({ data });
-    } catch(e) {
-      showError('Erro ao carregar transcript: dados inválidos.');
-      console.error(e);
-    }
+      document.getElementById('app').style.display = 'none';
+      buildTranscriptPage({ data });
+    } catch(e) { showError('Dados inválidos.'); }
     return;
   }
 
@@ -649,33 +477,17 @@ function showError(msg) {
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/transcripts?ticket_id=eq.${encodeURIComponent(ticketId)}&select=*&limit=1`,
-      {
-        headers: {
-          'apikey':        SUPABASE_ANON,
-          'Authorization': `Bearer ${SUPABASE_ANON}`,
-          'Content-Type':  'application/json',
-        }
-      }
+      { headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}`, 'Content-Type': 'application/json' } }
     );
-
-    if (!res.ok) {
-      const err = await res.text();
-      showError(`Erro ao buscar transcript (${res.status}): ${err}`);
-      return;
-    }
-
+    if (!res.ok) { showError(`Erro ${res.status}`); return; }
     const rows = await res.json();
+    if (!rows || rows.length === 0) { showError('Transcript não encontrado.'); return; }
 
-    if (!rows || rows.length === 0) {
-      showError('Transcript não encontrado. O ticket pode ter sido removido do banco de dados.');
-      return;
-    }
-
-    buildPage(rows[0]);
+    document.getElementById('app').style.display = 'none';
+    buildTranscriptPage(rows[0]);
 
   } catch(e) {
-    showError('Erro de conexão ao carregar o transcript.');
-    console.error(e);
+    showError('Erro de conexão.');
   }
 })();
 </script>
