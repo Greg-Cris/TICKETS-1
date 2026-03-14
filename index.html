@@ -349,6 +349,18 @@ const SUPABASE_URL    = 'https://auewibqfkohkhogzwzvb.supabase.co';
 const SUPABASE_ANON   = 'sb_publishable_TLvMyIt2KnmR1oGRJ6pKKQ_L2VoNp7h';
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
+
+// Mapa de ID → nome, preenchido ao carregar as mensagens
+const userMap = {};
+
+function buildUserMap(messages) {
+  for (const msg of messages) {
+    if (msg.author_id && msg.author) {
+      userMap[msg.author_id] = msg.author;
+    }
+  }
+}
+
 function esc(str) {
   if (!str) return '';
   return String(str)
@@ -358,6 +370,21 @@ function esc(str) {
 
 function parseMarkdown(text) {
   if (!text) return '';
+  // Resolve <@ID> e <@!ID> antes de escapar
+  text = text.replace(/<@!?(\d+)>/g, (_, id) => {
+    const name = userMap[id] || id;
+    return `@${name}`;
+  });
+  // Resolve <#ID> (canal)
+  text = text.replace(/<#(\d+)>/g, '#canal');
+  // Resolve <t:TIMESTAMP:F> e variantes de timestamp Discord
+  text = text.replace(/<t:(\d+)(?::[A-Za-z])?>/g, (_, ts) => {
+    const d = new Date(parseInt(ts) * 1000);
+    return d.toLocaleString('pt-BR', {
+      day: '2-digit', month: 'long', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  });
   text = esc(text);
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
@@ -560,6 +587,9 @@ function buildPage(row) {
 
   document.title = `Transcript — ${channel}`;
 
+  // Constrói mapa de ID → nome para resolver mentions
+  buildUserMap(messages);
+
   const html = `
     <div id="header">
       <span class="channel-icon">#</span>
@@ -582,7 +612,7 @@ function buildPage(row) {
     </div>
 
     <div id="footer">
-      Transcript gerado automaticamente • ${esc(guild)} • ${closedAt}
+      • ${esc(guild)} • ${closedAt} &nbsp;|&nbsp; Sistema desenvolvido por <strong>Greg White</strong> • <a href="https://discord.gg/5psmxHD5KV" target="_blank" style="color:var(--text-link)">Entrar no Discord</a>
     </div>
   `;
 
