@@ -42,6 +42,26 @@
   ::-webkit-scrollbar-track { background: var(--bg-tertiary); }
   ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 4px; }
 
+  /* ── LOADING ── */
+  #loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 16px;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--brand);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   /* ── HEADER ── */
   #header {
     background: var(--bg-secondary);
@@ -274,70 +294,61 @@
   }
   .discord-btn {
     padding: 6px 16px;
-    border-radius: 4px;
-    font-size: 14px; font-weight: 500;
-    cursor: default;
+    border-radius: 3px;
     border: none;
-    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: not-allowed;
+    font-family: var(--font);
   }
-  .btn-danger    { background: #da373c; color: #fff; }
-  .btn-primary   { background: var(--brand); color: #fff; }
-  .btn-secondary { background: #4e5058; color: var(--text-normal); }
-  .btn-success   { background: var(--green); color: #fff; }
+  .btn-primary   { background: var(--brand);  color: #fff; }
+  .btn-secondary { background: #4e5058;       color: #fff; }
+  .btn-success   { background: var(--green);  color: #fff; }
+  .btn-danger    { background: var(--red);    color: #fff; }
   .btn-disabled  { opacity: 0.5; }
 
-  /* ── SYSTEM MSG ── */
-  .system-msg {
-    padding: 4px 20px 4px 76px;
-    font-size: 13px;
-    color: var(--text-muted);
-    font-style: italic;
-  }
-
-  /* ── ATTACHMENTS ── */
-  .attachment { margin-top: 4px; }
-  .attachment img {
-    max-width: 400px; max-height: 300px;
-    border-radius: 4px; display: block;
-  }
+  /* Attachments */
+  .attachment { margin-top: 8px; }
+  .attachment img { max-width: 400px; max-height: 300px; border-radius: 4px; display: block; }
 
   /* ── FOOTER ── */
   #footer {
     background: var(--bg-tertiary);
     border-top: 1px solid var(--border);
     padding: 12px 20px;
-    text-align: center;
     font-size: 12px;
     color: var(--text-muted);
+    text-align: center;
   }
 
-  /* ── LOADING / ERROR ── */
-  #loading, #error {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    min-height: 60vh; gap: 16px;
-    color: var(--text-muted); font-size: 15px;
+  /* ── ERROR ── */
+  #error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-size: 15px;
+    color: var(--red);
+    padding: 20px;
+    text-align: center;
   }
-  #error { color: #f23f43; }
-  .spinner {
-    width: 36px; height: 36px;
-    border: 3px solid var(--border);
-    border-top-color: var(--brand);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
-
 <div id="app">
-  <div id="loading"><div class="spinner"></div><span>Carregando transcript...</span></div>
+  <div id="loading">
+    <div class="spinner"></div>
+    <span>Carregando transcript...</span>
+  </div>
 </div>
 
 <script>
-// ── Helpers ──────────────────────────────────────────────────────────────────
+// ── CONFIGURAÇÃO SUPABASE ─────────────────────────────────────────────────────
+// Substitua pelos seus valores do Supabase
+const SUPABASE_URL    = 'https://auewibqfkohkhogzwzvb.supabase.co';
+const SUPABASE_ANON   = 'sb_publishable_TLvMyIt2KnmR1oGRJ6pKKQ_L2VoNp7h';
 
+// ── HELPERS ───────────────────────────────────────────────────────────────────
 function esc(str) {
   if (!str) return '';
   return String(str)
@@ -348,17 +359,11 @@ function esc(str) {
 function parseMarkdown(text) {
   if (!text) return '';
   text = esc(text);
-  // bold
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  // italic
   text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-  // inline code
   text = text.replace(/`([^`]+)`/g, '<code style="background:#1e1f22;padding:1px 4px;border-radius:3px;font-size:13px">$1</code>');
-  // mentions
   text = text.replace(/@(\w[\w\s]*)/g, '<span class="mention">@$1</span>');
-  // channels
   text = text.replace(/#([\w-]+)/g, '<span class="mention">#$1</span>');
-  // links
   text = text.replace(/(https?:\/\/[^\s<>"]+)/g, '<a href="$1" style="color:var(--text-link)" target="_blank">$1</a>');
   return text;
 }
@@ -409,16 +414,14 @@ function embedColor(hex) {
   return hex;
 }
 
-// ── Render embed ─────────────────────────────────────────────────────────────
+// ── Render embed ──────────────────────────────────────────────────────────────
 function renderEmbed(e) {
   const color = embedColor(e.color);
   let html = `<div class="embed" style="border-left-color:${color}">`;
 
-  // thumbnail float
   if (e.thumbnail) {
     html += `<img class="embed-thumbnail" src="${esc(e.thumbnail)}" alt="thumbnail" onerror="this.style.display='none'">`;
   }
-
   if (e.author) {
     html += `<div class="embed-author">`;
     if (e.author_icon) html += `<img src="${esc(e.author_icon)}" alt="">`;
@@ -478,14 +481,12 @@ function renderMessages(messages) {
   for (const msg of messages) {
     const msgDate = msg.timestamp ? new Date(msg.timestamp).toDateString() : null;
 
-    // Date divider
     if (msgDate && msgDate !== lastDate) {
       html += `<div class="date-divider">${formatDate(msg.timestamp)}</div>`;
       lastDate = msgDate;
       lastAuthorId = null;
     }
 
-    // Group: same author within 7 minutes
     const sameAuthor = msg.author_id && msg.author_id === lastAuthorId;
     const withinTime  = lastTs && msg.timestamp && (new Date(msg.timestamp) - new Date(lastTs)) < 420000;
     const isGrouped   = sameAuthor && withinTime;
@@ -495,7 +496,6 @@ function renderMessages(messages) {
     html += `<div class="msg-group${firstClass}">`;
 
     if (!isGrouped) {
-      // Show avatar
       html += `<div class="avatar-col">${avatarEl(msg)}</div>`;
     } else {
       html += `<div class="avatar-col"><div class="avatar-spacer"></div></div>`;
@@ -504,7 +504,6 @@ function renderMessages(messages) {
     html += `<div class="msg-content">`;
 
     if (!isGrouped) {
-      // Header
       const isBot = msg.is_bot;
       const nameColor = msg.color ? `color:${msg.color}` : '';
       html += `<div class="msg-header">
@@ -514,22 +513,18 @@ function renderMessages(messages) {
       </div>`;
     }
 
-    // Text content
     if (msg.content) {
       html += `<div class="msg-text">${parseMarkdown(msg.content)}`;
       if (isGrouped) html += `<span class="timestamp-inline">${formatTime(msg.timestamp)}</span>`;
       html += `</div>`;
     }
 
-    // Embeds
     if (msg.embeds) {
       for (const e of msg.embeds) html += renderEmbed(e);
     }
 
-    // Buttons
     if (msg.buttons) html += renderButtons(msg.buttons);
 
-    // Attachments
     if (msg.attachments) {
       for (const a of msg.attachments) {
         if (/\.(png|jpg|jpeg|gif|webp)$/i.test(a.url)) {
@@ -546,26 +541,30 @@ function renderMessages(messages) {
   return html;
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
-function buildPage(data) {
-  const meta    = data.meta    || {};
-  const messages = data.messages || [];
+// ── Build page ────────────────────────────────────────────────────────────────
+function buildPage(row) {
+  const meta     = row.data && row.data.meta     ? row.data.meta     : {};
+  const messages = row.data && row.data.messages ? row.data.messages : [];
 
-  document.title = `Transcript — ${meta.channel || 'ticket'}`;
+  // Fallback: preenche meta com colunas diretas se o meta estiver vazio
+  const channel   = meta.channel   || row.channel_name || 'ticket';
+  const topic     = meta.topic     || '';
+  const openedBy  = meta.opened_by || row.opened_by    || '—';
+  const closedBy  = meta.closed_by || row.closed_by    || '—';
+  const categoria = meta.categoria || row.categoria    || '—';
+  const motivo    = meta.motivo    || row.motivo        || '—';
+  const openedAt  = meta.opened_at ? formatFull(meta.opened_at) : '—';
+  const closedAt  = meta.closed_at ? formatFull(meta.closed_at) : formatFull(row.created_at);
+  const guild     = meta.guild     || '';
+  const totalMsgs = messages.length;
 
-  const totalMsgs  = messages.length;
-  const openedAt   = meta.opened_at  ? formatFull(meta.opened_at)  : '—';
-  const closedAt   = meta.closed_at  ? formatFull(meta.closed_at)  : '—';
-  const closedBy   = meta.closed_by  || '—';
-  const openedBy   = meta.opened_by  || '—';
-  const categoria  = meta.categoria  || '—';
-  const motivo     = meta.motivo     || '—';
+  document.title = `Transcript — ${channel}`;
 
   const html = `
     <div id="header">
       <span class="channel-icon">#</span>
-      <span class="channel-name">${esc(meta.channel || 'ticket')}</span>
-      <span class="channel-topic">${esc(meta.topic || '')}</span>
+      <span class="channel-name">${esc(channel)}</span>
+      <span class="channel-topic">${esc(topic)}</span>
       <span class="badge">${totalMsgs} mensagens</span>
     </div>
 
@@ -583,7 +582,7 @@ function buildPage(data) {
     </div>
 
     <div id="footer">
-      Transcript gerado automaticamente • ${esc(meta.guild || '')} • ${closedAt}
+      Transcript gerado automaticamente • ${esc(guild)} • ${closedAt}
     </div>
   `;
 
@@ -595,20 +594,57 @@ function showError(msg) {
 }
 
 // ── Entry point ───────────────────────────────────────────────────────────────
-(function() {
-  const params = new URLSearchParams(window.location.search);
-  const raw    = params.get('data');
+(async function() {
+  const params   = new URLSearchParams(window.location.search);
+  const ticketId = params.get('id');
 
-  if (!raw) {
-    showError('Nenhum dado encontrado. Acesse este link pelo bot do Discord.');
+  // Compatibilidade retroativa: suporta o formato antigo ?data=base64
+  const rawData = params.get('data');
+  if (!ticketId && rawData) {
+    try {
+      const data = JSON.parse(decodeURIComponent(atob(rawData)));
+      buildPage({ data });
+    } catch(e) {
+      showError('Erro ao carregar transcript: dados inválidos.');
+      console.error(e);
+    }
+    return;
+  }
+
+  if (!ticketId) {
+    showError('Nenhum ticket encontrado. Acesse este link pelo bot do Discord.');
     return;
   }
 
   try {
-    const data = JSON.parse(decodeURIComponent(atob(raw)));
-    buildPage(data);
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/transcripts?ticket_id=eq.${encodeURIComponent(ticketId)}&select=*&limit=1`,
+      {
+        headers: {
+          'apikey':        SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`,
+          'Content-Type':  'application/json',
+        }
+      }
+    );
+
+    if (!res.ok) {
+      const err = await res.text();
+      showError(`Erro ao buscar transcript (${res.status}): ${err}`);
+      return;
+    }
+
+    const rows = await res.json();
+
+    if (!rows || rows.length === 0) {
+      showError('Transcript não encontrado. O ticket pode ter sido removido do banco de dados.');
+      return;
+    }
+
+    buildPage(rows[0]);
+
   } catch(e) {
-    showError('Erro ao carregar transcript: dados inválidos ou corrompidos.');
+    showError('Erro de conexão ao carregar o transcript.');
     console.error(e);
   }
 })();
