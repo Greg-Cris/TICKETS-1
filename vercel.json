@@ -1,7 +1,7 @@
 {
   "rewrites": [
-    { "source": "/painel", "destination": "/painel.html" },
-    { "source": "/painel.html", "destination": "/painel.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/painel",     "destination": "/painel.html" },
+    { "source": "/painel.html","destination": "/painel.html" },
+    { "source": "/(.*)",       "destination": "/index.html"  }
   ]
 }
