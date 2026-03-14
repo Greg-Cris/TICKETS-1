@@ -6,7 +6,6 @@
 <title>Painel de Tickets — White</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=gg+sans:wght@400;500;600;700&display=swap');
-
   :root {
     --bg-primary:   #313338;
     --bg-secondary: #2b2d31;
@@ -21,423 +20,139 @@
     --green:        #23a55a;
     --red:          #f23f43;
     --yellow:       #f0b232;
-    --orange:       #e67e22;
-    --purple:       #9b59b6;
     --border:       #3f4147;
     --font:         'gg sans', 'Noto Sans', Whitney, sans-serif;
-
     --cat-performance: #5865f2;
     --cat-exoneracao:  #f23f43;
     --cat-pd:          #23a55a;
     --cat-geral:       #f0b232;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg-primary);
-    color: var(--text-normal);
-    font-family: var(--font);
-    font-size: 15px;
-    line-height: 1.4;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
+  body { background: var(--bg-primary); color: var(--text-normal); font-family: var(--font); font-size: 15px; line-height: 1.4; min-height: 100vh; display: flex; flex-direction: column; }
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: var(--bg-tertiary); }
   ::-webkit-scrollbar-thumb { background: #1a1b1e; border-radius: 4px; }
 
-  /* ── TOP BAR ── */
-  #topbar {
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border);
-    padding: 0 20px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    flex-shrink: 0;
-  }
-  #topbar .logo {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-normal);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  #topbar .logo-icon {
-    width: 32px; height: 32px;
-    background: var(--brand);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-  #topbar .divider {
-    width: 1px; height: 24px;
-    background: var(--border);
-    margin: 0 4px;
-  }
-  #topbar .page-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-normal);
-  }
+  /* TOP BAR */
+  #topbar { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 20px; height: 48px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 200; flex-shrink: 0; }
+  #topbar .logo { font-size: 16px; font-weight: 700; color: var(--text-normal); display: flex; align-items: center; gap: 8px; }
+  #topbar .logo-icon { width: 32px; height: 32px; background: var(--brand); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  #topbar .divider { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
+  #topbar .page-title { font-size: 15px; font-weight: 600; color: var(--text-normal); }
   #topbar .spacer { flex: 1; }
-  #topbar .stats {
-    display: flex;
-    gap: 16px;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-  #topbar .stats span strong {
-    color: var(--text-normal);
-    font-weight: 600;
-  }
+  #topbar .stats { display: flex; gap: 16px; font-size: 12px; color: var(--text-muted); }
+  #topbar .stats span strong { color: var(--text-normal); font-weight: 600; }
 
-  /* ── LAYOUT ── */
-  #layout {
-    display: flex;
-    flex: 1;
-    min-height: 0;
-  }
+  /* LAYOUT */
+  #layout { display: flex; flex: 1; min-height: 0; }
 
-  /* ── SIDEBAR ── */
-  #sidebar {
-    width: 240px;
-    background: var(--bg-secondary);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    overflow-y: auto;
-  }
-
-  .sidebar-section {
-    padding: 16px 8px 8px;
-  }
-  .sidebar-section-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 0 8px;
-    margin-bottom: 4px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    color: var(--text-muted);
-    font-size: 15px;
-    font-weight: 500;
-    transition: background 0.1s, color 0.1s;
-    user-select: none;
-  }
+  /* SIDEBAR */
+  #sidebar { width: 240px; background: var(--bg-secondary); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+  .sidebar-section { padding: 16px 8px 8px; }
+  .sidebar-section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; padding: 0 8px; margin-bottom: 4px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 4px; cursor: pointer; color: var(--text-muted); font-size: 15px; font-weight: 500; transition: background 0.1s, color 0.1s; user-select: none; }
   .nav-item:hover { background: var(--bg-hover); color: var(--text-normal); }
   .nav-item.active { background: var(--bg-selected); color: var(--text-normal); }
   .nav-item .nav-icon { font-size: 18px; width: 20px; text-align: center; }
-  .nav-item .nav-badge {
-    margin-left: auto;
-    background: var(--brand);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 1px 6px;
-    border-radius: 8px;
-    min-width: 20px;
-    text-align: center;
-  }
-  .nav-item .nav-dot {
-    margin-left: auto;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-  }
+  .nav-item .nav-badge { margin-left: auto; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 8px; min-width: 20px; text-align: center; }
 
-  /* ── MAIN CONTENT ── */
-  #main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    overflow: hidden;
-  }
+  /* MAIN */
+  #main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
 
-  /* ── CHANNEL HEADER ── */
-  #channel-header {
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
-  }
+  /* CHANNEL HEADER */
+  #channel-header { background: var(--bg-primary); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
   #channel-header .ch-icon { color: var(--text-muted); font-size: 20px; font-weight: 700; }
   #channel-header .ch-name { font-size: 16px; font-weight: 700; }
   #channel-header .ch-desc { font-size: 13px; color: var(--text-muted); margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--border); }
 
-  /* ── TOOLBAR ── */
-  #toolbar {
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 20px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-shrink: 0;
-    flex-wrap: wrap;
-  }
+  /* TABS */
+  .tab-bar { display: flex; gap: 2px; padding: 0 20px; background: var(--bg-primary); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .tab-btn { background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-family: var(--font); font-size: 14px; font-weight: 500; padding: 10px 16px; cursor: pointer; transition: color 0.1s, border-color 0.1s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--text-normal); }
+  .tab-btn.active { color: var(--text-normal); border-bottom-color: var(--brand); }
 
-  .search-box {
-    display: flex;
-    align-items: center;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0 10px;
-    gap: 8px;
-    flex: 1;
-    min-width: 200px;
-    max-width: 400px;
-  }
-  .search-box input {
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--text-normal);
-    font-family: var(--font);
-    font-size: 14px;
-    padding: 7px 0;
-    flex: 1;
-  }
+  /* TOOLBAR */
+  #toolbar { background: var(--bg-primary); border-bottom: 1px solid var(--border); padding: 10px 20px; display: flex; gap: 10px; align-items: center; flex-shrink: 0; flex-wrap: wrap; }
+  .search-box { display: flex; align-items: center; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 4px; padding: 0 10px; gap: 8px; flex: 1; min-width: 200px; max-width: 400px; }
+  .search-box input { background: none; border: none; outline: none; color: var(--text-normal); font-family: var(--font); font-size: 14px; padding: 7px 0; flex: 1; }
   .search-box input::placeholder { color: var(--text-muted); }
   .search-box .search-icon { color: var(--text-muted); font-size: 15px; }
-
-  .filter-select {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text-normal);
-    font-family: var(--font);
-    font-size: 14px;
-    padding: 7px 10px;
-    outline: none;
-    cursor: pointer;
-  }
-  .filter-select option { background: var(--bg-tertiary); }
-
-  .btn-clear {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text-muted);
-    font-family: var(--font);
-    font-size: 13px;
-    padding: 7px 12px;
-    cursor: pointer;
-    transition: all 0.1s;
-  }
+  .btn-clear { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); font-family: var(--font); font-size: 13px; padding: 7px 12px; cursor: pointer; transition: all 0.1s; }
   .btn-clear:hover { background: var(--bg-hover); color: var(--text-normal); }
+  #results-count { margin-left: auto; font-size: 13px; color: var(--text-muted); white-space: nowrap; }
 
-  #results-count {
-    margin-left: auto;
-    font-size: 13px;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-
-  /* ── TICKET LIST ── */
-  #ticket-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: 0;
-  }
-
-  /* ── LOADING / EMPTY ── */
-  .state-msg {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
-    gap: 12px;
-    color: var(--text-muted);
-    font-size: 15px;
-  }
+  /* TICKET LIST */
+  #ticket-list { flex: 1; overflow-y: auto; padding: 0; }
+  .state-msg { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 300px; gap: 12px; color: var(--text-muted); font-size: 15px; }
   .state-msg .state-icon { font-size: 48px; }
-  .spinner {
-    width: 36px; height: 36px;
-    border: 3px solid var(--border);
-    border-top-color: var(--brand);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── TICKET ROW ── */
-  .ticket-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 20px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: background 0.05s;
-  }
+  /* TICKET ROW */
+  .ticket-row { display: flex; align-items: center; gap: 12px; padding: 10px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.05s; }
   .ticket-row:hover { background: var(--bg-hover); }
-
-  .ticket-cat-bar {
-    width: 4px;
-    height: 40px;
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-
-  .ticket-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: var(--brand);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-weight: 700; color: #fff;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-  .ticket-avatar img { width: 100%; height: 100%; object-fit: cover; }
-
+  .ticket-cat-bar { width: 4px; height: 40px; border-radius: 2px; flex-shrink: 0; }
+  .ticket-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden; }
   .ticket-info { flex: 1; min-width: 0; }
-  .ticket-info-top {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 2px;
-  }
-  .ticket-user {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-normal);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .ticket-cat-badge {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 1px 6px;
-    border-radius: 3px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    flex-shrink: 0;
-    color: #fff;
-  }
-  .ticket-channel {
-    font-size: 12px;
-    color: var(--text-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .ticket-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-    flex-shrink: 0;
-  }
-  .ticket-date {
-    font-size: 11px;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-  .ticket-closed-by {
-    font-size: 11px;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-  .ticket-motivo {
-    font-size: 12px;
-    color: var(--text-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 250px;
-  }
-
-  .btn-view {
-    background: var(--brand);
-    border: none;
-    border-radius: 3px;
-    color: #fff;
-    font-family: var(--font);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 5px 12px;
-    cursor: pointer;
-    transition: background 0.1s;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
+  .ticket-info-top { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+  .ticket-user { font-size: 14px; font-weight: 600; color: var(--text-normal); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ticket-cat-badge { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.3px; flex-shrink: 0; color: #fff; }
+  .ticket-channel { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ticket-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .ticket-date { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+  .ticket-closed-by { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+  .ticket-motivo { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
+  .ticket-rating { font-size: 12px; color: var(--yellow); white-space: nowrap; }
+  .btn-view { background: var(--brand); border: none; border-radius: 3px; color: #fff; font-family: var(--font); font-size: 12px; font-weight: 600; padding: 5px 12px; cursor: pointer; transition: background 0.1s; white-space: nowrap; flex-shrink: 0; }
   .btn-view:hover { background: var(--brand-hover); }
 
-  /* ── CATEGORY COLORS ── */
+  /* CATEGORY COLORS */
   .cat-performance { background: var(--cat-performance); }
   .cat-exoneracao  { background: var(--cat-exoneracao); }
   .cat-pd          { background: var(--cat-pd); }
   .cat-geral       { background: var(--cat-geral); }
   .cat-default     { background: var(--text-muted); }
 
-  /* ── PAGINATION ── */
-  #pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 16px;
-    border-top: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  .page-btn {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    color: var(--text-normal);
-    font-family: var(--font);
-    font-size: 13px;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background 0.1s;
-    min-width: 32px;
-    text-align: center;
-  }
+  /* PAGINATION */
+  #pagination { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 16px; border-top: 1px solid var(--border); flex-shrink: 0; }
+  .page-btn { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 3px; color: var(--text-normal); font-family: var(--font); font-size: 13px; padding: 5px 10px; cursor: pointer; transition: background 0.1s; min-width: 32px; text-align: center; }
   .page-btn:hover { background: var(--bg-hover); }
   .page-btn.active { background: var(--brand); border-color: var(--brand); color: #fff; }
   .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* ── FOOTER ── */
-  #footer {
-    background: var(--bg-tertiary);
-    border-top: 1px solid var(--border);
-    padding: 10px 20px;
-    font-size: 12px;
-    color: var(--text-muted);
-    text-align: center;
-    flex-shrink: 0;
-  }
+  /* AVALIAÇÕES PAGE */
+  #avaliacoes-page { display: none; flex: 1; flex-direction: column; min-width: 0; overflow: hidden; }
+  .aval-summary { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 20px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap; flex-shrink: 0; }
+  .aval-big-score { text-align: center; min-width: 100px; }
+  .aval-big-score .score-num { font-size: 52px; font-weight: 700; color: var(--yellow); line-height: 1; }
+  .aval-big-score .score-stars { font-size: 22px; margin: 6px 0 4px; }
+  .aval-big-score .score-label { font-size: 12px; color: var(--text-muted); }
+  .aval-bars { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 6px; }
+  .aval-bar-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+  .aval-bar-track { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .aval-bar-fill { height: 100%; background: var(--yellow); border-radius: 4px; transition: width 0.5s ease; }
+  .aval-bar-count { width: 28px; text-align: right; font-size: 11px; font-weight: 600; color: var(--text-normal); }
+  .aval-stat-extra { display: flex; flex-direction: column; gap: 8px; }
+  .aval-stat-box { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; text-align: center; min-width: 100px; }
+  .aval-stat-box .stat-val { font-size: 24px; font-weight: 700; color: var(--text-normal); }
+  .aval-stat-box .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .aval-list { flex: 1; overflow-y: auto; }
+  .aval-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--border); transition: background 0.05s; }
+  .aval-row:hover { background: var(--bg-hover); }
+  .aval-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .aval-info { flex: 1; min-width: 0; }
+  .aval-info-top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+  .aval-user { font-size: 14px; font-weight: 600; color: var(--text-normal); }
+  .aval-stars { font-size: 15px; letter-spacing: 1px; }
+  .aval-date { font-size: 11px; color: var(--text-muted); margin-left: auto; }
+  .aval-comment { font-size: 13px; color: var(--text-muted); font-style: italic; }
+  .aval-categoria { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px; color: #fff; background: var(--brand); text-transform: uppercase; letter-spacing: 0.3px; }
+
+  /* FOOTER */
+  #footer { background: var(--bg-tertiary); border-top: 1px solid var(--border); padding: 10px 20px; font-size: 12px; color: var(--text-muted); text-align: center; flex-shrink: 0; }
   #footer a { color: var(--text-link); text-decoration: none; }
   #footer a:hover { text-decoration: underline; }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 700px) {
     #sidebar { display: none; }
     .ticket-motivo { display: none; }
@@ -447,25 +162,19 @@
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div id="topbar">
-  <div class="logo">
-    <div class="logo-icon">🎫</div>
-    White
-  </div>
+  <div class="logo"><div class="logo-icon">🎫</div>White</div>
   <div class="divider"></div>
   <span class="page-title">Painel de Tickets</span>
   <div class="spacer"></div>
   <div class="stats" id="top-stats">
     <span>Total: <strong id="stat-total">—</strong></span>
     <span>Hoje: <strong id="stat-today">—</strong></span>
+    <span>Média: <strong id="stat-media">—</strong> ⭐</span>
   </div>
 </div>
 
-<!-- LAYOUT -->
 <div id="layout">
-
-  <!-- SIDEBAR -->
   <div id="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-section-title">Categorias</div>
@@ -490,7 +199,6 @@
         <span class="nav-badge" id="badge-geral" style="background:#f0b232">0</span>
       </div>
     </div>
-
     <div class="sidebar-section">
       <div class="sidebar-section-title">Ordenar por</div>
       <div class="nav-item active-sort" data-sort="newest" onclick="setSort('newest', this)">
@@ -502,23 +210,26 @@
     </div>
   </div>
 
-  <!-- MAIN -->
   <div id="main">
-
-    <!-- CHANNEL HEADER -->
     <div id="channel-header">
       <span class="ch-icon">#</span>
       <span class="ch-name" id="ch-name-display">todos-os-tickets</span>
       <span class="ch-desc" id="ch-desc-display">Todos os tickets do servidor</span>
     </div>
 
-    <!-- TOOLBAR -->
+    <!-- TABS -->
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-tickets" onclick="setTab('tickets')">🎫 Tickets</button>
+      <button class="tab-btn" id="tab-avaliacoes" onclick="setTab('avaliacoes')">⭐ Avaliações</button>
+    </div>
+
+    <!-- TOOLBAR (só visível na aba tickets) -->
     <div id="toolbar">
       <div class="search-box">
         <span class="search-icon">🔍</span>
         <input type="text" id="search-input" placeholder="Buscar por usuário, canal, motivo..." oninput="onSearch()">
       </div>
-      <input type="text" id="id-input" placeholder="Filtrar por Discord ID..." 
+      <input type="text" id="id-input" placeholder="Filtrar por Discord ID..."
         style="background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;color:var(--text-normal);font-family:var(--font);font-size:14px;padding:7px 10px;outline:none;width:220px;"
         oninput="onSearch()">
       <button class="btn-clear" onclick="clearFilters()">✕ Limpar</button>
@@ -527,139 +238,129 @@
 
     <!-- TICKET LIST -->
     <div id="ticket-list">
-      <div class="state-msg">
-        <div class="spinner"></div>
-        <span>Carregando tickets...</span>
-      </div>
+      <div class="state-msg"><div class="spinner"></div><span>Carregando tickets...</span></div>
     </div>
-
-    <!-- PAGINATION -->
     <div id="pagination"></div>
 
+    <!-- AVALIAÇÕES PAGE -->
+    <div id="avaliacoes-page">
+      <div class="aval-summary">
+        <div class="aval-big-score">
+          <div class="score-num" id="aval-media-num">—</div>
+          <div class="score-stars" id="aval-stars-big">☆☆☆☆☆</div>
+          <div class="score-label" id="aval-total-label">0 avaliações</div>
+        </div>
+        <div class="aval-bars" id="aval-bars"></div>
+        <div class="aval-stat-extra" id="aval-stat-extra"></div>
+      </div>
+      <div class="aval-list" id="aval-list">
+        <div class="state-msg"><div class="spinner"></div><span>Carregando avaliações...</span></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- FOOTER -->
 <div id="footer">
   • White • Sistema desenvolvido por <strong>Greg White</strong> •
   <a href="https://discord.gg/5psmxHD5KV" target="_blank">Entrar no Discord</a>
 </div>
 
 <script>
-// ── CONFIG ────────────────────────────────────────────────────────────────────
-const SUPABASE_URL  = 'https://auewibqfkohkhogzwzvb.supabase.co';
-const SUPABASE_ANON = 'sb_publishable_TLvMyIt2KnmR1oGRJ6pKKQ_L2VoNp7h';
+const SUPABASE_URL   = 'https://auewibqfkohkhogzwzvb.supabase.co';
+const SUPABASE_ANON  = 'sb_publishable_TLvMyIt2KnmR1oGRJ6pKKQ_L2VoNp7h';
 const TRANSCRIPT_URL = 'https://tickets-1.vercel.app';
 const PAGE_SIZE = 20;
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
-let allTickets  = [];
-let filtered    = [];
-let currentCat  = 'all';
-let currentSort = 'newest';
-let currentPage = 1;
-let searchTerm  = '';
-let idFilter    = '';
+let allTickets  = [], filtered = [], currentCat = 'all', currentSort = 'newest';
+let currentPage = 1, searchTerm = '', idFilter = '';
+let _avaliLoaded = false, _avaliData = [];
 
-// ── CATEGORY CONFIG ───────────────────────────────────────────────────────────
 const CAT_CONFIG = {
-  performance: { label: 'Performance', color: '#5865f2', icon: '🚀', keywords: ['performance', 'citizen', 'tracante', 'mod-de-rua', 'som-de-arma', 'som-de-radio', 'mira-fixa', 'sangue', 'config-fivem', 'diminuir-limbo', 'comandos'] },
-  exoneracao:  { label: 'Exoneração',  color: '#f23f43', icon: '📄', keywords: ['exoner', 'exoneração', 'exoneracao'] },
-  pd:          { label: 'Pedido de PD',color: '#23a55a', icon: '⭐', keywords: ['pd', 'pedido-pd', 'pedido de pd'] },
-  geral:       { label: 'Ticket Geral',color: '#f0b232', icon: '🎫', keywords: ['geral', 'ticket-geral', 'suporte'] },
+  performance: { label: 'Performance',  color: '#5865f2', icon: '🚀', keywords: ['performance','citizen','tracante','mod-de-rua','som-de-arma','som-de-radio','mira-fixa','sangue','config-fivem','diminuir-limbo','comandos'] },
+  exoneracao:  { label: 'Exoneração',   color: '#f23f43', icon: '📄', keywords: ['exoner','exoneração','exoneracao'] },
+  pd:          { label: 'Pedido de PD', color: '#23a55a', icon: '⭐', keywords: ['pd','pedido-pd','pedido de pd'] },
+  geral:       { label: 'Ticket Geral', color: '#f0b232', icon: '🎫', keywords: ['geral','ticket-geral','suporte','vendas','saber_valores','mensalidade','bot_personalizado','compra_servidor','proposta','contato_dono','duvidas','bug'] },
 };
 
+const CAT_LABELS = {
+  all:         { name: 'todos-os-tickets',  desc: 'Todos os tickets do servidor' },
+  performance: { name: 'performance',       desc: 'Tickets de otimização e performance' },
+  exoneracao:  { name: 'exoneração',        desc: 'Tickets de pedido de exoneração' },
+  pd:          { name: 'pedido-de-pd',      desc: 'Tickets de pedido de PD' },
+  geral:       { name: 'ticket-geral',      desc: 'Tickets gerais de suporte' },
+};
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function avatarLetter(name) { return (name||'?')[0].toUpperCase(); }
+function starsHtml(nota) { return '⭐'.repeat(nota||0) + '<span style="opacity:.25">☆</span>'.repeat(5-(nota||0)); }
+
 function detectCategory(ticket) {
-  const cat = (ticket.categoria || '').toLowerCase();
-  const ch  = (ticket.channel_name || '').toLowerCase();
+  const cat = (ticket.categoria||'').toLowerCase();
+  const ch  = (ticket.channel_name||'').toLowerCase();
   for (const [key, cfg] of Object.entries(CAT_CONFIG)) {
-    for (const kw of cfg.keywords) {
-      if (cat.includes(kw) || ch.includes(kw)) return key;
-    }
+    for (const kw of cfg.keywords) { if (cat.includes(kw)||ch.includes(kw)) return key; }
   }
   return 'geral';
 }
+function getCatConfig(key) { return CAT_CONFIG[key] || { label: key, color: '#80848e', icon: '🎫' }; }
 
-function getCatConfig(key) {
-  return CAT_CONFIG[key] || { label: key, color: '#80848e', icon: '🎫' };
+function formatDateShort(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso), now = new Date();
+  const diff = Math.floor((now-d)/86400000);
+  if (diff === 0) return 'Hoje às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  if (diff === 1) return 'Ontem às '+ d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}) + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
 }
 
-// ── FETCH ─────────────────────────────────────────────────────────────────────
+// ── FETCH TICKETS ──────────────────────────────────────────────────────────────
 async function fetchTickets() {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/transcripts?select=id,ticket_id,created_at,channel_name,opened_by,closed_by,motivo,categoria,guild_id,data&order=created_at.desc&limit=1000`,
-      {
-        headers: {
-          'apikey':        SUPABASE_ANON,
-          'Authorization': `Bearer ${SUPABASE_ANON}`,
-        }
-      }
+      `${SUPABASE_URL}/rest/v1/transcripts?select=id,ticket_id,created_at,channel_name,opened_by,closed_by,motivo,categoria,guild_id,avaliacao_nota,data&order=created_at.desc&limit=1000`,
+      { headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` } }
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const rows = await res.json();
-
-    allTickets = rows.map(r => ({
-      ...r,
-      _cat: detectCategory(r),
-      _openedById: r.data?.meta?.opened_by_id || '',
-      _avatar: null,
-    }));
-
+    allTickets = rows.map(r => ({ ...r, _cat: detectCategory(r), _openedById: r.data?.meta?.opened_by_id || '' }));
     updateBadges();
     updateStats();
     applyFilters();
   } catch(e) {
-    document.getElementById('ticket-list').innerHTML = `
-      <div class="state-msg">
-        <span class="state-icon">⚠️</span>
-        <span>Erro ao carregar tickets: ${e.message}</span>
-      </div>`;
+    document.getElementById('ticket-list').innerHTML = `<div class="state-msg"><span class="state-icon">⚠️</span><span>Erro: ${e.message}</span></div>`;
   }
 }
 
-// ── BADGES & STATS ────────────────────────────────────────────────────────────
 function updateBadges() {
   const counts = { all: allTickets.length, performance: 0, exoneracao: 0, pd: 0, geral: 0 };
-  for (const t of allTickets) {
-    if (counts[t._cat] !== undefined) counts[t._cat]++;
-    else counts.geral++;
-  }
-  for (const [key, val] of Object.entries(counts)) {
-    const el = document.getElementById(`badge-${key}`);
-    if (el) el.textContent = val;
-  }
+  for (const t of allTickets) { if (counts[t._cat]!==undefined) counts[t._cat]++; else counts.geral++; }
+  for (const [key, val] of Object.entries(counts)) { const el = document.getElementById(`badge-${key}`); if (el) el.textContent = val; }
 }
 
 function updateStats() {
   document.getElementById('stat-total').textContent = allTickets.length;
   const today = new Date().toDateString();
-  const todayCount = allTickets.filter(t => new Date(t.created_at).toDateString() === today).length;
-  document.getElementById('stat-today').textContent = todayCount;
+  document.getElementById('stat-today').textContent = allTickets.filter(t => new Date(t.created_at).toDateString()===today).length;
+  const comNota = allTickets.filter(t => t.avaliacao_nota);
+  if (comNota.length) {
+    const media = (comNota.reduce((s,t)=>s+(t.avaliacao_nota||0),0)/comNota.length).toFixed(1);
+    document.getElementById('stat-media').textContent = media;
+  }
 }
 
-// ── FILTERS ───────────────────────────────────────────────────────────────────
+// ── FILTERS ────────────────────────────────────────────────────────────────────
 function applyFilters() {
-  const search = searchTerm.toLowerCase();
-  const idQ    = idFilter.trim();
-
+  const search = searchTerm.toLowerCase(), idQ = idFilter.trim();
   filtered = allTickets.filter(t => {
     if (currentCat !== 'all' && t._cat !== currentCat) return false;
-    if (idQ && !t._openedById.includes(idQ) && !(t.data?.meta?.opened_by_id || '').includes(idQ)) return false;
+    if (idQ && !t._openedById.includes(idQ)) return false;
     if (search) {
-      const haystack = [
-        t.opened_by, t.closed_by, t.channel_name,
-        t.motivo, t.categoria, t._openedById
-      ].join(' ').toLowerCase();
-      if (!haystack.includes(search)) return false;
+      const h = [t.opened_by, t.closed_by, t.channel_name, t.motivo, t.categoria, t._openedById].join(' ').toLowerCase();
+      if (!h.includes(search)) return false;
     }
     return true;
   });
-
-  if (currentSort === 'oldest') {
-    filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-  }
-
+  if (currentSort === 'oldest') filtered.sort((a,b) => new Date(a.created_at)-new Date(b.created_at));
   currentPage = 1;
   renderList();
 }
@@ -667,25 +368,14 @@ function applyFilters() {
 function clearFilters() {
   document.getElementById('search-input').value = '';
   document.getElementById('id-input').value = '';
-  searchTerm = '';
-  idFilter   = '';
+  searchTerm = ''; idFilter = '';
   applyFilters();
 }
-
 function onSearch() {
   searchTerm = document.getElementById('search-input').value;
   idFilter   = document.getElementById('id-input').value;
   applyFilters();
 }
-
-// ── CATEGORY / SORT ───────────────────────────────────────────────────────────
-const CAT_LABELS = {
-  all:         { name: 'todos-os-tickets',     desc: 'Todos os tickets do servidor' },
-  performance: { name: 'performance',          desc: 'Tickets de otimização e performance' },
-  exoneracao:  { name: 'exoneração',           desc: 'Tickets de pedido de exoneração' },
-  pd:          { name: 'pedido-de-pd',         desc: 'Tickets de pedido de PD' },
-  geral:       { name: 'ticket-geral',         desc: 'Tickets gerais de suporte' },
-};
 
 function setCategory(cat, el) {
   currentCat = cat;
@@ -696,7 +386,6 @@ function setCategory(cat, el) {
   document.getElementById('ch-desc-display').textContent = info.desc;
   applyFilters();
 }
-
 function setSort(sort, el) {
   currentSort = sort;
   document.querySelectorAll('.nav-item[data-sort]').forEach(e => e.classList.remove('active-sort'));
@@ -704,68 +393,35 @@ function setSort(sort, el) {
   applyFilters();
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
-function formatDate(iso) {
-  if (!iso) return '—';
-  const d = new Date(iso);
-  return d.toLocaleString('pt-BR', {
-    day: '2-digit', month: 'short', year: 'numeric',
-    hour: '2-digit', minute: '2-digit'
-  });
-}
-
-function formatDateShort(iso) {
-  if (!iso) return '—';
-  const d   = new Date(iso);
-  const now = new Date();
-  const diff = Math.floor((now - d) / 86400000);
-  if (diff === 0) return 'Hoje às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  if (diff === 1) return 'Ontem às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) + ' às ' +
-         d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-}
-
-function esc(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function avatarLetter(name) {
-  return (name || '?')[0].toUpperCase();
-}
-
+// ── RENDER TICKETS ─────────────────────────────────────────────────────────────
 function renderList() {
   const list = document.getElementById('ticket-list');
-  const count = document.getElementById('results-count');
-
-  count.textContent = `${filtered.length} resultado${filtered.length !== 1 ? 's' : ''}`;
-
-  if (filtered.length === 0) {
+  document.getElementById('results-count').textContent = `${filtered.length} resultado${filtered.length!==1?'s':''}`;
+  if (!filtered.length) {
     list.innerHTML = `<div class="state-msg"><span class="state-icon">🔍</span><span>Nenhum ticket encontrado</span></div>`;
     document.getElementById('pagination').innerHTML = '';
     return;
   }
-
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const page  = filtered.slice(start, start + PAGE_SIZE);
-
+  const start = (currentPage-1)*PAGE_SIZE;
+  const page  = filtered.slice(start, start+PAGE_SIZE);
   let html = '';
   for (const t of page) {
-    const cfg     = getCatConfig(t._cat);
-    const catClass = `cat-${t._cat}`;
+    const cfg      = getCatConfig(t._cat);
     const openedBy = t.opened_by || t.data?.meta?.opened_by || '—';
     const closedBy = t.closed_by || t.data?.meta?.closed_by || '—';
-    const motivo   = t.motivo || t.data?.meta?.motivo || '—';
+    const motivo   = t.motivo    || t.data?.meta?.motivo    || '—';
     const channel  = t.channel_name || '—';
     const link     = `${TRANSCRIPT_URL}?id=${esc(t.ticket_id)}`;
-
+    const ratingHtml = t.avaliacao_nota ? `<span class="ticket-rating">${starsHtml(t.avaliacao_nota)}</span>` : '';
     html += `
     <div class="ticket-row" onclick="window.open('${link}','_blank')">
-      <div class="ticket-cat-bar ${catClass}"></div>
+      <div class="ticket-cat-bar cat-${t._cat}"></div>
       <div class="ticket-avatar">${avatarLetter(openedBy)}</div>
       <div class="ticket-info">
         <div class="ticket-info-top">
           <span class="ticket-user">${esc(openedBy)}</span>
           <span class="ticket-cat-badge" style="background:${cfg.color}">${cfg.icon} ${esc(cfg.label)}</span>
+          ${ratingHtml}
         </div>
         <div class="ticket-channel"># ${esc(channel)}</div>
         <div class="ticket-motivo">📋 ${esc(motivo)}</div>
@@ -774,44 +430,129 @@ function renderList() {
         <span class="ticket-date">${formatDateShort(t.created_at)}</span>
         <span class="ticket-closed-by">👮 ${esc(closedBy)}</span>
       </div>
-      <button class="btn-view" onclick="event.stopPropagation();window.open('${link}','_blank')">
-        📄 Ver Transcript
-      </button>
+      <button class="btn-view" onclick="event.stopPropagation();window.open('${link}','_blank')">📄 Ver Transcript</button>
     </div>`;
   }
-
   list.innerHTML = html;
   renderPagination();
 }
 
 function renderPagination() {
-  const total = Math.ceil(filtered.length / PAGE_SIZE);
+  const total = Math.ceil(filtered.length/PAGE_SIZE);
   const pag   = document.getElementById('pagination');
   if (total <= 1) { pag.innerHTML = ''; return; }
-
   let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
-
-  for (let i = 1; i <= total; i++) {
-    if (total > 7 && Math.abs(i - currentPage) > 2 && i !== 1 && i !== total) {
-      if (i === 2 || i === total - 1) html += `<span style="color:var(--text-muted);padding:0 4px">…</span>`;
+  for (let i=1; i<=total; i++) {
+    if (total>7 && Math.abs(i-currentPage)>2 && i!==1 && i!==total) {
+      if (i===2||i===total-1) html += `<span style="color:var(--text-muted);padding:0 4px">…</span>`;
       continue;
     }
     html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
   }
-
   html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled':''}>›</button>`;
   pag.innerHTML = html;
 }
 
 function goPage(p) {
-  const total = Math.ceil(filtered.length / PAGE_SIZE);
-  if (p < 1 || p > total) return;
+  const total = Math.ceil(filtered.length/PAGE_SIZE);
+  if (p<1||p>total) return;
   currentPage = p;
   renderList();
   document.getElementById('ticket-list').scrollTop = 0;
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
+// ── TABS ───────────────────────────────────────────────────────────────────────
+function setTab(tab) {
+  const isTickets = tab === 'tickets';
+  document.getElementById('tab-tickets').classList.toggle('active', isTickets);
+  document.getElementById('tab-avaliacoes').classList.toggle('active', !isTickets);
+  document.getElementById('toolbar').style.display       = isTickets ? 'flex'   : 'none';
+  document.getElementById('ticket-list').style.display   = isTickets ? 'block'  : 'none';
+  document.getElementById('pagination').style.display    = isTickets ? 'flex'   : 'none';
+  document.getElementById('avaliacoes-page').style.display = isTickets ? 'none' : 'flex';
+  document.getElementById('avaliacoes-page').style.flexDirection = 'column';
+  if (!isTickets) renderAvaliacoes();
+}
+
+// ── AVALIAÇÕES ─────────────────────────────────────────────────────────────────
+async function fetchAvaliacoes() {
+  if (_avaliLoaded) return;
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/transcripts?avaliacao_nota=not.is.null&select=ticket_id,created_at,opened_by,closed_by,categoria,avaliacao_nota,avaliacao_comentario,avaliacao_por&order=created_at.desc&limit=1000`,
+      { headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` } }
+    );
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    _avaliData   = await res.json();
+    _avaliLoaded = true;
+  } catch(e) {
+    document.getElementById('aval-list').innerHTML = `<div class="state-msg"><span class="state-icon">⚠️</span><span>Erro ao carregar.</span></div>`;
+  }
+}
+
+function renderAvaliacoes() {
+  fetchAvaliacoes().then(() => {
+    if (!_avaliData.length) {
+      document.getElementById('aval-list').innerHTML = `<div class="state-msg"><span class="state-icon">⭐</span><span>Nenhuma avaliação ainda.</span></div>`;
+      document.getElementById('aval-bars').innerHTML = '';
+      return;
+    }
+
+    const total  = _avaliData.length;
+    const soma   = _avaliData.reduce((s,r)=>s+(r.avaliacao_nota||0), 0);
+    const media  = (soma/total).toFixed(1);
+    const counts = [0,0,0,0,0];
+    _avaliData.forEach(r => { if (r.avaliacao_nota>=1&&r.avaliacao_nota<=5) counts[r.avaliacao_nota-1]++; });
+
+    // Summary
+    document.getElementById('aval-media-num').textContent = media;
+    document.getElementById('aval-stars-big').innerHTML   = starsHtml(Math.round(soma/total));
+    document.getElementById('aval-total-label').textContent = `${total} avaliação${total!==1?'ões':''}`;
+
+    // Bars
+    let barsHtml = '';
+    for (let i=5; i>=1; i--) {
+      const pct = total ? Math.round((counts[i-1]/total)*100) : 0;
+      barsHtml += `<div class="aval-bar-row">
+        <span style="min-width:80px">${'⭐'.repeat(i)}</span>
+        <div class="aval-bar-track"><div class="aval-bar-fill" style="width:${pct}%"></div></div>
+        <span class="aval-bar-count">${counts[i-1]}</span>
+      </div>`;
+    }
+    document.getElementById('aval-bars').innerHTML = barsHtml;
+
+    // Extra stats
+    const c5 = counts[4], c1c2 = counts[0]+counts[1];
+    document.getElementById('aval-stat-extra').innerHTML = `
+      <div class="aval-stat-box"><div class="stat-val">${c5}</div><div class="stat-lbl">⭐⭐⭐⭐⭐ Ótimo</div></div>
+      <div class="aval-stat-box"><div class="stat-val">${c1c2}</div><div class="stat-lbl">😞 Negativas</div></div>
+    `;
+
+    // List
+    let listHtml = '';
+    for (const r of _avaliData) {
+      const user    = esc(r.avaliacao_por || r.opened_by || '—');
+      const nota    = r.avaliacao_nota || 0;
+      const coment  = esc(r.avaliacao_comentario || '');
+      const cat     = esc(r.categoria || 'geral');
+      listHtml += `<div class="aval-row">
+        <div class="aval-avatar">${(user||'?')[0].toUpperCase()}</div>
+        <div class="aval-info">
+          <div class="aval-info-top">
+            <span class="aval-user">${user}</span>
+            <span class="aval-stars">${starsHtml(nota)}</span>
+            <span class="aval-categoria">${cat}</span>
+            <span class="aval-date">${formatDateShort(r.created_at)}</span>
+          </div>
+          <div class="aval-comment">${coment ? '"' + coment + '"' : '<span style="opacity:.4">Sem comentário</span>'}</div>
+        </div>
+      </div>`;
+    }
+    document.getElementById('aval-list').innerHTML = listHtml;
+  });
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────────
 fetchTickets();
 </script>
 </body>
