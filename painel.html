@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Tickets — White</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=gg+sans:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg-primary:   #313338;
+    --bg-secondary: #2b2d31;
+    --bg-tertiary:  #1e1f22;
+    --bg-hover:     #35373c;
+    --bg-selected:  #404249;
+    --text-normal:  #dbdee1;
+    --text-muted:   #80848e;
+    --text-link:    #00a8fc;
+    --brand:        #5865f2;
+    --brand-hover:  #4752c4;
+    --green:        #23a55a;
+    --red:          #f23f43;
+    --yellow:       #f0b232;
+    --orange:       #e67e22;
+    --purple:       #9b59b6;
+    --border:       #3f4147;
+    --font:         'gg sans', 'Noto Sans', Whitney, sans-serif;
+
+    --cat-performance: #5865f2;
+    --cat-exoneracao:  #f23f43;
+    --cat-pd:          #23a55a;
+    --cat-geral:       #f0b232;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-normal);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-tertiary); }
+  ::-webkit-scrollbar-thumb { background: #1a1b1e; border-radius: 4px; }
+
+  /* ── TOP BAR ── */
+  #topbar {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    flex-shrink: 0;
+  }
+  #topbar .logo {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-normal);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #topbar .logo-icon {
+    width: 32px; height: 32px;
+    background: var(--brand);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  #topbar .divider {
+    width: 1px; height: 24px;
+    background: var(--border);
+    margin: 0 4px;
+  }
+  #topbar .page-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-normal);
+  }
+  #topbar .spacer { flex: 1; }
+  #topbar .stats {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  #topbar .stats span strong {
+    color: var(--text-normal);
+    font-weight: 600;
+  }
+
+  /* ── LAYOUT ── */
+  #layout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: 240px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-section {
+    padding: 16px 8px 8px;
+  }
+  .sidebar-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 0 8px;
+    margin-bottom: 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.1s, color 0.1s;
+    user-select: none;
+  }
+  .nav-item:hover { background: var(--bg-hover); color: var(--text-normal); }
+  .nav-item.active { background: var(--bg-selected); color: var(--text-normal); }
+  .nav-item .nav-icon { font-size: 18px; width: 20px; text-align: center; }
+  .nav-item .nav-badge {
+    margin-left: auto;
+    background: var(--brand);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 8px;
+    min-width: 20px;
+    text-align: center;
+  }
+  .nav-item .nav-dot {
+    margin-left: auto;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  /* ── CHANNEL HEADER ── */
+  #channel-header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  #channel-header .ch-icon { color: var(--text-muted); font-size: 20px; font-weight: 700; }
+  #channel-header .ch-name { font-size: 16px; font-weight: 700; }
+  #channel-header .ch-desc { font-size: 13px; color: var(--text-muted); margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--border); }
+
+  /* ── TOOLBAR ── */
+  #toolbar {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0 10px;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+  }
+  .search-box input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-normal);
+    font-family: var(--font);
+    font-size: 14px;
+    padding: 7px 0;
+    flex: 1;
+  }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .search-box .search-icon { color: var(--text-muted); font-size: 15px; }
+
+  .filter-select {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-normal);
+    font-family: var(--font);
+    font-size: 14px;
+    padding: 7px 10px;
+    outline: none;
+    cursor: pointer;
+  }
+  .filter-select option { background: var(--bg-tertiary); }
+
+  .btn-clear {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-family: var(--font);
+    font-size: 13px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+  .btn-clear:hover { background: var(--bg-hover); color: var(--text-normal); }
+
+  #results-count {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* ── TICKET LIST ── */
+  #ticket-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+  }
+
+  /* ── LOADING / EMPTY ── */
+  .state-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+  .state-msg .state-icon { font-size: 48px; }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--brand);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── TICKET ROW ── */
+  .ticket-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.05s;
+  }
+  .ticket-row:hover { background: var(--bg-hover); }
+
+  .ticket-cat-bar {
+    width: 4px;
+    height: 40px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .ticket-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .ticket-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+  .ticket-info { flex: 1; min-width: 0; }
+  .ticket-info-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+  .ticket-user {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-normal);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ticket-cat-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+    color: #fff;
+  }
+  .ticket-channel {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ticket-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .ticket-date {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .ticket-closed-by {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .ticket-motivo {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+  }
+
+  .btn-view {
+    background: var(--brand);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: background 0.1s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .btn-view:hover { background: var(--brand-hover); }
+
+  /* ── CATEGORY COLORS ── */
+  .cat-performance { background: var(--cat-performance); }
+  .cat-exoneracao  { background: var(--cat-exoneracao); }
+  .cat-pd          { background: var(--cat-pd); }
+  .cat-geral       { background: var(--cat-geral); }
+  .cat-default     { background: var(--text-muted); }
+
+  /* ── PAGINATION ── */
+  #pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .page-btn {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-normal);
+    font-family: var(--font);
+    font-size: 13px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background 0.1s;
+    min-width: 32px;
+    text-align: center;
+  }
+  .page-btn:hover { background: var(--bg-hover); }
+  .page-btn.active { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── FOOTER ── */
+  #footer {
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border);
+    padding: 10px 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    flex-shrink: 0;
+  }
+  #footer a { color: var(--text-link); text-decoration: none; }
+  #footer a:hover { text-decoration: underline; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    #sidebar { display: none; }
+    .ticket-motivo { display: none; }
+    #topbar .stats { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <div class="logo">
+    <div class="logo-icon">🎫</div>
+    White
+  </div>
+  <div class="divider"></div>
+  <span class="page-title">Painel de Tickets</span>
+  <div class="spacer"></div>
+  <div class="stats" id="top-stats">
+    <span>Total: <strong id="stat-total">—</strong></span>
+    <span>Hoje: <strong id="stat-today">—</strong></span>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div id="layout">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Categorias</div>
+      <div class="nav-item active" data-cat="all" onclick="setCategory('all', this)">
+        <span class="nav-icon">📋</span> Todos
+        <span class="nav-badge" id="badge-all">0</span>
+      </div>
+      <div class="nav-item" data-cat="performance" onclick="setCategory('performance', this)">
+        <span class="nav-icon">🚀</span> Performance
+        <span class="nav-badge" id="badge-performance" style="background:#5865f2">0</span>
+      </div>
+      <div class="nav-item" data-cat="exoneracao" onclick="setCategory('exoneracao', this)">
+        <span class="nav-icon">📄</span> Exoneração
+        <span class="nav-badge" id="badge-exoneracao" style="background:#f23f43">0</span>
+      </div>
+      <div class="nav-item" data-cat="pd" onclick="setCategory('pd', this)">
+        <span class="nav-icon">⭐</span> Pedido de PD
+        <span class="nav-badge" id="badge-pd" style="background:#23a55a">0</span>
+      </div>
+      <div class="nav-item" data-cat="geral" onclick="setCategory('geral', this)">
+        <span class="nav-icon">🎫</span> Ticket Geral
+        <span class="nav-badge" id="badge-geral" style="background:#f0b232">0</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Ordenar por</div>
+      <div class="nav-item active-sort" data-sort="newest" onclick="setSort('newest', this)">
+        <span class="nav-icon">🕐</span> Mais recentes
+      </div>
+      <div class="nav-item" data-sort="oldest" onclick="setSort('oldest', this)">
+        <span class="nav-icon">📅</span> Mais antigos
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- CHANNEL HEADER -->
+    <div id="channel-header">
+      <span class="ch-icon">#</span>
+      <span class="ch-name" id="ch-name-display">todos-os-tickets</span>
+      <span class="ch-desc" id="ch-desc-display">Todos os tickets do servidor</span>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div id="toolbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Buscar por usuário, canal, motivo..." oninput="onSearch()">
+      </div>
+      <input type="text" id="id-input" placeholder="Filtrar por Discord ID..." 
+        style="background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;color:var(--text-normal);font-family:var(--font);font-size:14px;padding:7px 10px;outline:none;width:220px;"
+        oninput="onSearch()">
+      <button class="btn-clear" onclick="clearFilters()">✕ Limpar</button>
+      <span id="results-count"></span>
+    </div>
+
+    <!-- TICKET LIST -->
+    <div id="ticket-list">
+      <div class="state-msg">
+        <div class="spinner"></div>
+        <span>Carregando tickets...</span>
+      </div>
+    </div>
+
+    <!-- PAGINATION -->
+    <div id="pagination"></div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div id="footer">
+  • White • Sistema desenvolvido por <strong>Greg White</strong> •
+  <a href="https://discord.gg/5psmxHD5KV" target="_blank">Entrar no Discord</a>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+const SUPABASE_URL  = 'https://auewibqfkohkhogzwzvb.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_TLvMyIt2KnmR1oGRJ6pKKQ_L2VoNp7h';
+const TRANSCRIPT_URL = 'https://tickets-1.vercel.app';
+const PAGE_SIZE = 20;
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let allTickets  = [];
+let filtered    = [];
+let currentCat  = 'all';
+let currentSort = 'newest';
+let currentPage = 1;
+let searchTerm  = '';
+let idFilter    = '';
+
+// ── CATEGORY CONFIG ───────────────────────────────────────────────────────────
+const CAT_CONFIG = {
+  performance: { label: 'Performance', color: '#5865f2', icon: '🚀', keywords: ['performance', 'citizen', 'tracante', 'mod-de-rua', 'som-de-arma', 'som-de-radio', 'mira-fixa', 'sangue', 'config-fivem', 'diminuir-limbo', 'comandos'] },
+  exoneracao:  { label: 'Exoneração',  color: '#f23f43', icon: '📄', keywords: ['exoner', 'exoneração', 'exoneracao'] },
+  pd:          { label: 'Pedido de PD',color: '#23a55a', icon: '⭐', keywords: ['pd', 'pedido-pd', 'pedido de pd'] },
+  geral:       { label: 'Ticket Geral',color: '#f0b232', icon: '🎫', keywords: ['geral', 'ticket-geral', 'suporte'] },
+};
+
+function detectCategory(ticket) {
+  const cat = (ticket.categoria || '').toLowerCase();
+  const ch  = (ticket.channel_name || '').toLowerCase();
+  for (const [key, cfg] of Object.entries(CAT_CONFIG)) {
+    for (const kw of cfg.keywords) {
+      if (cat.includes(kw) || ch.includes(kw)) return key;
+    }
+  }
+  return 'geral';
+}
+
+function getCatConfig(key) {
+  return CAT_CONFIG[key] || { label: key, color: '#80848e', icon: '🎫' };
+}
+
+// ── FETCH ─────────────────────────────────────────────────────────────────────
+async function fetchTickets() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/transcripts?select=id,ticket_id,created_at,channel_name,opened_by,closed_by,motivo,categoria,guild_id,data&order=created_at.desc&limit=1000`,
+      {
+        headers: {
+          'apikey':        SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`,
+        }
+      }
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const rows = await res.json();
+
+    allTickets = rows.map(r => ({
+      ...r,
+      _cat: detectCategory(r),
+      _openedById: r.data?.meta?.opened_by_id || '',
+      _avatar: null,
+    }));
+
+    updateBadges();
+    updateStats();
+    applyFilters();
+  } catch(e) {
+    document.getElementById('ticket-list').innerHTML = `
+      <div class="state-msg">
+        <span class="state-icon">⚠️</span>
+        <span>Erro ao carregar tickets: ${e.message}</span>
+      </div>`;
+  }
+}
+
+// ── BADGES & STATS ────────────────────────────────────────────────────────────
+function updateBadges() {
+  const counts = { all: allTickets.length, performance: 0, exoneracao: 0, pd: 0, geral: 0 };
+  for (const t of allTickets) {
+    if (counts[t._cat] !== undefined) counts[t._cat]++;
+    else counts.geral++;
+  }
+  for (const [key, val] of Object.entries(counts)) {
+    const el = document.getElementById(`badge-${key}`);
+    if (el) el.textContent = val;
+  }
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent = allTickets.length;
+  const today = new Date().toDateString();
+  const todayCount = allTickets.filter(t => new Date(t.created_at).toDateString() === today).length;
+  document.getElementById('stat-today').textContent = todayCount;
+}
+
+// ── FILTERS ───────────────────────────────────────────────────────────────────
+function applyFilters() {
+  const search = searchTerm.toLowerCase();
+  const idQ    = idFilter.trim();
+
+  filtered = allTickets.filter(t => {
+    if (currentCat !== 'all' && t._cat !== currentCat) return false;
+    if (idQ && !t._openedById.includes(idQ) && !(t.data?.meta?.opened_by_id || '').includes(idQ)) return false;
+    if (search) {
+      const haystack = [
+        t.opened_by, t.closed_by, t.channel_name,
+        t.motivo, t.categoria, t._openedById
+      ].join(' ').toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    return true;
+  });
+
+  if (currentSort === 'oldest') {
+    filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+  }
+
+  currentPage = 1;
+  renderList();
+}
+
+function clearFilters() {
+  document.getElementById('search-input').value = '';
+  document.getElementById('id-input').value = '';
+  searchTerm = '';
+  idFilter   = '';
+  applyFilters();
+}
+
+function onSearch() {
+  searchTerm = document.getElementById('search-input').value;
+  idFilter   = document.getElementById('id-input').value;
+  applyFilters();
+}
+
+// ── CATEGORY / SORT ───────────────────────────────────────────────────────────
+const CAT_LABELS = {
+  all:         { name: 'todos-os-tickets',     desc: 'Todos os tickets do servidor' },
+  performance: { name: 'performance',          desc: 'Tickets de otimização e performance' },
+  exoneracao:  { name: 'exoneração',           desc: 'Tickets de pedido de exoneração' },
+  pd:          { name: 'pedido-de-pd',         desc: 'Tickets de pedido de PD' },
+  geral:       { name: 'ticket-geral',         desc: 'Tickets gerais de suporte' },
+};
+
+function setCategory(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll('.nav-item[data-cat]').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  const info = CAT_LABELS[cat] || { name: cat, desc: '' };
+  document.getElementById('ch-name-display').textContent = info.name;
+  document.getElementById('ch-desc-display').textContent = info.desc;
+  applyFilters();
+}
+
+function setSort(sort, el) {
+  currentSort = sort;
+  document.querySelectorAll('.nav-item[data-sort]').forEach(e => e.classList.remove('active-sort'));
+  el.classList.add('active-sort');
+  applyFilters();
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function formatDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleString('pt-BR', {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+}
+
+function formatDateShort(iso) {
+  if (!iso) return '—';
+  const d   = new Date(iso);
+  const now = new Date();
+  const diff = Math.floor((now - d) / 86400000);
+  if (diff === 0) return 'Hoje às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  if (diff === 1) return 'Ontem às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) + ' às ' +
+         d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function avatarLetter(name) {
+  return (name || '?')[0].toUpperCase();
+}
+
+function renderList() {
+  const list = document.getElementById('ticket-list');
+  const count = document.getElementById('results-count');
+
+  count.textContent = `${filtered.length} resultado${filtered.length !== 1 ? 's' : ''}`;
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="state-msg"><span class="state-icon">🔍</span><span>Nenhum ticket encontrado</span></div>`;
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const page  = filtered.slice(start, start + PAGE_SIZE);
+
+  let html = '';
+  for (const t of page) {
+    const cfg     = getCatConfig(t._cat);
+    const catClass = `cat-${t._cat}`;
+    const openedBy = t.opened_by || t.data?.meta?.opened_by || '—';
+    const closedBy = t.closed_by || t.data?.meta?.closed_by || '—';
+    const motivo   = t.motivo || t.data?.meta?.motivo || '—';
+    const channel  = t.channel_name || '—';
+    const link     = `${TRANSCRIPT_URL}?id=${esc(t.ticket_id)}`;
+
+    html += `
+    <div class="ticket-row" onclick="window.open('${link}','_blank')">
+      <div class="ticket-cat-bar ${catClass}"></div>
+      <div class="ticket-avatar">${avatarLetter(openedBy)}</div>
+      <div class="ticket-info">
+        <div class="ticket-info-top">
+          <span class="ticket-user">${esc(openedBy)}</span>
+          <span class="ticket-cat-badge" style="background:${cfg.color}">${cfg.icon} ${esc(cfg.label)}</span>
+        </div>
+        <div class="ticket-channel"># ${esc(channel)}</div>
+        <div class="ticket-motivo">📋 ${esc(motivo)}</div>
+      </div>
+      <div class="ticket-meta">
+        <span class="ticket-date">${formatDateShort(t.created_at)}</span>
+        <span class="ticket-closed-by">👮 ${esc(closedBy)}</span>
+      </div>
+      <button class="btn-view" onclick="event.stopPropagation();window.open('${link}','_blank')">
+        📄 Ver Transcript
+      </button>
+    </div>`;
+  }
+
+  list.innerHTML = html;
+  renderPagination();
+}
+
+function renderPagination() {
+  const total = Math.ceil(filtered.length / PAGE_SIZE);
+  const pag   = document.getElementById('pagination');
+  if (total <= 1) { pag.innerHTML = ''; return; }
+
+  let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+
+  for (let i = 1; i <= total; i++) {
+    if (total > 7 && Math.abs(i - currentPage) > 2 && i !== 1 && i !== total) {
+      if (i === 2 || i === total - 1) html += `<span style="color:var(--text-muted);padding:0 4px">…</span>`;
+      continue;
+    }
+    html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+
+  html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled':''}>›</button>`;
+  pag.innerHTML = html;
+}
+
+function goPage(p) {
+  const total = Math.ceil(filtered.length / PAGE_SIZE);
+  if (p < 1 || p > total) return;
+  currentPage = p;
+  renderList();
+  document.getElementById('ticket-list').scrollTop = 0;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+fetchTickets();
+</script>
+</body>
+</html>
