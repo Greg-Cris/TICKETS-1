@@ -14,216 +14,163 @@
     --bg-selected:  #404249;
     --text-normal:  #dbdee1;
     --text-muted:   #80848e;
-    --text-link:    #00a8fc;
     --brand:        #5865f2;
     --brand-hover:  #4752c4;
     --green:        #23a55a;
     --green-hover:  #1a8a45;
     --red:          #f23f43;
     --red-hover:    #c73337;
-    --yellow:       #f0b232;
     --border:       #3f4147;
-    --font:         'gg sans', 'Noto Sans', Whitney, sans-serif;
+    --font:         'gg sans','Noto Sans',Whitney,sans-serif;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg-primary); color: var(--text-normal); font-family: var(--font); font-size: 15px; line-height: 1.4; min-height: 100vh; display: flex; flex-direction: column; }
-  ::-webkit-scrollbar { width: 8px; }
-  ::-webkit-scrollbar-track { background: var(--bg-tertiary); }
-  ::-webkit-scrollbar-thumb { background: #1a1b1e; border-radius: 4px; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg-primary);color:var(--text-normal);font-family:var(--font);font-size:15px;line-height:1.4;min-height:100vh;display:flex;flex-direction:column}
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--bg-tertiary)}
+  ::-webkit-scrollbar-thumb{background:#1a1b1e;border-radius:4px}
 
-  #topbar {
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border);
-    padding: 0 20px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    flex-shrink: 0;
-  }
-  .logo { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-  .logo-icon { width: 32px; height: 32px; background: var(--brand); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-  .divider-v { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
-  .page-title { font-size: 15px; font-weight: 600; }
-  .spacer { flex: 1; }
-  .topbar-stats { display: flex; gap: 20px; font-size: 12px; color: var(--text-muted); }
-  .topbar-stats span strong { color: var(--text-normal); font-weight: 600; }
+  /* TOPBAR */
+  #topbar{background:var(--bg-secondary);border-bottom:1px solid var(--border);padding:0 20px;height:48px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;flex-shrink:0}
+  .logo{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .logo-icon{width:32px;height:32px;background:var(--brand);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
+  .divider-v{width:1px;height:24px;background:var(--border);margin:0 4px}
+  .page-title{font-size:15px;font-weight:600}
+  .spacer{flex:1}
+  .topbar-stats{display:flex;gap:20px;font-size:12px;color:var(--text-muted)}
+  .topbar-stats span strong{color:var(--text-normal);font-weight:600}
 
-  #layout { display: flex; flex: 1; min-height: 0; }
+  #layout{display:flex;flex:1;min-height:0}
 
-  #sidebar {
-    width: 240px;
-    background: var(--bg-secondary);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    overflow-y: auto;
-  }
-  .sidebar-section { padding: 16px 8px 8px; }
-  .sidebar-section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; padding: 0 8px; margin-bottom: 6px; }
-  .nav-item { display: flex; align-items: center; gap: 10px; padding: 7px 8px; border-radius: 4px; cursor: pointer; color: var(--text-muted); font-size: 14px; font-weight: 500; transition: background 0.1s, color 0.1s; user-select: none; }
-  .nav-item:hover { background: var(--bg-hover); color: var(--text-normal); }
-  .nav-item.active { background: var(--bg-selected); color: var(--text-normal); }
-  .nav-icon { font-size: 17px; width: 20px; text-align: center; }
-  .nav-badge { margin-left: auto; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 8px; min-width: 20px; text-align: center; }
+  /* SIDEBAR */
+  #sidebar{width:240px;background:var(--bg-secondary);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+  .sidebar-section{padding:16px 8px 8px}
+  .sidebar-section-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:0 8px;margin-bottom:6px}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:4px;cursor:pointer;color:var(--text-muted);font-size:14px;font-weight:500;transition:background .1s,color .1s;user-select:none}
+  .nav-item:hover{background:var(--bg-hover);color:var(--text-normal)}
+  .nav-item.active{background:var(--bg-selected);color:var(--text-normal)}
+  .nav-icon{font-size:17px;width:20px;text-align:center}
+  .nav-badge{margin-left:auto;background:var(--brand);color:#fff;font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;min-width:20px;text-align:center}
+  .server-filter-wrap{padding:8px}
+  .server-filter-wrap select{width:100%;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;color:var(--text-normal);font-family:var(--font);font-size:13px;padding:7px 10px;outline:none;cursor:pointer}
 
-  .server-filter-wrap { padding: 8px; }
-  .server-filter-wrap select {
-    width: 100%;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text-normal);
-    font-family: var(--font);
-    font-size: 13px;
-    padding: 7px 10px;
-    outline: none;
-    cursor: pointer;
-  }
-  .server-filter-wrap select option { background: var(--bg-tertiary); }
+  /* MAIN */
+  #main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+  #ch-header{background:var(--bg-primary);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .ch-icon{color:var(--text-muted);font-size:20px;font-weight:700}
+  .ch-name{font-size:16px;font-weight:700}
+  .ch-desc{font-size:13px;color:var(--text-muted);margin-left:8px;padding-left:8px;border-left:1px solid var(--border)}
+  #toolbar{background:var(--bg-primary);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex-shrink:0}
+  .search-box{display:flex;align-items:center;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;padding:0 10px;gap:8px;flex:1;min-width:180px;max-width:360px}
+  .search-box input{background:none;border:none;outline:none;color:var(--text-normal);font-family:var(--font);font-size:14px;padding:7px 0;flex:1}
+  .search-box input::placeholder{color:var(--text-muted)}
+  .btn{border:none;border-radius:4px;font-family:var(--font);font-size:13px;font-weight:600;padding:7px 14px;cursor:pointer;transition:background .1s,transform .05s;display:flex;align-items:center;gap:6px}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand-hover)}
+  .btn-success{background:var(--green);color:#fff}.btn-success:hover{background:var(--green-hover)}
+  .btn-danger{background:var(--red);color:#fff}.btn-danger:hover{background:var(--red-hover)}
+  .btn-ghost{background:var(--bg-tertiary);color:var(--text-muted);border:1px solid var(--border)}.btn-ghost:hover{background:var(--bg-hover);color:var(--text-normal)}
+  #results-count{font-size:13px;color:var(--text-muted);margin-left:auto}
 
-  #main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+  /* BACKUP LIST */
+  #backup-list{flex:1;overflow-y:auto}
+  .state-msg{display:flex;flex-direction:column;align-items:center;justify-content:center;height:320px;gap:12px;color:var(--text-muted);font-size:15px}
+  .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .backup-row{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .05s}
+  .backup-row:hover{background:var(--bg-hover)}.backup-row.selected{background:rgba(88,101,242,.12)}
+  .backup-icon{width:42px;height:42px;border-radius:10px;background:var(--bg-tertiary);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1px solid var(--border);overflow:hidden}
+  .backup-icon img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+  .backup-info{flex:1;min-width:0}
+  .backup-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+  .backup-meta{display:flex;gap:14px;font-size:12px;color:var(--text-muted);flex-wrap:wrap}
+  .backup-actions{display:flex;gap:8px;flex-shrink:0}
+  .icon-btn{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;color:var(--text-muted);font-size:15px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .1s}
+  .icon-btn:hover{background:var(--bg-hover);color:var(--text-normal)}.icon-btn.danger:hover{background:var(--red);border-color:var(--red);color:#fff}
 
-  #ch-header {
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-  .ch-icon { color: var(--text-muted); font-size: 20px; font-weight: 700; }
-  .ch-name { font-size: 16px; font-weight: 700; }
-  .ch-desc { font-size: 13px; color: var(--text-muted); margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--border); }
+  /* DETAIL PANEL */
+  #detail-panel{width:320px;background:var(--bg-secondary);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;transition:width .2s}
+  #detail-panel.hidden{width:0;overflow:hidden;border:none}
+  .detail-header{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+  .detail-title{font-size:15px;font-weight:700}
+  .detail-close{background:none;border:none;color:var(--text-muted);font-size:18px;cursor:pointer;padding:2px 6px;border-radius:4px}.detail-close:hover{background:var(--bg-hover);color:var(--text-normal)}
+  .detail-body{padding:16px;display:flex;flex-direction:column;gap:16px}
+  .detail-icon-big{width:64px;height:64px;border-radius:14px;background:var(--bg-tertiary);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 4px;overflow:hidden}
+  .detail-icon-big img{width:100%;height:100%;object-fit:cover;border-radius:14px}
+  .detail-server-name{text-align:center;font-size:18px;font-weight:700}
+  .detail-section{display:flex;flex-direction:column;gap:6px}
+  .detail-section-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+  .detail-row{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+  .detail-row span:first-child{color:var(--text-muted)}.detail-row span:last-child{color:var(--text-normal);font-weight:500}
+  .detail-tag-list{display:flex;flex-wrap:wrap;gap:6px}
+  .detail-tag{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;font-size:12px;color:var(--text-muted);padding:2px 8px}
+  .detail-actions{display:flex;flex-direction:column;gap:8px;padding:16px;border-top:1px solid var(--border)}
 
-  #toolbar {
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 20px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-shrink: 0;
-  }
-  .search-box { display: flex; align-items: center; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 4px; padding: 0 10px; gap: 8px; flex: 1; min-width: 180px; max-width: 360px; }
-  .search-box input { background: none; border: none; outline: none; color: var(--text-normal); font-family: var(--font); font-size: 14px; padding: 7px 0; flex: 1; }
-  .search-box input::placeholder { color: var(--text-muted); }
-  .btn { border: none; border-radius: 4px; font-family: var(--font); font-size: 13px; font-weight: 600; padding: 7px 14px; cursor: pointer; transition: background 0.1s, transform 0.05s; display: flex; align-items: center; gap: 6px; }
-  .btn:active { transform: scale(0.97); }
-  .btn-primary { background: var(--brand); color: #fff; }
-  .btn-primary:hover { background: var(--brand-hover); }
-  .btn-success { background: var(--green); color: #fff; }
-  .btn-success:hover { background: var(--green-hover); }
-  .btn-danger { background: var(--red); color: #fff; }
-  .btn-danger:hover { background: var(--red-hover); }
-  .btn-ghost { background: var(--bg-tertiary); color: var(--text-muted); border: 1px solid var(--border); }
-  .btn-ghost:hover { background: var(--bg-hover); color: var(--text-normal); }
-  #results-count { font-size: 13px; color: var(--text-muted); margin-left: auto; }
+  /* MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center}
+  .modal-overlay.show{display:flex}
+  .modal{background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;width:460px;max-width:95vw;overflow:hidden;animation:pop .15s ease}
+  @keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+  .modal-title{font-size:16px;font-weight:700}
+  .modal-close{background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;padding:0 4px}
+  .modal-body{padding:20px}.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+  .modal-warn{background:rgba(242,63,67,.12);border:1px solid rgba(242,63,67,.4);border-radius:6px;padding:12px 14px;font-size:13px;color:#f23f43;display:flex;gap:8px;align-items:flex-start}
 
-  #backup-list { flex: 1; overflow-y: auto; }
-  .state-msg { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 320px; gap: 12px; color: var(--text-muted); font-size: 15px; }
-  .state-icon { font-size: 52px; }
-  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  /* ═══════════ VIEWER DISCORD-STYLE ═══════════ */
+  .viewer-sidebar{width:220px;background:var(--bg-secondary);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:8px 0}
+  .viewer-sb-sec{margin-bottom:4px}
+  .viewer-sb-hdr{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:8px 12px 4px;cursor:pointer;user-select:none;display:flex;align-items:center}
+  .viewer-sb-hdr .arr{font-size:10px;transition:transform .15s;margin-left:auto}
+  .viewer-sb-hdr.collapsed .arr{transform:rotate(-90deg)}
+  .vsb-items{display:flex;flex-direction:column}
+  .vsb-items.hidden{display:none}
+  .vsb-item{display:flex;align-items:center;gap:8px;padding:6px 12px;cursor:pointer;color:var(--text-muted);font-size:13px;font-weight:500;border-radius:4px;margin:0 4px;transition:background .1s,color .1s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .vsb-item:hover{background:var(--bg-hover);color:var(--text-normal)}.vsb-item.active{background:var(--bg-selected);color:var(--text-normal)}
+  .vsb-icon{font-size:14px;flex-shrink:0;width:16px;text-align:center}
+  .vsb-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+  .vsb-ch{padding-left:24px}
 
-  .backup-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 20px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: background 0.05s;
-  }
-  .backup-row:hover { background: var(--bg-hover); }
-  .backup-row.selected { background: rgba(88,101,242,0.12); }
-  .backup-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; border: 1px solid var(--border); overflow: hidden; }
-  .backup-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
-  .backup-info { flex: 1; min-width: 0; }
-  .backup-name { font-size: 14px; font-weight: 600; color: var(--text-normal); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
-  .backup-meta { display: flex; gap: 14px; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; }
-  .backup-meta span { display: flex; align-items: center; gap: 4px; }
-  .backup-actions { display: flex; gap: 8px; flex-shrink: 0; }
-  .icon-btn { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); font-size: 15px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.1s; }
-  .icon-btn:hover { background: var(--bg-hover); color: var(--text-normal); }
-  .icon-btn.danger:hover { background: var(--red); border-color: var(--red); color: #fff; }
+  .viewer-content{flex:1;overflow-y:auto;padding:20px 24px}
+  .vc-title{font-size:20px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+  .vc-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;display:flex;flex-wrap:wrap;gap:6px}
 
-  #detail-panel {
-    width: 320px;
-    background: var(--bg-secondary);
-    border-left: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    overflow-y: auto;
-    transition: width 0.2s;
-  }
-  #detail-panel.hidden { width: 0; overflow: hidden; border: none; }
-  .detail-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-  .detail-title { font-size: 15px; font-weight: 700; }
-  .detail-close { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
-  .detail-close:hover { background: var(--bg-hover); color: var(--text-normal); }
-  .detail-body { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
-  .detail-icon-big { width: 64px; height: 64px; border-radius: 14px; background: var(--bg-tertiary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 4px; overflow: hidden; }
-  .detail-icon-big img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
-  .detail-server-name { text-align: center; font-size: 18px; font-weight: 700; }
-  .detail-section { display: flex; flex-direction: column; gap: 6px; }
-  .detail-section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-  .detail-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-  .detail-row span:first-child { color: var(--text-muted); }
-  .detail-row span:last-child { color: var(--text-normal); font-weight: 500; }
-  .detail-tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
-  .detail-tag { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--text-muted); padding: 2px 8px; }
-  .detail-actions { display: flex; flex-direction: column; gap: 8px; padding: 16px; border-top: 1px solid var(--border); }
+  /* permissões estilo Discord */
+  .ps{margin-bottom:20px}
+  .ps-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+  .pr{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(63,65,71,.5)}
+  .pr:last-child{border-bottom:none}
+  .pr-name{font-size:14px;color:var(--text-normal)}
+  .pr-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
+  .ptoggle{width:36px;height:20px;border-radius:10px;position:relative;flex-shrink:0}
+  .ptoggle.on{background:#23a55a}.ptoggle.off{background:#80848e}
+  .ptoggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .1s}
+  .ptoggle.on::after{left:18px}.ptoggle.off::after{left:2px}
 
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 500; align-items: center; justify-content: center; }
-  .modal-overlay.show { display: flex; }
-  .modal { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; width: 460px; max-width: 95vw; overflow: hidden; animation: pop 0.15s ease; }
-  @keyframes pop { from { transform: scale(.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-  .modal-title { font-size: 16px; font-weight: 700; }
-  .modal-close { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; padding: 0 4px; }
-  .modal-body { padding: 20px; }
-  .modal-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
-  .modal-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
-  .modal-warn { background: rgba(242,63,67,.12); border: 1px solid rgba(242,63,67,.4); border-radius: 6px; padding: 12px 14px; font-size: 13px; color: #f23f43; display: flex; gap: 8px; align-items: flex-start; }
+  /* overwrites canal */
+  .ow-block{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:6px;margin-bottom:10px;overflow:hidden}
+  .ow-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;user-select:none;font-size:13px;font-weight:600}
+  .ow-hdr:hover{background:var(--bg-hover)}.ow-hdr .arr{margin-left:auto;font-size:10px;color:var(--text-muted);transition:transform .15s}
+  .ow-hdr.collapsed .arr{transform:rotate(-90deg)}
+  .ow-body{padding:0 14px 10px}.ow-body.hidden{display:none}
+  .ow-row{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;border-bottom:1px solid rgba(63,65,71,.4)}
+  .ow-row:last-child{border-bottom:none}
+  .ow-ico{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+  .ow-ico.allow{color:#23a55a}.ow-ico.deny{color:#f23f43}
 
-  .tree-section { margin-bottom: 12px; }
-  .tree-section-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
-  .tree-section-title::after { content: '▾'; font-size: 10px; transition: transform 0.15s; }
-  .tree-section-title.collapsed::after { transform: rotate(-90deg); }
-  .tree-items { display: flex; flex-direction: column; gap: 2px; }
-  .tree-items.hidden { display: none; }
-  .tree-item { display: flex; align-items: center; gap: 8px; padding: 5px 10px; border-radius: 4px; font-size: 13px; color: var(--text-muted); }
-  .tree-item:hover { background: var(--bg-hover); color: var(--text-normal); }
-  .tree-item-icon { font-size: 14px; width: 16px; text-align: center; flex-shrink: 0; }
-  .tree-cat { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; padding: 6px 8px 3px; }
+  .chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;font-size:12px;color:var(--text-muted);padding:2px 8px}
 
-  #toast-container { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 1000; }
-  .toast { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; font-size: 14px; display: flex; align-items: center; gap: 10px; min-width: 240px; animation: slideIn 0.2s ease; box-shadow: 0 4px 16px rgba(0,0,0,.4); }
-  .toast.success { border-color: var(--green); }
-  .toast.error   { border-color: var(--red); }
-  .toast.info    { border-color: var(--brand); }
-  @keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-  @keyframes slideOut { to { transform: translateX(40px); opacity: 0; } }
-
-  #footer { background: var(--bg-tertiary); border-top: 1px solid var(--border); padding: 10px 20px; font-size: 12px; color: var(--text-muted); text-align: center; flex-shrink: 0; }
-
-  #loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 999; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
-  #loading-overlay.show { display: flex; }
-  #loading-overlay .spinner { width: 48px; height: 48px; border-width: 4px; }
-  #loading-overlay span { color: var(--text-muted); font-size: 14px; }
-
-  @media (max-width: 900px) {
-    #detail-panel { display: none; }
-    #sidebar { display: none; }
-  }
+  /* Toast / loading */
+  #toast-container{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:1000}
+  .toast{background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:10px 16px;font-size:14px;display:flex;align-items:center;gap:10px;min-width:240px;animation:slideIn .2s ease;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+  .toast.success{border-color:var(--green)}.toast.error{border-color:var(--red)}.toast.info{border-color:var(--brand)}
+  @keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
+  @keyframes slideOut{to{transform:translateX(40px);opacity:0}}
+  #footer{background:var(--bg-tertiary);border-top:1px solid var(--border);padding:10px 20px;font-size:12px;color:var(--text-muted);text-align:center;flex-shrink:0}
+  #loading-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+  #loading-overlay.show{display:flex}
+  #loading-overlay .spinner{width:48px;height:48px;border-width:4px}
+  #loading-overlay span{color:var(--text-muted);font-size:14px}
+  @media(max-width:900px){#detail-panel,#sidebar{display:none}}
 </style>
 </head>
 <body>
@@ -244,57 +191,30 @@
   <div id="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-section-title">Filtrar</div>
-      <div class="nav-item active" data-filter="all" onclick="setFilter('all',this)">
-        <span class="nav-icon">📋</span> Todos
-        <span class="nav-badge" id="badge-all">0</span>
-      </div>
-      <div class="nav-item" data-filter="recent" onclick="setFilter('recent',this)">
-        <span class="nav-icon">🕐</span> Recentes (7d)
-        <span class="nav-badge" id="badge-recent">0</span>
-      </div>
+      <div class="nav-item active" data-filter="all" onclick="setFilter('all',this)"><span class="nav-icon">📋</span> Todos<span class="nav-badge" id="badge-all">0</span></div>
+      <div class="nav-item" data-filter="recent" onclick="setFilter('recent',this)"><span class="nav-icon">🕐</span> Recentes (7d)<span class="nav-badge" id="badge-recent">0</span></div>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-section-title">Filtrar por Servidor</div>
-      <div class="server-filter-wrap">
-        <select id="server-select" onchange="applyFilters()">
-          <option value="">Todos os servidores</option>
-        </select>
-      </div>
+      <div class="server-filter-wrap"><select id="server-select" onchange="applyFilters()"><option value="">Todos os servidores</option></select></div>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-section-title">Ações</div>
-      <div class="nav-item" onclick="confirmDeleteAll()">
-        <span class="nav-icon">🗑️</span> Apagar Todos
-      </div>
+      <div class="nav-item" onclick="confirmDeleteAll()"><span class="nav-icon">🗑️</span> Apagar Todos</div>
     </div>
   </div>
 
   <div id="main">
-    <div id="ch-header">
-      <span class="ch-icon">#</span>
-      <span class="ch-name" id="ch-name">todos-os-backups</span>
-      <span class="ch-desc" id="ch-desc">Backups carregados do Supabase</span>
-    </div>
+    <div id="ch-header"><span class="ch-icon">#</span><span class="ch-name">todos-os-backups</span><span class="ch-desc">Backups carregados do Supabase</span></div>
     <div id="toolbar">
-      <div class="search-box">
-        <span>🔍</span>
-        <input type="text" id="search-input" placeholder="Buscar por nome do servidor..." oninput="applyFilters()">
-      </div>
+      <div class="search-box"><span>🔍</span><input type="text" id="search-input" placeholder="Buscar por nome do servidor..." oninput="applyFilters()"></div>
       <span id="results-count"></span>
     </div>
-    <div id="backup-list">
-      <div class="state-msg">
-        <div class="spinner"></div>
-        <span>Carregando backups...</span>
-      </div>
-    </div>
+    <div id="backup-list"><div class="state-msg"><div class="spinner"></div><span>Carregando backups...</span></div></div>
   </div>
 
   <div id="detail-panel" class="hidden">
-    <div class="detail-header">
-      <span class="detail-title">Detalhes do Backup</span>
-      <button class="detail-close" onclick="closeDetail()">✕</button>
-    </div>
+    <div class="detail-header"><span class="detail-title">Detalhes do Backup</span><button class="detail-close" onclick="closeDetail()">✕</button></div>
     <div class="detail-body" id="detail-body"></div>
     <div class="detail-actions" id="detail-actions"></div>
   </div>
@@ -302,20 +222,19 @@
 
 <div id="footer">• Xenon Backup Manager • Dados carregados do Supabase em tempo real •</div>
 <div id="toast-container"></div>
+<div id="loading-overlay"><div class="spinner"></div><span id="loading-text">Processando...</span></div>
 
-<div id="loading-overlay">
-  <div class="spinner"></div>
-  <span id="loading-text">Processando...</span>
-</div>
-
-<!-- MODAL: Viewer -->
+<!-- MODAL VIEWER -->
 <div class="modal-overlay" id="modal-viewer">
-  <div class="modal" style="width:560px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column">
+  <div class="modal" style="width:820px;max-width:96vw;max-height:88vh;overflow:hidden;display:flex;flex-direction:column">
     <div class="modal-header">
       <span class="modal-title" id="viewer-title">Conteúdo do Backup</span>
       <button class="modal-close" onclick="closeModal('modal-viewer')">✕</button>
     </div>
-    <div class="modal-body" style="overflow-y:auto;flex:1" id="viewer-body"></div>
+    <div style="flex:1;min-height:0;display:flex;overflow:hidden">
+      <div class="viewer-sidebar" id="viewer-sidebar"></div>
+      <div class="viewer-content" id="viewer-content"><p style="color:var(--text-muted)">Selecione um item na lista à esquerda.</p></div>
+    </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-viewer')">Fechar</button>
       <button class="btn btn-primary" onclick="downloadSelected()">⬇️ Baixar JSON</button>
@@ -323,203 +242,323 @@
   </div>
 </div>
 
-<!-- MODAL: Deletar 1 -->
+<!-- MODAL DELETE 1 -->
 <div class="modal-overlay" id="modal-delete-one">
   <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">🗑️ Deletar Backup</span>
-      <button class="modal-close" onclick="closeModal('modal-delete-one')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-warn">⚠️ <div>Tem certeza que quer deletar o backup de <strong id="delete-one-name"></strong>? Esta ação não pode ser desfeita!</div></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-delete-one')">Cancelar</button>
-      <button class="btn btn-danger" onclick="deleteOneConfirmed()">🗑️ Deletar</button>
-    </div>
+    <div class="modal-header"><span class="modal-title">🗑️ Deletar Backup</span><button class="modal-close" onclick="closeModal('modal-delete-one')">✕</button></div>
+    <div class="modal-body"><div class="modal-warn">⚠️ <div>Tem certeza que quer deletar o backup de <strong id="delete-one-name"></strong>?</div></div></div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-delete-one')">Cancelar</button><button class="btn btn-danger" onclick="deleteOneConfirmed()">🗑️ Deletar</button></div>
   </div>
 </div>
 
-<!-- MODAL: Deletar todos -->
+<!-- MODAL DELETE ALL -->
 <div class="modal-overlay" id="modal-delete-all">
   <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">🗑️ Apagar Todos os Backups</span>
-      <button class="modal-close" onclick="closeModal('modal-delete-all')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-warn">⚠️ <div>Isso vai remover <strong>todos os backups</strong> do Supabase permanentemente. Esta ação não pode ser desfeita!</div></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-delete-all')">Cancelar</button>
-      <button class="btn btn-danger" onclick="deleteAllConfirmed()">🗑️ Apagar Tudo</button>
-    </div>
+    <div class="modal-header"><span class="modal-title">🗑️ Apagar Todos</span><button class="modal-close" onclick="closeModal('modal-delete-all')">✕</button></div>
+    <div class="modal-body"><div class="modal-warn">⚠️ <div>Remove <strong>todos os backups</strong> permanentemente.</div></div></div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-delete-all')">Cancelar</button><button class="btn btn-danger" onclick="deleteAllConfirmed()">🗑️ Apagar Tudo</button></div>
   </div>
 </div>
 
-<!-- MODAL: Restaurar -->
+<!-- MODAL RESTORE -->
 <div class="modal-overlay" id="modal-restore">
   <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">🔄 Restaurar Backup</span>
-      <button class="modal-close" onclick="closeModal('modal-restore')">✕</button>
-    </div>
+    <div class="modal-header"><span class="modal-title">🔄 Restaurar Backup</span><button class="modal-close" onclick="closeModal('modal-restore')">✕</button></div>
     <div class="modal-body">
-      <p class="modal-desc">Para restaurar este backup no Discord, use o comando abaixo no seu servidor:</p>
-      <div class="modal-warn" style="margin-bottom:14px">
-        ⚠️ <div><strong>Apagar todos os canais e cargos atuais</strong> do servidor e recriar com base neste backup. Esta ação é irreversível!</div>
-      </div>
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:14px">Use o comando abaixo no Discord:</p>
+      <div class="modal-warn" style="margin-bottom:14px">⚠️ <div>Apaga todos os canais e cargos atuais. Irreversível!</div></div>
       <code id="restore-cmd" style="display:block;background:var(--bg-tertiary);padding:10px 14px;border-radius:6px;font-size:13px;color:var(--text-normal);word-break:break-all;border:1px solid var(--border)"></code>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-restore')">Cancelar</button>
-      <button class="btn btn-primary" onclick="copyRestoreCmd()">📋 Copiar Comando</button>
-    </div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-restore')">Cancelar</button><button class="btn btn-primary" onclick="copyRestoreCmd()">📋 Copiar</button></div>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
-//  CONFIG SUPABASE
-// ══════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://fwhgrgdqswqypcczitdz.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_16iUpOU_xTLW8xvi-bFNZw_nd3u5qp-';
-const HEADERS = {
-  'apikey': SUPABASE_KEY,
-  'Authorization': `Bearer ${SUPABASE_KEY}`,
-  'Content-Type': 'application/json',
+const SUPABASE_URL='https://fwhgrgdqswqypcczitdz.supabase.co';
+const SUPABASE_KEY='sb_publishable_16iUpOU_xTLW8xvi-bFNZw_nd3u5qp-';
+const HEADERS={'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json'};
+
+let backups=[],currentFilter='all',selectedId=null,filtered=[],deleteTargetId=null,viewerBackup=null;
+
+// ─── Definição das permissões ───
+const PERM_GROUPS={
+  'Permissões Gerais do Servidor':[
+    {bit:1n<<3n,  name:'Administrador',            desc:'Possui todas as permissões e ignora restrições de canal.'},
+    {bit:1n<<28n, name:'Ver canais',               desc:'Permite ver os canais (exceto privados).'},
+    {bit:1n<<4n,  name:'Gerenciar canais',         desc:'Criar, editar ou excluir canais.'},
+    {bit:1n<<28n, name:'Gerenciar cargos',         desc:'Criar e editar cargos abaixo do seu.'},
+    {bit:1n<<29n, name:'Gerenciar expressões',     desc:'Editar ou remover emojis e figurinhas.'},
+    {bit:1n<<32n, name:'Ver registro de auditoria',desc:'Ver ações feitas no servidor.'},
+    {bit:1n<<1n,  name:'Gerenciar servidor',       desc:'Alterar configurações do servidor.'},
+    {bit:1n<<5n,  name:'Kick de membros',          desc:'Remover membros do servidor.'},
+    {bit:1n<<2n,  name:'Banir membros',            desc:'Banir membros permanentemente.'},
+    {bit:1n<<22n, name:'Gerenciar apelidos',       desc:'Alterar apelidos de outros membros.'},
+    {bit:1n<<30n, name:'Gerenciar webhooks',       desc:'Criar e gerenciar webhooks.'},
+  ],
+  'Permissões de Texto':[
+    {bit:1n<<11n, name:'Enviar mensagens',         desc:'Enviar mensagens em canais de texto.'},
+    {bit:1n<<15n, name:'Enviar em threads',        desc:'Enviar mensagens em threads.'},
+    {bit:1n<<16n, name:'Criar threads públicas',   desc:'Criar threads públicas.'},
+    {bit:1n<<17n, name:'Criar threads privadas',   desc:'Criar threads privadas.'},
+    {bit:1n<<13n, name:'Incorporar links',         desc:'Links exibem como prévia.'},
+    {bit:1n<<14n, name:'Anexar arquivos',          desc:'Enviar arquivos e imagens.'},
+    {bit:1n<<12n, name:'Ver histórico de mensagens',desc:'Acessar mensagens anteriores.'},
+    {bit:1n<<18n, name:'Mencionar @todos',         desc:'Usar @everyone e @here.'},
+    {bit:1n<<19n, name:'Usar emojis externos',     desc:'Emojis de outros servidores.'},
+    {bit:1n<<20n, name:'Adicionar reações',        desc:'Reagir a mensagens.'},
+    {bit:1n<<38n, name:'Usar comandos de app',     desc:'Usar comandos de bots e aplicativos.'},
+    {bit:1n<<9n,  name:'Gerenciar mensagens',      desc:'Excluir e fixar mensagens de outros.'},
+    {bit:1n<<34n, name:'Gerenciar threads',        desc:'Renomear e arquivar threads.'},
+    {bit:1n<<7n,  name:'Ignorar modo lento',       desc:'Sem limite de espera entre mensagens.'},
+    {bit:1n<<23n, name:'Enviar TTS',               desc:'Enviar mensagens texto-para-voz.'},
+  ],
+  'Permissões de Voz':[
+    {bit:1n<<20n, name:'Conectar',                 desc:'Entrar em canais de voz.'},
+    {bit:1n<<21n, name:'Falar',                    desc:'Transmitir áudio no canal de voz.'},
+    {bit:1n<<25n, name:'Vídeo',                    desc:'Transmitir vídeo no canal de voz.'},
+    {bit:1n<<26n, name:'Atividade por voz',        desc:'Usar detecção por voz (sem PTT).'},
+    {bit:1n<<24n, name:'Silenciar membros',        desc:'Silenciar membros no canal.'},
+    {bit:1n<<22n, name:'Ensurdecer membros',       desc:'Desativar áudio recebido de membros.'},
+    {bit:1n<<23n, name:'Mover membros',            desc:'Mover membros entre canais de voz.'},
+  ],
 };
 
-let backups = [];
-let currentFilter = 'all';
-let selectedId = null;
-let filtered = [];
-let deleteTargetId = null;
+const OW_PERMS=[
+  {bit:1n<<28n,name:'Ver canal'},
+  {bit:1n<<11n,name:'Enviar mensagens'},
+  {bit:1n<<12n,name:'Ver histórico'},
+  {bit:1n<<13n,name:'Incorporar links'},
+  {bit:1n<<14n,name:'Anexar arquivos'},
+  {bit:1n<<20n,name:'Adicionar reações'},
+  {bit:1n<<9n, name:'Gerenciar mensagens'},
+  {bit:1n<<18n,name:'Mencionar @todos'},
+  {bit:1n<<19n,name:'Emojis externos'},
+  {bit:1n<<38n,name:'Usar comandos'},
+  {bit:1n<<7n, name:'Ignorar modo lento'},
+  {bit:1n<<20n,name:'Conectar (voz)'},
+  {bit:1n<<21n,name:'Falar (voz)'},
+  {bit:1n<<24n,name:'Silenciar membros'},
+  {bit:1n<<25n,name:'Vídeo'},
+  {bit:1n<<15n,name:'Enviar em threads'},
+  {bit:1n<<16n,name:'Criar threads públicas'},
+];
 
-async function loadFromSupabase() {
-  showLoading('Carregando backups do Supabase...');
-  try {
-    const resp = await fetch(
-      `${SUPABASE_URL}/rest/v1/server_backups?select=id,guild_id,guild_name,backup_at,created_at,data&order=created_at.desc&limit=100`,
-      { headers: HEADERS }
-    );
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const rows = await resp.json();
-    backups = rows.map(r => ({
-      _dbId: r.id,
-      _guildId: r.guild_id,
-      name: r.guild_name || r.data?.name || 'Servidor',
-      backup_at: r.backup_at || r.created_at,
-      created_at: r.created_at,
-      icon: r.data?.icon || null,
-      roles: r.data?.roles || [],
-      categories: r.data?.categories || [],
-      channels_no_category: r.data?.channels_no_category || [],
-      _raw: r.data,
-    }));
-    updateStats();
-    updateBadges();
-    updateServerSelect();
-    applyFilters();
-    toast(`✅ ${backups.length} backup(s) carregado(s)`, 'success');
-  } catch(e) {
-    toast(`❌ Erro ao carregar: ${e.message}`, 'error');
-    document.getElementById('backup-list').innerHTML = `<div class="state-msg">
-      <span class="state-icon">⚠️</span>
-      <span>Erro ao conectar ao Supabase</span>
-      <span style="font-size:13px">${e.message}</span>
-    </div>`;
-  } finally {
-    hideLoading();
+function chkBit(v,b){try{return(BigInt(v)&b)===b}catch{return false}}
+
+// ─── Viewer ───
+function viewBackup(dbId){
+  viewerBackup=backups.find(x=>x._dbId===dbId);if(!viewerBackup)return;
+  document.getElementById('viewer-title').textContent=`📦 ${viewerBackup.name}`;
+  document.getElementById('modal-viewer').dataset.currentDbId=dbId;
+  buildSidebar(viewerBackup);
+  renderOverview(viewerBackup);
+  document.getElementById('modal-viewer').classList.add('show');
+}
+
+function buildSidebar(b){
+  const sb=document.getElementById('viewer-sidebar');
+  let h=`<div class="viewer-sb-sec">
+    <div class="vsb-item active" id="vsb-ov" onclick="selVSB(this,'ov')"><span class="vsb-icon">🏠</span>Visão Geral</div>
+  </div>`;
+
+  if(b.roles&&b.roles.length){
+    h+=`<div class="viewer-sb-sec">
+      <div class="viewer-sb-hdr" onclick="togSec(this)">👥 Cargos (${b.roles.length})<span class="arr">▾</span></div>
+      <div class="vsb-items">`;
+    for(const r of [...b.roles].sort((a,z)=>z.position-a.position)){
+      const col=r.color?`#${r.color.toString(16).padStart(6,'0')}`:null;
+      h+=`<div class="vsb-item" onclick="selVSB(this,'role',${r.id})" title="@${esc(r.name)}">
+        ${col?`<span class="vsb-dot" style="background:${col}"></span>`:`<span class="vsb-dot" style="background:#80848e"></span>`}
+        <span style="overflow:hidden;text-overflow:ellipsis">@${esc(r.name)}</span>
+      </div>`;
+    }
+    h+=`</div></div>`;
   }
+
+  const allCats=b.categories||[],noCat=b.channels_no_category||[];
+  if(allCats.length||noCat.length){
+    h+=`<div class="viewer-sb-sec">
+      <div class="viewer-sb-hdr" onclick="togSec(this)">📁 Canais<span class="arr">▾</span></div>
+      <div class="vsb-items">`;
+    for(const cat of [...allCats].sort((a,z)=>a.position-z.position)){
+      h+=`<div class="vsb-item" onclick="selVSB(this,'cat',${cat.id})" title="${esc(cat.name)}">
+        <span class="vsb-icon">📁</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(cat.name)}</span>
+      </div>`;
+      for(const ch of [...(cat.channels||[])].sort((a,z)=>a.position-z.position)){
+        const ic=ch.type&&ch.type.includes('voice')?'🔊':'#';
+        h+=`<div class="vsb-item vsb-ch" onclick="selVSB(this,'ch',${ch.id},'cat',${cat.id})" title="${esc(ch.name)}">
+          <span class="vsb-icon">${ic}</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(ch.name)}</span>
+        </div>`;
+      }
+    }
+    for(const ch of [...noCat].sort((a,z)=>a.position-z.position)){
+      const ic=ch.type&&ch.type.includes('voice')?'🔊':'#';
+      h+=`<div class="vsb-item vsb-ch" onclick="selVSB(this,'chnc',${ch.id})" title="${esc(ch.name)}">
+        <span class="vsb-icon">${ic}</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(ch.name)}</span>
+      </div>`;
+    }
+    h+=`</div></div>`;
+  }
+  sb.innerHTML=h;
 }
 
-async function supabaseDelete(dbId) {
-  const resp = await fetch(
-    `${SUPABASE_URL}/rest/v1/server_backups?id=eq.${dbId}`,
-    { method: 'DELETE', headers: HEADERS }
-  );
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-}
+function togSec(el){el.classList.toggle('collapsed');el.nextElementSibling.classList.toggle('hidden');}
+function togOw(el){el.classList.toggle('collapsed');el.nextElementSibling.classList.toggle('hidden');}
 
-async function supabaseDeleteAll() {
-  const resp = await fetch(
-    `${SUPABASE_URL}/rest/v1/server_backups?id=gt.0`,
-    { method: 'DELETE', headers: HEADERS }
-  );
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-}
-
-function updateStats() {
-  document.getElementById('stat-total').textContent = backups.length;
-  const servers = new Set(backups.map(b => b._guildId)).size;
-  document.getElementById('stat-servers').textContent = servers;
-}
-
-function updateBadges() {
-  const now = Date.now(), week = 7*24*60*60*1000;
-  const recent = backups.filter(b => now - new Date(b.backup_at).getTime() < week).length;
-  document.getElementById('badge-all').textContent = backups.length;
-  document.getElementById('badge-recent').textContent = recent;
-}
-
-function updateServerSelect() {
-  const sel = document.getElementById('server-select');
-  const servers = [...new Map(backups.map(b => [b._guildId, b.name])).entries()];
-  sel.innerHTML = '<option value="">Todos os servidores</option>' +
-    servers.map(([id, name]) => `<option value="${id}">${esc(name)}</option>`).join('');
-}
-
-function setFilter(f, el) {
-  currentFilter = f;
-  document.querySelectorAll('.nav-item[data-filter]').forEach(e => e.classList.remove('active'));
+function selVSB(el,type,id,parentType,parentId){
+  document.querySelectorAll('#viewer-sidebar .vsb-item').forEach(e=>e.classList.remove('active'));
   el.classList.add('active');
-  applyFilters();
+  const b=viewerBackup;
+  if(type==='ov'){renderOverview(b);return;}
+  if(type==='role'){const r=b.roles.find(x=>x.id===id);if(r)renderRole(r,b);return;}
+  if(type==='cat'){const c=b.categories.find(x=>x.id===id);if(c)renderCat(c,b);return;}
+  if(type==='ch'){
+    let ch=null;
+    for(const cat of b.categories){ch=(cat.channels||[]).find(x=>x.id===id);if(ch)break;}
+    if(ch)renderCh(ch,b);return;
+  }
+  if(type==='chnc'){const ch=(b.channels_no_category||[]).find(x=>x.id===id);if(ch)renderCh(ch,b);}
 }
 
-function applyFilters() {
-  const q = document.getElementById('search-input').value.toLowerCase().trim();
-  const serverFilter = document.getElementById('server-select').value;
-  const now = Date.now(), week = 7*24*60*60*1000;
-  filtered = backups.filter(b => {
-    if (currentFilter === 'recent' && now - new Date(b.backup_at).getTime() >= week) return false;
-    if (serverFilter && b._guildId !== serverFilter) return false;
-    if (q && !(b.name||'').toLowerCase().includes(q)) return false;
-    return true;
-  });
-  document.getElementById('results-count').textContent = `${filtered.length} resultado${filtered.length!==1?'s':''}`;
+function renderOverview(b){
+  document.getElementById('viewer-content').innerHTML=`
+    <div class="vc-title">🏠 Visão Geral</div>
+    <div class="vc-sub"></div>
+    <div class="ps"><div class="ps-title">Servidor</div>
+      <div class="pr"><div><div class="pr-name">Nome</div></div><span class="chip">${esc(b.name)}</span></div>
+      <div class="pr"><div><div class="pr-name">Backup em</div></div><span class="chip">${formatDateFull(b.backup_at)}</span></div>
+    </div>
+    <div class="ps"><div class="ps-title">Conteúdo</div>
+      <div class="pr"><div><div class="pr-name">👥 Cargos</div></div><span class="chip">${b.roles?.length||0}</span></div>
+      <div class="pr"><div><div class="pr-name">📁 Categorias</div></div><span class="chip">${b.categories?.length||0}</span></div>
+      <div class="pr"><div><div class="pr-name"># Canais</div></div><span class="chip">${countChannels(b)}</span></div>
+    </div>`;
+}
+
+function renderRole(r,b){
+  const col=r.color?`#${r.color.toString(16).padStart(6,'0')}`:null;
+  let h=`<div class="vc-title">
+    ${col?`<span style="width:16px;height:16px;border-radius:50%;background:${col};display:inline-block;flex-shrink:0"></span>`:''}
+    @${esc(r.name)}
+  </div>
+  <div class="vc-sub">
+    ${r.hoist?'<span class="chip">Exibido separadamente</span>':''}
+    ${r.mentionable?'<span class="chip">Mencionável</span>':''}
+    ${col?`<span class="chip" style="color:${col}">${col}</span>`:''}
+  </div>`;
+  for(const[gName,perms]of Object.entries(PERM_GROUPS)){
+    h+=`<div class="ps"><div class="ps-title">${gName}</div>`;
+    for(const p of perms){
+      const on=chkBit(r.permissions,p.bit);
+      h+=`<div class="pr">
+        <div><div class="pr-name">${p.name}</div><div class="pr-desc">${p.desc}</div></div>
+        <div class="ptoggle ${on?'on':'off'}"></div>
+      </div>`;
+    }
+    h+=`</div>`;
+  }
+  document.getElementById('viewer-content').innerHTML=h;
+}
+
+function renderCat(cat,b){
+  let h=`<div class="vc-title">📁 ${esc(cat.name)}</div>
+  <div class="vc-sub"><span class="chip">${(cat.channels||[]).length} canal(is)</span><span class="chip">Posição ${cat.position}</span></div>`;
+  const ows=cat.overwrites||[];
+  h+=`<div class="ps"><div class="ps-title">Permissões por Cargo</div>`;
+  h+=ows.length?renderOws(ows,b):`<div style="color:var(--text-muted);font-size:13px">Nenhuma permissão específica salva.</div>`;
+  h+=`</div>`;
+  if((cat.channels||[]).length){
+    h+=`<div class="ps"><div class="ps-title">Canais nesta categoria</div>`;
+    for(const ch of [...cat.channels].sort((a,z)=>a.position-z.position)){
+      const ic=ch.type&&ch.type.includes('voice')?'🔊':'#';
+      h+=`<div class="pr"><div><div class="pr-name">${ic} ${esc(ch.name)}</div></div><span class="chip">${ch.type||'text'}</span></div>`;
+    }
+    h+=`</div>`;
+  }
+  document.getElementById('viewer-content').innerHTML=h;
+}
+
+function renderCh(ch,b){
+  const ic=ch.type&&ch.type.includes('voice')?'🔊':'#';
+  let h=`<div class="vc-title">${ic} ${esc(ch.name)}</div>
+  <div class="vc-sub">
+    ${ch.nsfw?'<span class="chip" style="color:var(--red)">NSFW</span>':''}
+    ${ch.slowmode_delay?`<span class="chip">Slowmode: ${ch.slowmode_delay}s</span>`:''}
+    ${ch.topic?`<span class="chip">${esc(ch.topic)}</span>`:''}
+  </div>`;
+  const ows=ch.overwrites||[];
+  h+=`<div class="ps"><div class="ps-title">Permissões por Cargo</div>`;
+  h+=ows.length?renderOws(ows,b):`<div style="color:var(--text-muted);font-size:13px">Nenhuma permissão específica salva.</div>`;
+  h+=`</div>`;
+  document.getElementById('viewer-content').innerHTML=h;
+}
+
+function renderOws(ows,b){
+  let h='';
+  for(const ow of ows){
+    const rd=b.roles.find(r=>r.id===ow.id);
+    const name=rd?`@${rd.name}`:`ID ${ow.id}`;
+    const col=rd?.color?`#${rd.color.toString(16).padStart(6,'0')}`:'#80848e';
+    const av=BigInt(ow.allow||0),dv=BigInt(ow.deny||0);
+    const rows=OW_PERMS.map(p=>{
+      const al=(av&p.bit)===p.bit,dn=(dv&p.bit)===p.bit;
+      if(!al&&!dn)return null;
+      return `<div class="ow-row"><span class="ow-ico ${al?'allow':'deny'}">${al?'✅':'❌'}</span><span>${p.name}</span></div>`;
+    }).filter(Boolean).join('');
+    if(!rows)continue;
+    h+=`<div class="ow-block">
+      <div class="ow-hdr" onclick="togOw(this)">
+        <span style="width:12px;height:12px;border-radius:50%;background:${col};flex-shrink:0;display:inline-block"></span>
+        ${esc(name)}<span class="arr">▾</span>
+      </div>
+      <div class="ow-body">${rows}</div>
+    </div>`;
+  }
+  return h||'<div style="color:var(--text-muted);font-size:13px">Nenhuma permissão configurada.</div>';
+}
+
+// ─── Supabase ───
+async function loadFromSupabase(){
+  showLoading('Carregando backups...');
+  try{
+    const resp=await fetch(`${SUPABASE_URL}/rest/v1/server_backups?select=id,guild_id,guild_name,backup_at,created_at,data&order=created_at.desc&limit=100`,{headers:HEADERS});
+    if(!resp.ok)throw new Error(`HTTP ${resp.status}`);
+    const rows=await resp.json();
+    backups=rows.map(r=>({_dbId:r.id,_guildId:r.guild_id,name:r.guild_name||r.data?.name||'Servidor',backup_at:r.backup_at||r.created_at,created_at:r.created_at,icon:r.data?.icon||null,roles:r.data?.roles||[],categories:r.data?.categories||[],channels_no_category:r.data?.channels_no_category||[],_raw:r.data}));
+    updateStats();updateBadges();updateServerSelect();applyFilters();
+    toast(`✅ ${backups.length} backup(s) carregado(s)`,'success');
+  }catch(e){
+    toast(`❌ Erro: ${e.message}`,'error');
+    document.getElementById('backup-list').innerHTML=`<div class="state-msg"><span style="font-size:52px">⚠️</span><span>Erro ao conectar ao Supabase</span><span style="font-size:13px">${e.message}</span></div>`;
+  }finally{hideLoading();}
+}
+async function supabaseDelete(id){const r=await fetch(`${SUPABASE_URL}/rest/v1/server_backups?id=eq.${id}`,{method:'DELETE',headers:HEADERS});if(!r.ok)throw new Error(`HTTP ${r.status}`);}
+async function supabaseDeleteAll(){const r=await fetch(`${SUPABASE_URL}/rest/v1/server_backups?id=gt.0`,{method:'DELETE',headers:HEADERS});if(!r.ok)throw new Error(`HTTP ${r.status}`);}
+
+function updateStats(){document.getElementById('stat-total').textContent=backups.length;document.getElementById('stat-servers').textContent=new Set(backups.map(b=>b._guildId)).size;}
+function updateBadges(){const now=Date.now(),w=7*24*60*60*1000;document.getElementById('badge-all').textContent=backups.length;document.getElementById('badge-recent').textContent=backups.filter(b=>now-new Date(b.backup_at).getTime()<w).length;}
+function updateServerSelect(){const sel=document.getElementById('server-select');const sv=[...new Map(backups.map(b=>[b._guildId,b.name])).entries()];sel.innerHTML='<option value="">Todos os servidores</option>'+sv.map(([id,n])=>`<option value="${id}">${esc(n)}</option>`).join('');}
+function setFilter(f,el){currentFilter=f;document.querySelectorAll('.nav-item[data-filter]').forEach(e=>e.classList.remove('active'));el.classList.add('active');applyFilters();}
+function applyFilters(){
+  const q=document.getElementById('search-input').value.toLowerCase().trim(),sf=document.getElementById('server-select').value,now=Date.now(),w=7*24*60*60*1000;
+  filtered=backups.filter(b=>{if(currentFilter==='recent'&&now-new Date(b.backup_at).getTime()>=w)return false;if(sf&&b._guildId!==sf)return false;if(q&&!(b.name||'').toLowerCase().includes(q))return false;return true;});
+  document.getElementById('results-count').textContent=`${filtered.length} resultado${filtered.length!==1?'s':''}`;
   renderList();
 }
-
-function renderList() {
-  const el = document.getElementById('backup-list');
-  if (!filtered.length) {
-    el.innerHTML = `<div class="state-msg">
-      <span class="state-icon">${backups.length ? '🔍' : '💾'}</span>
-      <span>${backups.length ? 'Nenhum backup encontrado' : 'Nenhum backup no Supabase'}</span>
-      <span style="font-size:13px">${backups.length ? 'Tente outro filtro' : 'Use !xenon no Discord para criar um backup'}</span>
-    </div>`;
-    return;
-  }
-  el.innerHTML = filtered.map(b => {
-    const roles = b.roles?.length || 0;
-    const cats  = b.categories?.length || 0;
-    const chs   = countChannels(b);
-    const date  = formatDateShort(b.backup_at);
-    const sel   = selectedId === b._dbId ? ' selected' : '';
-    const iconHtml = b.icon
-      ? `<img src="${b.icon}" alt="icon" onerror="this.parentElement.textContent='🗄️'">`
-      : '🗄️';
+function renderList(){
+  const el=document.getElementById('backup-list');
+  if(!filtered.length){el.innerHTML=`<div class="state-msg"><span style="font-size:52px">${backups.length?'🔍':'💾'}</span><span>${backups.length?'Nenhum backup encontrado':'Nenhum backup no Supabase'}</span><span style="font-size:13px">${backups.length?'Tente outro filtro':'Use !xenon no Discord para criar um backup'}</span></div>`;return;}
+  el.innerHTML=filtered.map(b=>{
+    const roles=b.roles?.length||0,cats=b.categories?.length||0,chs=countChannels(b),date=formatDateShort(b.backup_at),sel=selectedId===b._dbId?' selected':'';
+    const iconHtml=b.icon?`<img src="${b.icon}" alt="icon" onerror="this.parentElement.textContent='🗄️'">`:'🗄️';
     return `<div class="backup-row${sel}" onclick="selectBackup(${b._dbId})">
       <div class="backup-icon">${iconHtml}</div>
       <div class="backup-info">
         <div class="backup-name">${esc(b.name)}</div>
         <div class="backup-meta">
-          <span>🕐 ${date}</span>
-          <span>👥 ${roles} cargo${roles!==1?'s':''}</span>
-          <span># ${chs} canal${chs!==1?'is':''}</span>
-          <span>📁 ${cats} categoria${cats!==1?'s':''}</span>
-          <span style="color:var(--text-muted);font-size:11px">ID: ${b._dbId}</span>
+          <span>🕐 ${date}</span><span>👥 ${roles} cargo${roles!==1?'s':''}</span>
+          <span># ${chs} canal${chs!==1?'is':''}</span><span>📁 ${cats} categoria${cats!==1?'s':''}</span>
+          <span style="font-size:11px">ID: ${b._dbId}</span>
         </div>
       </div>
       <div class="backup-actions" onclick="event.stopPropagation()">
@@ -530,237 +569,51 @@ function renderList() {
     </div>`;
   }).join('');
 }
-
-function countChannels(b) {
-  let n = (b.channels_no_category||[]).length;
-  for (const cat of (b.categories||[])) n += (cat.channels||[]).length;
-  return n;
-}
-
-function selectBackup(dbId) {
-  selectedId = dbId;
-  renderList();
-  const b = backups.find(x => x._dbId === dbId);
-  if (!b) return;
-  openDetail(b);
-}
-
-function openDetail(b) {
-  const panel = document.getElementById('detail-panel');
-  panel.classList.remove('hidden');
-  const roles = b.roles?.length || 0;
-  const cats  = b.categories?.length || 0;
-  const chs   = countChannels(b);
-  const iconHtml = b.icon
-    ? `<img src="${b.icon}" alt="icon" onerror="this.parentElement.textContent='🗄️'">`
-    : '🗄️';
-  document.getElementById('detail-body').innerHTML = `
+function countChannels(b){let n=(b.channels_no_category||[]).length;for(const c of(b.categories||[]))n+=(c.channels||[]).length;return n;}
+function selectBackup(dbId){selectedId=dbId;renderList();const b=backups.find(x=>x._dbId===dbId);if(!b)return;openDetail(b);}
+function openDetail(b){
+  const panel=document.getElementById('detail-panel');panel.classList.remove('hidden');
+  const roles=b.roles?.length||0,cats=b.categories?.length||0,chs=countChannels(b);
+  const iconHtml=b.icon?`<img src="${b.icon}" alt="icon" onerror="this.parentElement.textContent='🗄️'">`:'🗄️';
+  document.getElementById('detail-body').innerHTML=`
     <div class="detail-icon-big">${iconHtml}</div>
     <div class="detail-server-name">${esc(b.name)}</div>
-    <div class="detail-section">
-      <div class="detail-section-title">Informações</div>
+    <div class="detail-section"><div class="detail-section-title">Informações</div>
       <div class="detail-row"><span>ID do Banco</span><span>${b._dbId}</span></div>
-      <div class="detail-row"><span>Guild ID</span><span style="font-size:11px">${b._guildId || '—'}</span></div>
+      <div class="detail-row"><span>Guild ID</span><span style="font-size:11px">${b._guildId||'—'}</span></div>
       <div class="detail-row"><span>Backup em</span><span>${formatDateFull(b.backup_at)}</span></div>
     </div>
-    <div class="detail-section">
-      <div class="detail-section-title">Conteúdo</div>
+    <div class="detail-section"><div class="detail-section-title">Conteúdo</div>
       <div class="detail-row"><span>👥 Cargos</span><span>${roles}</span></div>
       <div class="detail-row"><span># Canais</span><span>${chs}</span></div>
       <div class="detail-row"><span>📁 Categorias</span><span>${cats}</span></div>
     </div>
-    <div class="detail-section">
-      <div class="detail-section-title">Cargos salvos</div>
+    <div class="detail-section"><div class="detail-section-title">Cargos salvos</div>
       <div class="detail-tag-list">${(b.roles||[]).slice(0,12).map(r=>`<span class="detail-tag">@${esc(r.name)}</span>`).join('')}${roles>12?`<span class="detail-tag">+${roles-12} mais</span>`:''}</div>
-    </div>
-  `;
-  document.getElementById('detail-actions').innerHTML = `
+    </div>`;
+  document.getElementById('detail-actions').innerHTML=`
     <button class="btn btn-success" style="width:100%" onclick="openRestoreModal(${b._dbId})">🔄 Restaurar no Discord</button>
     <button class="btn btn-primary" style="width:100%" onclick="viewBackup(${b._dbId})">👁️ Ver Conteúdo</button>
     <button class="btn btn-ghost" style="width:100%" onclick="downloadBackup(${b._dbId})">⬇️ Baixar JSON</button>
-    <button class="btn btn-danger" style="width:100%" onclick="confirmDeleteOne(${b._dbId})">🗑️ Deletar Backup</button>
-  `;
+    <button class="btn btn-danger" style="width:100%" onclick="confirmDeleteOne(${b._dbId})">🗑️ Deletar Backup</button>`;
 }
-
-function closeDetail() {
-  selectedId = null;
-  document.getElementById('detail-panel').classList.add('hidden');
-  renderList();
-}
-
-function viewBackup(dbId) {
-  const b = backups.find(x => x._dbId === dbId);
-  if (!b) return;
-  document.getElementById('viewer-title').textContent = `📦 ${b.name}`;
-  let html = '';
-  if (b.roles && b.roles.length) {
-    html += `<div class="tree-section">
-      <div class="tree-section-title" onclick="toggleTree(this)">👥 Cargos (${b.roles.length})</div>
-      <div class="tree-items">${b.roles.map(r=>`<div class="tree-item">
-        <span class="tree-item-icon" style="color:#${(r.color||0).toString(16).padStart(6,'0')}">●</span>
-        @${esc(r.name)}
-        <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">${r.hoist?'Exibido':''} ${r.mentionable?'· Mencionável':''}</span>
-      </div>`).join('')}</div>
-    </div>`;
-  }
-  if (b.categories && b.categories.length) {
-    html += `<div class="tree-section">
-      <div class="tree-section-title" onclick="toggleTree(this)">📁 Categorias & Canais (${b.categories.length})</div>
-      <div class="tree-items">${b.categories.map(cat => {
-        const chs = (cat.channels||[]).map(ch => {
-          const icon = ch.type && ch.type.includes('voice') ? '🔊' : '#';
-          return `<div class="tree-item" style="padding-left:24px"><span class="tree-item-icon">${icon}</span>${esc(ch.name)}${ch.nsfw?' <span style="font-size:10px;background:#f23f43;color:#fff;padding:1px 4px;border-radius:2px">NSFW</span>':''}</div>`;
-        }).join('');
-        return `<div class="tree-cat">📁 ${esc(cat.name)}</div>${chs}`;
-      }).join('')}</div>
-    </div>`;
-  }
-  if (b.channels_no_category && b.channels_no_category.length) {
-    html += `<div class="tree-section">
-      <div class="tree-section-title" onclick="toggleTree(this)">📋 Sem Categoria (${b.channels_no_category.length})</div>
-      <div class="tree-items">${b.channels_no_category.map(ch => {
-        const icon = ch.type && ch.type.includes('voice') ? '🔊' : '#';
-        return `<div class="tree-item"><span class="tree-item-icon">${icon}</span>${esc(ch.name)}</div>`;
-      }).join('')}</div>
-    </div>`;
-  }
-  document.getElementById('viewer-body').innerHTML = html || '<p style="color:var(--text-muted);font-size:14px">Backup vazio.</p>';
-  document.getElementById('modal-viewer').classList.add('show');
-  document.getElementById('modal-viewer').dataset.currentDbId = dbId;
-}
-
-function toggleTree(el) {
-  el.classList.toggle('collapsed');
-  const items = el.nextElementSibling;
-  if (items) items.classList.toggle('hidden');
-}
-
-function downloadBackup(dbId) {
-  const b = backups.find(x => x._dbId === dbId);
-  if (!b) return;
-  const blob = new Blob([JSON.stringify(b._raw, null, 2)], { type: 'application/json' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url;
-  a.download = `backup_${b._guildId}_${(b.backup_at||'').replace(/[: TZ]/g,'').slice(0,15)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  toast('⬇️ Download iniciado', 'info');
-}
-
-function downloadSelected() {
-  const id = parseInt(document.getElementById('modal-viewer').dataset.currentDbId);
-  if (id) downloadBackup(id);
-}
-
-function confirmDeleteOne(dbId) {
-  const b = backups.find(x => x._dbId === dbId);
-  if (!b) return;
-  deleteTargetId = dbId;
-  document.getElementById('delete-one-name').textContent = b.name;
-  document.getElementById('modal-delete-one').classList.add('show');
-}
-
-async function deleteOneConfirmed() {
-  closeModal('modal-delete-one');
-  if (!deleteTargetId) return;
-  const b = backups.find(x => x._dbId === deleteTargetId);
-  showLoading('Deletando backup...');
-  try {
-    await supabaseDelete(deleteTargetId);
-    backups = backups.filter(x => x._dbId !== deleteTargetId);
-    if (selectedId === deleteTargetId) closeDetail();
-    deleteTargetId = null;
-    updateStats(); updateBadges(); updateServerSelect(); applyFilters();
-    toast(`🗑️ Backup de "${b?.name}" deletado`, 'info');
-  } catch(e) {
-    toast(`❌ Erro ao deletar: ${e.message}`, 'error');
-  } finally {
-    hideLoading();
-  }
-}
-
-function confirmDeleteAll() {
-  if (!backups.length) { toast('❌ Nenhum backup para apagar', 'error'); return; }
-  document.getElementById('modal-delete-all').classList.add('show');
-}
-
-async function deleteAllConfirmed() {
-  closeModal('modal-delete-all');
-  showLoading('Deletando todos os backups...');
-  try {
-    await supabaseDeleteAll();
-    backups = [];
-    closeDetail();
-    updateStats(); updateBadges(); updateServerSelect(); applyFilters();
-    toast('🗑️ Todos os backups foram removidos', 'info');
-  } catch(e) {
-    toast(`❌ Erro ao deletar: ${e.message}`, 'error');
-  } finally {
-    hideLoading();
-  }
-}
-
-function openRestoreModal(dbId) {
-  const b = backups.find(x => x._dbId === dbId);
-  if (!b) return;
-  const cmd = `/xenon restore ${dbId}`;
-  document.getElementById('restore-cmd').textContent = cmd;
-  document.getElementById('modal-restore').dataset.cmd = cmd;
-  document.getElementById('modal-restore').classList.add('show');
-}
-
-function copyRestoreCmd() {
-  const cmd = document.getElementById('modal-restore').dataset.cmd;
-  navigator.clipboard.writeText(cmd).then(() => {
-    toast('📋 Comando copiado!', 'success');
-    closeModal('modal-restore');
-  }).catch(() => toast('❌ Não foi possível copiar', 'error'));
-}
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
-}
-document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('show');
-  });
-});
-
-function showLoading(msg) {
-  document.getElementById('loading-text').textContent = msg || 'Processando...';
-  document.getElementById('loading-overlay').classList.add('show');
-}
-function hideLoading() {
-  document.getElementById('loading-overlay').classList.remove('show');
-}
-
-function toast(msg, type = 'info') {
-  const el = document.createElement('div');
-  el.className = `toast ${type}`;
-  el.textContent = msg;
-  document.getElementById('toast-container').appendChild(el);
-  setTimeout(() => {
-    el.style.animation = 'slideOut 0.2s ease forwards';
-    setTimeout(() => el.remove(), 200);
-  }, 3500);
-}
-
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function formatDateShort(iso) {
-  if (!iso) return '—';
-  const d = new Date(iso), now = new Date();
-  const diff = Math.floor((now-d)/86400000);
-  if (diff === 0) return 'Hoje ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-  if (diff === 1) return 'Ontem';
-  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
-}
-function formatDateFull(iso) {
-  if (!iso) return '—';
-  return new Date(iso).toLocaleString('pt-BR',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
-}
+function closeDetail(){selectedId=null;document.getElementById('detail-panel').classList.add('hidden');renderList();}
+function downloadBackup(dbId){const b=backups.find(x=>x._dbId===dbId);if(!b)return;const blob=new Blob([JSON.stringify(b._raw,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`backup_${b._guildId}_${(b.backup_at||'').replace(/[: TZ]/g,'').slice(0,15)}.json`;a.click();URL.revokeObjectURL(url);toast('⬇️ Download iniciado','info');}
+function downloadSelected(){const id=parseInt(document.getElementById('modal-viewer').dataset.currentDbId);if(id)downloadBackup(id);}
+function confirmDeleteOne(dbId){const b=backups.find(x=>x._dbId===dbId);if(!b)return;deleteTargetId=dbId;document.getElementById('delete-one-name').textContent=b.name;document.getElementById('modal-delete-one').classList.add('show');}
+async function deleteOneConfirmed(){closeModal('modal-delete-one');if(!deleteTargetId)return;const b=backups.find(x=>x._dbId===deleteTargetId);showLoading('Deletando...');try{await supabaseDelete(deleteTargetId);backups=backups.filter(x=>x._dbId!==deleteTargetId);if(selectedId===deleteTargetId)closeDetail();deleteTargetId=null;updateStats();updateBadges();updateServerSelect();applyFilters();toast(`🗑️ "${b?.name}" deletado`,'info');}catch(e){toast(`❌ Erro: ${e.message}`,'error');}finally{hideLoading();}}
+function confirmDeleteAll(){if(!backups.length){toast('❌ Nenhum backup','error');return;}document.getElementById('modal-delete-all').classList.add('show');}
+async function deleteAllConfirmed(){closeModal('modal-delete-all');showLoading('Deletando todos...');try{await supabaseDeleteAll();backups=[];closeDetail();updateStats();updateBadges();updateServerSelect();applyFilters();toast('🗑️ Todos removidos','info');}catch(e){toast(`❌ Erro: ${e.message}`,'error');}finally{hideLoading();}}
+function openRestoreModal(dbId){const b=backups.find(x=>x._dbId===dbId);if(!b)return;const cmd=`/xenon restore ${dbId}`;document.getElementById('restore-cmd').textContent=cmd;document.getElementById('modal-restore').dataset.cmd=cmd;document.getElementById('modal-restore').classList.add('show');}
+function copyRestoreCmd(){navigator.clipboard.writeText(document.getElementById('modal-restore').dataset.cmd).then(()=>{toast('📋 Copiado!','success');closeModal('modal-restore');}).catch(()=>toast('❌ Não foi possível copiar','error'));}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+document.querySelectorAll('.modal-overlay').forEach(el=>{el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});});
+function showLoading(msg){document.getElementById('loading-text').textContent=msg||'Processando...';document.getElementById('loading-overlay').classList.add('show');}
+function hideLoading(){document.getElementById('loading-overlay').classList.remove('show');}
+function toast(msg,type='info'){const el=document.createElement('div');el.className=`toast ${type}`;el.textContent=msg;document.getElementById('toast-container').appendChild(el);setTimeout(()=>{el.style.animation='slideOut .2s ease forwards';setTimeout(()=>el.remove(),200);},3500);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function formatDateShort(iso){if(!iso)return'—';const d=new Date(iso),now=new Date(),diff=Math.floor((now-d)/86400000);if(diff===0)return'Hoje '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});if(diff===1)return'Ontem';return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});}
+function formatDateFull(iso){if(!iso)return'—';return new Date(iso).toLocaleString('pt-BR',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});}
 
 loadFromSupabase();
 </script>
