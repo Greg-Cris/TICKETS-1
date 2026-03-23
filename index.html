@@ -31,7 +31,6 @@
   ::-webkit-scrollbar-track { background: var(--bg-tertiary); }
   ::-webkit-scrollbar-thumb { background: #1a1b1e; border-radius: 4px; }
 
-  /* ── TOPBAR ── */
   #topbar {
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border);
@@ -53,10 +52,8 @@
   .topbar-stats { display: flex; gap: 20px; font-size: 12px; color: var(--text-muted); }
   .topbar-stats span strong { color: var(--text-normal); font-weight: 600; }
 
-  /* ── LAYOUT ── */
   #layout { display: flex; flex: 1; min-height: 0; }
 
-  /* ── SIDEBAR ── */
   #sidebar {
     width: 240px;
     background: var(--bg-secondary);
@@ -74,7 +71,6 @@
   .nav-icon { font-size: 17px; width: 20px; text-align: center; }
   .nav-badge { margin-left: auto; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 8px; min-width: 20px; text-align: center; }
 
-  /* Filter de servidor */
   .server-filter-wrap { padding: 8px; }
   .server-filter-wrap select {
     width: 100%;
@@ -90,10 +86,8 @@
   }
   .server-filter-wrap select option { background: var(--bg-tertiary); }
 
-  /* ── MAIN ── */
   #main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
 
-  /* Channel header */
   #ch-header {
     background: var(--bg-primary);
     border-bottom: 1px solid var(--border);
@@ -107,7 +101,6 @@
   .ch-name { font-size: 16px; font-weight: 700; }
   .ch-desc { font-size: 13px; color: var(--text-muted); margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--border); }
 
-  /* Toolbar */
   #toolbar {
     background: var(--bg-primary);
     border-bottom: 1px solid var(--border);
@@ -133,14 +126,12 @@
   .btn-ghost:hover { background: var(--bg-hover); color: var(--text-normal); }
   #results-count { font-size: 13px; color: var(--text-muted); margin-left: auto; }
 
-  /* ── BACKUP LIST ── */
   #backup-list { flex: 1; overflow-y: auto; }
   .state-msg { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 320px; gap: 12px; color: var(--text-muted); font-size: 15px; }
   .state-icon { font-size: 52px; }
   .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Backup row */
   .backup-row {
     display: flex;
     align-items: center;
@@ -163,7 +154,6 @@
   .icon-btn:hover { background: var(--bg-hover); color: var(--text-normal); }
   .icon-btn.danger:hover { background: var(--red); border-color: var(--red); color: #fff; }
 
-  /* ── DETAIL PANEL ── */
   #detail-panel {
     width: 320px;
     background: var(--bg-secondary);
@@ -192,7 +182,6 @@
   .detail-tag { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--text-muted); padding: 2px 8px; }
   .detail-actions { display: flex; flex-direction: column; gap: 8px; padding: 16px; border-top: 1px solid var(--border); }
 
-  /* ── MODAL ── */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 500; align-items: center; justify-content: center; }
   .modal-overlay.show { display: flex; }
   .modal { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; width: 460px; max-width: 95vw; overflow: hidden; animation: pop 0.15s ease; }
@@ -205,7 +194,6 @@
   .modal-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
   .modal-warn { background: rgba(242,63,67,.12); border: 1px solid rgba(242,63,67,.4); border-radius: 6px; padding: 12px 14px; font-size: 13px; color: #f23f43; display: flex; gap: 8px; align-items: flex-start; }
 
-  /* Viewer tree */
   .tree-section { margin-bottom: 12px; }
   .tree-section-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
   .tree-section-title::after { content: '▾'; font-size: 10px; transition: transform 0.15s; }
@@ -217,7 +205,6 @@
   .tree-item-icon { font-size: 14px; width: 16px; text-align: center; flex-shrink: 0; }
   .tree-cat { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; padding: 6px 8px 3px; }
 
-  /* Toast */
   #toast-container { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 1000; }
   .toast { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; font-size: 14px; display: flex; align-items: center; gap: 10px; min-width: 240px; animation: slideIn 0.2s ease; box-shadow: 0 4px 16px rgba(0,0,0,.4); }
   .toast.success { border-color: var(--green); }
@@ -226,10 +213,8 @@
   @keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
   @keyframes slideOut { to { transform: translateX(40px); opacity: 0; } }
 
-  /* Footer */
   #footer { background: var(--bg-tertiary); border-top: 1px solid var(--border); padding: 10px 20px; font-size: 12px; color: var(--text-muted); text-align: center; flex-shrink: 0; }
 
-  /* Loading overlay */
   #loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 999; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
   #loading-overlay.show { display: flex; }
   #loading-overlay .spinner { width: 48px; height: 48px; border-width: 4px; }
@@ -243,7 +228,6 @@
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div id="topbar">
   <div class="logo"><div class="logo-icon">💾</div>Xenon</div>
   <div class="divider-v"></div>
@@ -257,8 +241,6 @@
 </div>
 
 <div id="layout">
-
-  <!-- SIDEBAR -->
   <div id="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-section-title">Filtrar</div>
@@ -271,7 +253,6 @@
         <span class="nav-badge" id="badge-recent">0</span>
       </div>
     </div>
-
     <div class="sidebar-section">
       <div class="sidebar-section-title">Filtrar por Servidor</div>
       <div class="server-filter-wrap">
@@ -280,7 +261,6 @@
         </select>
       </div>
     </div>
-
     <div class="sidebar-section">
       <div class="sidebar-section-title">Ações</div>
       <div class="nav-item" onclick="confirmDeleteAll()">
@@ -289,14 +269,12 @@
     </div>
   </div>
 
-  <!-- MAIN -->
   <div id="main">
     <div id="ch-header">
       <span class="ch-icon">#</span>
       <span class="ch-name" id="ch-name">todos-os-backups</span>
       <span class="ch-desc" id="ch-desc">Backups carregados do Supabase</span>
     </div>
-
     <div id="toolbar">
       <div class="search-box">
         <span>🔍</span>
@@ -304,7 +282,6 @@
       </div>
       <span id="results-count"></span>
     </div>
-
     <div id="backup-list">
       <div class="state-msg">
         <div class="spinner"></div>
@@ -313,7 +290,6 @@
     </div>
   </div>
 
-  <!-- DETAIL PANEL -->
   <div id="detail-panel" class="hidden">
     <div class="detail-header">
       <span class="detail-title">Detalhes do Backup</span>
@@ -322,22 +298,17 @@
     <div class="detail-body" id="detail-body"></div>
     <div class="detail-actions" id="detail-actions"></div>
   </div>
-
 </div>
 
-<!-- FOOTER -->
 <div id="footer">• Xenon Backup Manager • Dados carregados do Supabase em tempo real •</div>
-
-<!-- TOAST -->
 <div id="toast-container"></div>
 
-<!-- Loading overlay -->
 <div id="loading-overlay">
   <div class="spinner"></div>
   <span id="loading-text">Processando...</span>
 </div>
 
-<!-- MODAL: Viewer de conteúdo -->
+<!-- MODAL: Viewer -->
 <div class="modal-overlay" id="modal-viewer">
   <div class="modal" style="width:560px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column">
     <div class="modal-header">
@@ -352,7 +323,7 @@
   </div>
 </div>
 
-<!-- MODAL: Confirmar deletar 1 -->
+<!-- MODAL: Deletar 1 -->
 <div class="modal-overlay" id="modal-delete-one">
   <div class="modal">
     <div class="modal-header">
@@ -369,7 +340,7 @@
   </div>
 </div>
 
-<!-- MODAL: Confirmar deletar todos -->
+<!-- MODAL: Deletar todos -->
 <div class="modal-overlay" id="modal-delete-all">
   <div class="modal">
     <div class="modal-header">
@@ -409,28 +380,22 @@
 
 <script>
 // ══════════════════════════════════════════════════════
-//  CONFIG SUPABASE — altere aqui se necessário
+//  CONFIG SUPABASE
 // ══════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://auewibqfkohkhogzwzvb.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_TLvMyIt2KnmR1oGRJ6pKKQ_L2VoNp7h';
+const SUPABASE_URL = 'https://fwhgrgdqswqypcczitdz.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_16iUpOU_xTLW8xvi-bFNZw_nd3u5qp-';
 const HEADERS = {
   'apikey': SUPABASE_KEY,
   'Authorization': `Bearer ${SUPABASE_KEY}`,
   'Content-Type': 'application/json',
 };
 
-// ══════════════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════════════
 let backups = [];
 let currentFilter = 'all';
 let selectedId = null;
 let filtered = [];
 let deleteTargetId = null;
 
-// ══════════════════════════════════════════════════════
-//  SUPABASE — carregar backups
-// ══════════════════════════════════════════════════════
 async function loadFromSupabase() {
   showLoading('Carregando backups do Supabase...');
   try {
@@ -469,9 +434,6 @@ async function loadFromSupabase() {
   }
 }
 
-// ══════════════════════════════════════════════════════
-//  SUPABASE — deletar 1
-// ══════════════════════════════════════════════════════
 async function supabaseDelete(dbId) {
   const resp = await fetch(
     `${SUPABASE_URL}/rest/v1/server_backups?id=eq.${dbId}`,
@@ -480,11 +442,7 @@ async function supabaseDelete(dbId) {
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 }
 
-// ══════════════════════════════════════════════════════
-//  SUPABASE — deletar todos
-// ══════════════════════════════════════════════════════
 async function supabaseDeleteAll() {
-  // Deleta todos os registros (usa gt=0 como condição universal para id)
   const resp = await fetch(
     `${SUPABASE_URL}/rest/v1/server_backups?id=gt.0`,
     { method: 'DELETE', headers: HEADERS }
@@ -492,9 +450,6 @@ async function supabaseDeleteAll() {
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 }
 
-// ══════════════════════════════════════════════════════
-//  STATS
-// ══════════════════════════════════════════════════════
 function updateStats() {
   document.getElementById('stat-total').textContent = backups.length;
   const servers = new Set(backups.map(b => b._guildId)).size;
@@ -515,9 +470,6 @@ function updateServerSelect() {
     servers.map(([id, name]) => `<option value="${id}">${esc(name)}</option>`).join('');
 }
 
-// ══════════════════════════════════════════════════════
-//  FILTERS
-// ══════════════════════════════════════════════════════
 function setFilter(f, el) {
   currentFilter = f;
   document.querySelectorAll('.nav-item[data-filter]').forEach(e => e.classList.remove('active'));
@@ -539,9 +491,6 @@ function applyFilters() {
   renderList();
 }
 
-// ══════════════════════════════════════════════════════
-//  RENDER
-// ══════════════════════════════════════════════════════
 function renderList() {
   const el = document.getElementById('backup-list');
   if (!filtered.length) {
@@ -588,9 +537,6 @@ function countChannels(b) {
   return n;
 }
 
-// ══════════════════════════════════════════════════════
-//  SELECT / DETAIL PANEL
-// ══════════════════════════════════════════════════════
 function selectBackup(dbId) {
   selectedId = dbId;
   renderList();
@@ -608,7 +554,6 @@ function openDetail(b) {
   const iconHtml = b.icon
     ? `<img src="${b.icon}" alt="icon" onerror="this.parentElement.textContent='🗄️'">`
     : '🗄️';
-
   document.getElementById('detail-body').innerHTML = `
     <div class="detail-icon-big">${iconHtml}</div>
     <div class="detail-server-name">${esc(b.name)}</div>
@@ -629,7 +574,6 @@ function openDetail(b) {
       <div class="detail-tag-list">${(b.roles||[]).slice(0,12).map(r=>`<span class="detail-tag">@${esc(r.name)}</span>`).join('')}${roles>12?`<span class="detail-tag">+${roles-12} mais</span>`:''}</div>
     </div>
   `;
-
   document.getElementById('detail-actions').innerHTML = `
     <button class="btn btn-success" style="width:100%" onclick="openRestoreModal(${b._dbId})">🔄 Restaurar no Discord</button>
     <button class="btn btn-primary" style="width:100%" onclick="viewBackup(${b._dbId})">👁️ Ver Conteúdo</button>
@@ -644,15 +588,11 @@ function closeDetail() {
   renderList();
 }
 
-// ══════════════════════════════════════════════════════
-//  VIEWER
-// ══════════════════════════════════════════════════════
 function viewBackup(dbId) {
   const b = backups.find(x => x._dbId === dbId);
   if (!b) return;
   document.getElementById('viewer-title').textContent = `📦 ${b.name}`;
   let html = '';
-
   if (b.roles && b.roles.length) {
     html += `<div class="tree-section">
       <div class="tree-section-title" onclick="toggleTree(this)">👥 Cargos (${b.roles.length})</div>
@@ -663,7 +603,6 @@ function viewBackup(dbId) {
       </div>`).join('')}</div>
     </div>`;
   }
-
   if (b.categories && b.categories.length) {
     html += `<div class="tree-section">
       <div class="tree-section-title" onclick="toggleTree(this)">📁 Categorias & Canais (${b.categories.length})</div>
@@ -676,7 +615,6 @@ function viewBackup(dbId) {
       }).join('')}</div>
     </div>`;
   }
-
   if (b.channels_no_category && b.channels_no_category.length) {
     html += `<div class="tree-section">
       <div class="tree-section-title" onclick="toggleTree(this)">📋 Sem Categoria (${b.channels_no_category.length})</div>
@@ -686,7 +624,6 @@ function viewBackup(dbId) {
       }).join('')}</div>
     </div>`;
   }
-
   document.getElementById('viewer-body').innerHTML = html || '<p style="color:var(--text-muted);font-size:14px">Backup vazio.</p>';
   document.getElementById('modal-viewer').classList.add('show');
   document.getElementById('modal-viewer').dataset.currentDbId = dbId;
@@ -698,9 +635,6 @@ function toggleTree(el) {
   if (items) items.classList.toggle('hidden');
 }
 
-// ══════════════════════════════════════════════════════
-//  DOWNLOAD
-// ══════════════════════════════════════════════════════
 function downloadBackup(dbId) {
   const b = backups.find(x => x._dbId === dbId);
   if (!b) return;
@@ -719,9 +653,6 @@ function downloadSelected() {
   if (id) downloadBackup(id);
 }
 
-// ══════════════════════════════════════════════════════
-//  DELETE — 1
-// ══════════════════════════════════════════════════════
 function confirmDeleteOne(dbId) {
   const b = backups.find(x => x._dbId === dbId);
   if (!b) return;
@@ -741,7 +672,7 @@ async function deleteOneConfirmed() {
     if (selectedId === deleteTargetId) closeDetail();
     deleteTargetId = null;
     updateStats(); updateBadges(); updateServerSelect(); applyFilters();
-    toast(`🗑️ Backup de "${b?.name}" deletado do Supabase`, 'info');
+    toast(`🗑️ Backup de "${b?.name}" deletado`, 'info');
   } catch(e) {
     toast(`❌ Erro ao deletar: ${e.message}`, 'error');
   } finally {
@@ -749,9 +680,6 @@ async function deleteOneConfirmed() {
   }
 }
 
-// ══════════════════════════════════════════════════════
-//  DELETE — TODOS
-// ══════════════════════════════════════════════════════
 function confirmDeleteAll() {
   if (!backups.length) { toast('❌ Nenhum backup para apagar', 'error'); return; }
   document.getElementById('modal-delete-all').classList.add('show');
@@ -765,7 +693,7 @@ async function deleteAllConfirmed() {
     backups = [];
     closeDetail();
     updateStats(); updateBadges(); updateServerSelect(); applyFilters();
-    toast('🗑️ Todos os backups foram removidos do Supabase', 'info');
+    toast('🗑️ Todos os backups foram removidos', 'info');
   } catch(e) {
     toast(`❌ Erro ao deletar: ${e.message}`, 'error');
   } finally {
@@ -773,9 +701,6 @@ async function deleteAllConfirmed() {
   }
 }
 
-// ══════════════════════════════════════════════════════
-//  RESTORE MODAL
-// ══════════════════════════════════════════════════════
 function openRestoreModal(dbId) {
   const b = backups.find(x => x._dbId === dbId);
   if (!b) return;
@@ -793,9 +718,6 @@ function copyRestoreCmd() {
   }).catch(() => toast('❌ Não foi possível copiar', 'error'));
 }
 
-// ══════════════════════════════════════════════════════
-//  MODAL
-// ══════════════════════════════════════════════════════
 function closeModal(id) {
   document.getElementById(id).classList.remove('show');
 }
@@ -805,9 +727,6 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
   });
 });
 
-// ══════════════════════════════════════════════════════
-//  LOADING
-// ══════════════════════════════════════════════════════
 function showLoading(msg) {
   document.getElementById('loading-text').textContent = msg || 'Processando...';
   document.getElementById('loading-overlay').classList.add('show');
@@ -816,9 +735,6 @@ function hideLoading() {
   document.getElementById('loading-overlay').classList.remove('show');
 }
 
-// ══════════════════════════════════════════════════════
-//  TOAST
-// ══════════════════════════════════════════════════════
 function toast(msg, type = 'info') {
   const el = document.createElement('div');
   el.className = `toast ${type}`;
@@ -830,9 +746,6 @@ function toast(msg, type = 'info') {
   }, 3500);
 }
 
-// ══════════════════════════════════════════════════════
-//  UTILS
-// ══════════════════════════════════════════════════════
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -849,9 +762,6 @@ function formatDateFull(iso) {
   return new Date(iso).toLocaleString('pt-BR',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
 }
 
-// ══════════════════════════════════════════════════════
-//  START — carrega ao abrir a página
-// ══════════════════════════════════════════════════════
 loadFromSupabase();
 </script>
 </body>
