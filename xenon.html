@@ -74,21 +74,21 @@
   .nav-icon { font-size: 17px; width: 20px; text-align: center; }
   .nav-badge { margin-left: auto; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 8px; min-width: 20px; text-align: center; }
 
-  /* Upload zone na sidebar */
-  .upload-zone {
-    margin: 12px 8px;
-    border: 2px dashed var(--border);
-    border-radius: 8px;
-    padding: 14px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    color: var(--text-muted);
+  /* Filter de servidor */
+  .server-filter-wrap { padding: 8px; }
+  .server-filter-wrap select {
+    width: 100%;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-normal);
+    font-family: var(--font);
     font-size: 13px;
+    padding: 7px 10px;
+    outline: none;
+    cursor: pointer;
   }
-  .upload-zone:hover, .upload-zone.drag { border-color: var(--brand); background: rgba(88,101,242,0.06); color: var(--text-normal); }
-  .upload-zone .upload-icon { font-size: 24px; margin-bottom: 6px; }
-  #file-input { display: none; }
+  .server-filter-wrap select option { background: var(--bg-tertiary); }
 
   /* ── MAIN ── */
   #main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
@@ -152,7 +152,8 @@
   }
   .backup-row:hover { background: var(--bg-hover); }
   .backup-row.selected { background: rgba(88,101,242,0.12); }
-  .backup-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; border: 1px solid var(--border); }
+  .backup-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; border: 1px solid var(--border); overflow: hidden; }
+  .backup-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
   .backup-info { flex: 1; min-width: 0; }
   .backup-name { font-size: 14px; font-weight: 600; color: var(--text-normal); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
   .backup-meta { display: flex; gap: 14px; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; }
@@ -179,7 +180,8 @@
   .detail-close { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
   .detail-close:hover { background: var(--bg-hover); color: var(--text-normal); }
   .detail-body { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
-  .detail-icon-big { width: 64px; height: 64px; border-radius: 14px; background: var(--bg-tertiary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 4px; }
+  .detail-icon-big { width: 64px; height: 64px; border-radius: 14px; background: var(--bg-tertiary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 4px; overflow: hidden; }
+  .detail-icon-big img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
   .detail-server-name { text-align: center; font-size: 18px; font-weight: 700; }
   .detail-section { display: flex; flex-direction: column; gap: 6px; }
   .detail-section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -213,7 +215,6 @@
   .tree-item { display: flex; align-items: center; gap: 8px; padding: 5px 10px; border-radius: 4px; font-size: 13px; color: var(--text-muted); }
   .tree-item:hover { background: var(--bg-hover); color: var(--text-normal); }
   .tree-item-icon { font-size: 14px; width: 16px; text-align: center; flex-shrink: 0; }
-  .tree-sub { padding-left: 20px; display: flex; flex-direction: column; gap: 2px; margin-top: 2px; }
   .tree-cat { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; padding: 6px 8px 3px; }
 
   /* Toast */
@@ -227,6 +228,12 @@
 
   /* Footer */
   #footer { background: var(--bg-tertiary); border-top: 1px solid var(--border); padding: 10px 20px; font-size: 12px; color: var(--text-muted); text-align: center; flex-shrink: 0; }
+
+  /* Loading overlay */
+  #loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 999; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+  #loading-overlay.show { display: flex; }
+  #loading-overlay .spinner { width: 48px; height: 48px; border-width: 4px; }
+  #loading-overlay span { color: var(--text-muted); font-size: 14px; }
 
   @media (max-width: 900px) {
     #detail-panel { display: none; }
@@ -245,8 +252,8 @@
   <div class="topbar-stats">
     <span>Backups: <strong id="stat-total">0</strong></span>
     <span>Servidores: <strong id="stat-servers">0</strong></span>
-    <span>Tamanho: <strong id="stat-size">0 KB</strong></span>
   </div>
+  <button class="btn btn-primary" onclick="loadFromSupabase()" style="margin-left:8px">🔄 Atualizar</button>
 </div>
 
 <div id="layout">
@@ -266,22 +273,16 @@
     </div>
 
     <div class="sidebar-section">
-      <div class="sidebar-section-title">Importar Backup</div>
-      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()"
-           ondragover="event.preventDefault();this.classList.add('drag')"
-           ondragleave="this.classList.remove('drag')"
-           ondrop="handleDrop(event)">
-        <div class="upload-icon">📂</div>
-        <div>Clique ou arraste<br>um arquivo <strong>.json</strong></div>
+      <div class="sidebar-section-title">Filtrar por Servidor</div>
+      <div class="server-filter-wrap">
+        <select id="server-select" onchange="applyFilters()">
+          <option value="">Todos os servidores</option>
+        </select>
       </div>
-      <input type="file" id="file-input" accept=".json" onchange="handleFileSelect(event)">
     </div>
 
     <div class="sidebar-section">
       <div class="sidebar-section-title">Ações</div>
-      <div class="nav-item" onclick="exportAll()">
-        <span class="nav-icon">📤</span> Exportar Todos
-      </div>
       <div class="nav-item" onclick="confirmDeleteAll()">
         <span class="nav-icon">🗑️</span> Apagar Todos
       </div>
@@ -293,7 +294,7 @@
     <div id="ch-header">
       <span class="ch-icon">#</span>
       <span class="ch-name" id="ch-name">todos-os-backups</span>
-      <span class="ch-desc" id="ch-desc">Gerencie os backups do servidor</span>
+      <span class="ch-desc" id="ch-desc">Backups carregados do Supabase</span>
     </div>
 
     <div id="toolbar">
@@ -301,15 +302,13 @@
         <span>🔍</span>
         <input type="text" id="search-input" placeholder="Buscar por nome do servidor..." oninput="applyFilters()">
       </div>
-      <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">📂 Importar JSON</button>
       <span id="results-count"></span>
     </div>
 
     <div id="backup-list">
       <div class="state-msg">
-        <span class="state-icon">💾</span>
-        <span>Nenhum backup encontrado</span>
-        <span style="font-size:13px">Importe um arquivo <strong>.json</strong> gerado pelo bot Xenon</span>
+        <div class="spinner"></div>
+        <span>Carregando backups...</span>
       </div>
     </div>
   </div>
@@ -327,32 +326,15 @@
 </div>
 
 <!-- FOOTER -->
-<div id="footer">• Xenon Backup Manager • Sistema local — os dados ficam no seu navegador •</div>
+<div id="footer">• Xenon Backup Manager • Dados carregados do Supabase em tempo real •</div>
 
 <!-- TOAST -->
 <div id="toast-container"></div>
 
-<!-- MODAL: Confirmar restaurar -->
-<div class="modal-overlay" id="modal-restore">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">🔄 Restaurar Backup</span>
-      <button class="modal-close" onclick="closeModal('modal-restore')">✕</button>
-    </div>
-    <div class="modal-body">
-      <p class="modal-desc">Você está prestes a carregar este backup no bot. O bot irá:</p>
-      <div class="modal-warn">
-        ⚠️ <div><strong>Apagar todos os canais e cargos atuais</strong> do servidor e recriar com base neste backup. Esta ação é irreversível!</div>
-      </div>
-      <p style="margin-top:14px;font-size:14px;color:var(--text-muted)">Para restaurar, copie o ID do backup abaixo e use o comando no Discord:<br>
-        <code id="restore-cmd" style="display:block;margin-top:8px;background:var(--bg-tertiary);padding:8px 12px;border-radius:4px;font-size:13px;color:var(--text-normal);word-break:break-all"></code>
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-restore')">Cancelar</button>
-      <button class="btn btn-primary" onclick="copyRestoreCmd()">📋 Copiar Comando</button>
-    </div>
-  </div>
+<!-- Loading overlay -->
+<div id="loading-overlay">
+  <div class="spinner"></div>
+  <span id="loading-text">Processando...</span>
 </div>
 
 <!-- MODAL: Viewer de conteúdo -->
@@ -370,6 +352,23 @@
   </div>
 </div>
 
+<!-- MODAL: Confirmar deletar 1 -->
+<div class="modal-overlay" id="modal-delete-one">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">🗑️ Deletar Backup</span>
+      <button class="modal-close" onclick="closeModal('modal-delete-one')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-warn">⚠️ <div>Tem certeza que quer deletar o backup de <strong id="delete-one-name"></strong>? Esta ação não pode ser desfeita!</div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-delete-one')">Cancelar</button>
+      <button class="btn btn-danger" onclick="deleteOneConfirmed()">🗑️ Deletar</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL: Confirmar deletar todos -->
 <div class="modal-overlay" id="modal-delete-all">
   <div class="modal">
@@ -378,7 +377,7 @@
       <button class="modal-close" onclick="closeModal('modal-delete-all')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="modal-warn">⚠️ <div>Isso vai remover <strong>todos os backups</strong> salvos no navegador. Esta ação não pode ser desfeita!</div></div>
+      <div class="modal-warn">⚠️ <div>Isso vai remover <strong>todos os backups</strong> do Supabase permanentemente. Esta ação não pode ser desfeita!</div></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-delete-all')">Cancelar</button>
@@ -387,32 +386,110 @@
   </div>
 </div>
 
+<!-- MODAL: Restaurar -->
+<div class="modal-overlay" id="modal-restore">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">🔄 Restaurar Backup</span>
+      <button class="modal-close" onclick="closeModal('modal-restore')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">Para restaurar este backup no Discord, use o comando abaixo no seu servidor:</p>
+      <div class="modal-warn" style="margin-bottom:14px">
+        ⚠️ <div><strong>Apagar todos os canais e cargos atuais</strong> do servidor e recriar com base neste backup. Esta ação é irreversível!</div>
+      </div>
+      <code id="restore-cmd" style="display:block;background:var(--bg-tertiary);padding:10px 14px;border-radius:6px;font-size:13px;color:var(--text-normal);word-break:break-all;border:1px solid var(--border)"></code>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-restore')">Cancelar</button>
+      <button class="btn btn-primary" onclick="copyRestoreCmd()">📋 Copiar Comando</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ══════════════════════════════════════════════════════
-//  STORAGE — localStorage com chave xenon_backups
+//  CONFIG SUPABASE — altere aqui se necessário
 // ══════════════════════════════════════════════════════
-const STORAGE_KEY = 'xenon_backups';
+const SUPABASE_URL = 'https://auewibqfkohkhogzwzvb.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_TLvMyIt2KnmR1oGRJ6pKKQ_L2VoNp7h';
+const HEADERS = {
+  'apikey': SUPABASE_KEY,
+  'Authorization': `Bearer ${SUPABASE_KEY}`,
+  'Content-Type': 'application/json',
+};
 
-function loadBackups() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-  catch { return []; }
-}
-function saveBackups(list) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-}
-
-let backups = loadBackups();
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+let backups = [];
 let currentFilter = 'all';
 let selectedId = null;
 let filtered = [];
+let deleteTargetId = null;
 
 // ══════════════════════════════════════════════════════
-//  INIT
+//  SUPABASE — carregar backups
 // ══════════════════════════════════════════════════════
-function init() {
-  updateStats();
-  updateBadges();
-  applyFilters();
+async function loadFromSupabase() {
+  showLoading('Carregando backups do Supabase...');
+  try {
+    const resp = await fetch(
+      `${SUPABASE_URL}/rest/v1/server_backups?select=id,guild_id,guild_name,backup_at,created_at,data&order=created_at.desc&limit=100`,
+      { headers: HEADERS }
+    );
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const rows = await resp.json();
+    backups = rows.map(r => ({
+      _dbId: r.id,
+      _guildId: r.guild_id,
+      name: r.guild_name || r.data?.name || 'Servidor',
+      backup_at: r.backup_at || r.created_at,
+      created_at: r.created_at,
+      icon: r.data?.icon || null,
+      roles: r.data?.roles || [],
+      categories: r.data?.categories || [],
+      channels_no_category: r.data?.channels_no_category || [],
+      _raw: r.data,
+    }));
+    updateStats();
+    updateBadges();
+    updateServerSelect();
+    applyFilters();
+    toast(`✅ ${backups.length} backup(s) carregado(s)`, 'success');
+  } catch(e) {
+    toast(`❌ Erro ao carregar: ${e.message}`, 'error');
+    document.getElementById('backup-list').innerHTML = `<div class="state-msg">
+      <span class="state-icon">⚠️</span>
+      <span>Erro ao conectar ao Supabase</span>
+      <span style="font-size:13px">${e.message}</span>
+    </div>`;
+  } finally {
+    hideLoading();
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  SUPABASE — deletar 1
+// ══════════════════════════════════════════════════════
+async function supabaseDelete(dbId) {
+  const resp = await fetch(
+    `${SUPABASE_URL}/rest/v1/server_backups?id=eq.${dbId}`,
+    { method: 'DELETE', headers: HEADERS }
+  );
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+}
+
+// ══════════════════════════════════════════════════════
+//  SUPABASE — deletar todos
+// ══════════════════════════════════════════════════════
+async function supabaseDeleteAll() {
+  // Deleta todos os registros (usa gt=0 como condição universal para id)
+  const resp = await fetch(
+    `${SUPABASE_URL}/rest/v1/server_backups?id=gt.0`,
+    { method: 'DELETE', headers: HEADERS }
+  );
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 }
 
 // ══════════════════════════════════════════════════════
@@ -420,16 +497,8 @@ function init() {
 // ══════════════════════════════════════════════════════
 function updateStats() {
   document.getElementById('stat-total').textContent = backups.length;
-  const servers = new Set(backups.map(b => b.name)).size;
+  const servers = new Set(backups.map(b => b._guildId)).size;
   document.getElementById('stat-servers').textContent = servers;
-  const bytes = backups.reduce((s,b) => s + (b._rawSize || 0), 0);
-  document.getElementById('stat-size').textContent = formatBytes(bytes);
-}
-
-function formatBytes(b) {
-  if (b < 1024) return b + ' B';
-  if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
-  return (b/1024/1024).toFixed(2) + ' MB';
 }
 
 function updateBadges() {
@@ -437,6 +506,13 @@ function updateBadges() {
   const recent = backups.filter(b => now - new Date(b.backup_at).getTime() < week).length;
   document.getElementById('badge-all').textContent = backups.length;
   document.getElementById('badge-recent').textContent = recent;
+}
+
+function updateServerSelect() {
+  const sel = document.getElementById('server-select');
+  const servers = [...new Map(backups.map(b => [b._guildId, b.name])).entries()];
+  sel.innerHTML = '<option value="">Todos os servidores</option>' +
+    servers.map(([id, name]) => `<option value="${id}">${esc(name)}</option>`).join('');
 }
 
 // ══════════════════════════════════════════════════════
@@ -451,9 +527,11 @@ function setFilter(f, el) {
 
 function applyFilters() {
   const q = document.getElementById('search-input').value.toLowerCase().trim();
+  const serverFilter = document.getElementById('server-select').value;
   const now = Date.now(), week = 7*24*60*60*1000;
   filtered = backups.filter(b => {
     if (currentFilter === 'recent' && now - new Date(b.backup_at).getTime() >= week) return false;
+    if (serverFilter && b._guildId !== serverFilter) return false;
     if (q && !(b.name||'').toLowerCase().includes(q)) return false;
     return true;
   });
@@ -469,8 +547,8 @@ function renderList() {
   if (!filtered.length) {
     el.innerHTML = `<div class="state-msg">
       <span class="state-icon">${backups.length ? '🔍' : '💾'}</span>
-      <span>${backups.length ? 'Nenhum backup encontrado' : 'Nenhum backup importado ainda'}</span>
-      <span style="font-size:13px">${backups.length ? 'Tente outro filtro' : 'Importe um arquivo <strong>.json</strong> gerado pelo bot Xenon'}</span>
+      <span>${backups.length ? 'Nenhum backup encontrado' : 'Nenhum backup no Supabase'}</span>
+      <span style="font-size:13px">${backups.length ? 'Tente outro filtro' : 'Use !xenon no Discord para criar um backup'}</span>
     </div>`;
     return;
   }
@@ -479,24 +557,26 @@ function renderList() {
     const cats  = b.categories?.length || 0;
     const chs   = countChannels(b);
     const date  = formatDateShort(b.backup_at);
-    const size  = formatBytes(b._rawSize || 0);
-    const sel   = selectedId === b._id ? ' selected' : '';
-    return `<div class="backup-row${sel}" onclick="selectBackup('${b._id}')">
-      <div class="backup-icon">🗄️</div>
+    const sel   = selectedId === b._dbId ? ' selected' : '';
+    const iconHtml = b.icon
+      ? `<img src="${b.icon}" alt="icon" onerror="this.parentElement.textContent='🗄️'">`
+      : '🗄️';
+    return `<div class="backup-row${sel}" onclick="selectBackup(${b._dbId})">
+      <div class="backup-icon">${iconHtml}</div>
       <div class="backup-info">
-        <div class="backup-name">${esc(b.name || 'Servidor sem nome')}</div>
+        <div class="backup-name">${esc(b.name)}</div>
         <div class="backup-meta">
           <span>🕐 ${date}</span>
           <span>👥 ${roles} cargo${roles!==1?'s':''}</span>
           <span># ${chs} canal${chs!==1?'is':''}</span>
           <span>📁 ${cats} categoria${cats!==1?'s':''}</span>
-          <span>📄 ${size}</span>
+          <span style="color:var(--text-muted);font-size:11px">ID: ${b._dbId}</span>
         </div>
       </div>
       <div class="backup-actions" onclick="event.stopPropagation()">
-        <div class="icon-btn" title="Ver conteúdo" onclick="viewBackup('${b._id}')">👁️</div>
-        <div class="icon-btn" title="Baixar JSON" onclick="downloadBackup('${b._id}')">⬇️</div>
-        <div class="icon-btn danger" title="Deletar" onclick="deleteBackup('${b._id}')">🗑️</div>
+        <div class="icon-btn" title="Ver conteúdo" onclick="viewBackup(${b._dbId})">👁️</div>
+        <div class="icon-btn" title="Baixar JSON" onclick="downloadBackup(${b._dbId})">⬇️</div>
+        <div class="icon-btn danger" title="Deletar" onclick="confirmDeleteOne(${b._dbId})">🗑️</div>
       </div>
     </div>`;
   }).join('');
@@ -511,10 +591,10 @@ function countChannels(b) {
 // ══════════════════════════════════════════════════════
 //  SELECT / DETAIL PANEL
 // ══════════════════════════════════════════════════════
-function selectBackup(id) {
-  selectedId = id;
+function selectBackup(dbId) {
+  selectedId = dbId;
   renderList();
-  const b = backups.find(x => x._id === id);
+  const b = backups.find(x => x._dbId === dbId);
   if (!b) return;
   openDetail(b);
 }
@@ -525,15 +605,18 @@ function openDetail(b) {
   const roles = b.roles?.length || 0;
   const cats  = b.categories?.length || 0;
   const chs   = countChannels(b);
+  const iconHtml = b.icon
+    ? `<img src="${b.icon}" alt="icon" onerror="this.parentElement.textContent='🗄️'">`
+    : '🗄️';
 
   document.getElementById('detail-body').innerHTML = `
-    <div class="detail-icon-big">🗄️</div>
-    <div class="detail-server-name">${esc(b.name || 'Servidor sem nome')}</div>
+    <div class="detail-icon-big">${iconHtml}</div>
+    <div class="detail-server-name">${esc(b.name)}</div>
     <div class="detail-section">
       <div class="detail-section-title">Informações</div>
-      <div class="detail-row"><span>ID do Servidor</span><span>${b.id || '—'}</span></div>
+      <div class="detail-row"><span>ID do Banco</span><span>${b._dbId}</span></div>
+      <div class="detail-row"><span>Guild ID</span><span style="font-size:11px">${b._guildId || '—'}</span></div>
       <div class="detail-row"><span>Backup em</span><span>${formatDateFull(b.backup_at)}</span></div>
-      <div class="detail-row"><span>Tamanho</span><span>${formatBytes(b._rawSize||0)}</span></div>
     </div>
     <div class="detail-section">
       <div class="detail-section-title">Conteúdo</div>
@@ -548,10 +631,10 @@ function openDetail(b) {
   `;
 
   document.getElementById('detail-actions').innerHTML = `
-    <button class="btn btn-success" style="width:100%" onclick="openRestoreModal('${b._id}')">🔄 Restaurar no Discord</button>
-    <button class="btn btn-primary" style="width:100%" onclick="viewBackup('${b._id}')">👁️ Ver Conteúdo</button>
-    <button class="btn btn-ghost" style="width:100%" onclick="downloadBackup('${b._id}')">⬇️ Baixar JSON</button>
-    <button class="btn btn-danger" style="width:100%" onclick="deleteBackup('${b._id}')">🗑️ Deletar Backup</button>
+    <button class="btn btn-success" style="width:100%" onclick="openRestoreModal(${b._dbId})">🔄 Restaurar no Discord</button>
+    <button class="btn btn-primary" style="width:100%" onclick="viewBackup(${b._dbId})">👁️ Ver Conteúdo</button>
+    <button class="btn btn-ghost" style="width:100%" onclick="downloadBackup(${b._dbId})">⬇️ Baixar JSON</button>
+    <button class="btn btn-danger" style="width:100%" onclick="confirmDeleteOne(${b._dbId})">🗑️ Deletar Backup</button>
   `;
 }
 
@@ -562,64 +645,25 @@ function closeDetail() {
 }
 
 // ══════════════════════════════════════════════════════
-//  IMPORT
-// ══════════════════════════════════════════════════════
-function handleFileSelect(e) {
-  const files = Array.from(e.target.files);
-  files.forEach(importFile);
-  e.target.value = '';
-}
-function handleDrop(e) {
-  e.preventDefault();
-  document.getElementById('upload-zone').classList.remove('drag');
-  Array.from(e.dataTransfer.files).filter(f=>f.name.endsWith('.json')).forEach(importFile);
-}
-
-function importFile(file) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const data = JSON.parse(e.target.result);
-      if (!data.name && !data.id) { toast('❌ Arquivo inválido — não parece um backup Xenon', 'error'); return; }
-      // Evitar duplicata pelo mesmo guild_id + backup_at
-      const dup = backups.find(b => b.id == data.id && b.backup_at === data.backup_at);
-      if (dup) { toast(`⚠️ Backup de "${data.name}" já importado`, 'info'); return; }
-      data._id = 'bk_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
-      data._rawSize = new Blob([e.target.result]).size;
-      backups.unshift(data);
-      saveBackups(backups);
-      updateStats(); updateBadges(); applyFilters();
-      toast(`✅ Backup de "${data.name}" importado!`, 'success');
-    } catch {
-      toast(`❌ Erro ao ler "${file.name}" — JSON inválido`, 'error');
-    }
-  };
-  reader.readAsText(file);
-}
-
-// ══════════════════════════════════════════════════════
 //  VIEWER
 // ══════════════════════════════════════════════════════
-function viewBackup(id) {
-  const b = backups.find(x => x._id === id);
+function viewBackup(dbId) {
+  const b = backups.find(x => x._dbId === dbId);
   if (!b) return;
-  document.getElementById('viewer-title').textContent = `📦 ${b.name || 'Backup'}`;
-
+  document.getElementById('viewer-title').textContent = `📦 ${b.name}`;
   let html = '';
 
-  // Cargos
   if (b.roles && b.roles.length) {
     html += `<div class="tree-section">
       <div class="tree-section-title" onclick="toggleTree(this)">👥 Cargos (${b.roles.length})</div>
       <div class="tree-items">${b.roles.map(r=>`<div class="tree-item">
-        <span class="tree-item-icon" style="color:#${r.color.toString(16).padStart(6,'0')||'80848e'}">●</span>
+        <span class="tree-item-icon" style="color:#${(r.color||0).toString(16).padStart(6,'0')}">●</span>
         @${esc(r.name)}
-        <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">${r.hoist?'Exibido separado':''}${r.mentionable?' · Mencionável':''}</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">${r.hoist?'Exibido':''} ${r.mentionable?'· Mencionável':''}</span>
       </div>`).join('')}</div>
     </div>`;
   }
 
-  // Categorias e canais
   if (b.categories && b.categories.length) {
     html += `<div class="tree-section">
       <div class="tree-section-title" onclick="toggleTree(this)">📁 Categorias & Canais (${b.categories.length})</div>
@@ -633,7 +677,6 @@ function viewBackup(id) {
     </div>`;
   }
 
-  // Canais sem categoria
   if (b.channels_no_category && b.channels_no_category.length) {
     html += `<div class="tree-section">
       <div class="tree-section-title" onclick="toggleTree(this)">📋 Sem Categoria (${b.channels_no_category.length})</div>
@@ -646,8 +689,7 @@ function viewBackup(id) {
 
   document.getElementById('viewer-body').innerHTML = html || '<p style="color:var(--text-muted);font-size:14px">Backup vazio.</p>';
   document.getElementById('modal-viewer').classList.add('show');
-  // guardar id para download
-  document.getElementById('modal-viewer').dataset.currentId = id;
+  document.getElementById('modal-viewer').dataset.currentDbId = dbId;
 }
 
 function toggleTree(el) {
@@ -659,71 +701,85 @@ function toggleTree(el) {
 // ══════════════════════════════════════════════════════
 //  DOWNLOAD
 // ══════════════════════════════════════════════════════
-function downloadBackup(id) {
-  const b = backups.find(x => x._id === id);
+function downloadBackup(dbId) {
+  const b = backups.find(x => x._dbId === dbId);
   if (!b) return;
-  const copy = { ...b };
-  delete copy._id; delete copy._rawSize;
-  const blob = new Blob([JSON.stringify(copy, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(b._raw, null, 2)], { type: 'application/json' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href = url;
-  a.download = `${b.id || 'server'}_${(b.backup_at||'').replace(/[: ]/g,'_').slice(0,19)}.json`;
+  a.download = `backup_${b._guildId}_${(b.backup_at||'').replace(/[: TZ]/g,'').slice(0,15)}.json`;
   a.click();
   URL.revokeObjectURL(url);
   toast('⬇️ Download iniciado', 'info');
 }
 
 function downloadSelected() {
-  const id = document.getElementById('modal-viewer').dataset.currentId;
+  const id = parseInt(document.getElementById('modal-viewer').dataset.currentDbId);
   if (id) downloadBackup(id);
 }
 
-function exportAll() {
-  if (!backups.length) { toast('❌ Nenhum backup para exportar', 'error'); return; }
-  const copy = backups.map(b => { const c={...b}; delete c._id; delete c._rawSize; return c; });
-  const blob = new Blob([JSON.stringify(copy, null, 2)], { type: 'application/json' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url; a.download = `xenon_todos_backups_${Date.now()}.json`; a.click();
-  URL.revokeObjectURL(url);
-  toast(`⬇️ ${copy.length} backup(s) exportado(s)`, 'success');
-}
-
 // ══════════════════════════════════════════════════════
-//  DELETE
+//  DELETE — 1
 // ══════════════════════════════════════════════════════
-function deleteBackup(id) {
-  const b = backups.find(x => x._id === id);
+function confirmDeleteOne(dbId) {
+  const b = backups.find(x => x._dbId === dbId);
   if (!b) return;
-  backups = backups.filter(x => x._id !== id);
-  saveBackups(backups);
-  if (selectedId === id) closeDetail();
-  updateStats(); updateBadges(); applyFilters();
-  toast(`🗑️ Backup de "${b.name}" removido`, 'info');
+  deleteTargetId = dbId;
+  document.getElementById('delete-one-name').textContent = b.name;
+  document.getElementById('modal-delete-one').classList.add('show');
 }
 
+async function deleteOneConfirmed() {
+  closeModal('modal-delete-one');
+  if (!deleteTargetId) return;
+  const b = backups.find(x => x._dbId === deleteTargetId);
+  showLoading('Deletando backup...');
+  try {
+    await supabaseDelete(deleteTargetId);
+    backups = backups.filter(x => x._dbId !== deleteTargetId);
+    if (selectedId === deleteTargetId) closeDetail();
+    deleteTargetId = null;
+    updateStats(); updateBadges(); updateServerSelect(); applyFilters();
+    toast(`🗑️ Backup de "${b?.name}" deletado do Supabase`, 'info');
+  } catch(e) {
+    toast(`❌ Erro ao deletar: ${e.message}`, 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  DELETE — TODOS
+// ══════════════════════════════════════════════════════
 function confirmDeleteAll() {
   if (!backups.length) { toast('❌ Nenhum backup para apagar', 'error'); return; }
   document.getElementById('modal-delete-all').classList.add('show');
 }
 
-function deleteAllConfirmed() {
-  backups = [];
-  saveBackups(backups);
+async function deleteAllConfirmed() {
   closeModal('modal-delete-all');
-  closeDetail();
-  updateStats(); updateBadges(); applyFilters();
-  toast('🗑️ Todos os backups foram removidos', 'info');
+  showLoading('Deletando todos os backups...');
+  try {
+    await supabaseDeleteAll();
+    backups = [];
+    closeDetail();
+    updateStats(); updateBadges(); updateServerSelect(); applyFilters();
+    toast('🗑️ Todos os backups foram removidos do Supabase', 'info');
+  } catch(e) {
+    toast(`❌ Erro ao deletar: ${e.message}`, 'error');
+  } finally {
+    hideLoading();
+  }
 }
 
 // ══════════════════════════════════════════════════════
 //  RESTORE MODAL
 // ══════════════════════════════════════════════════════
-function openRestoreModal(id) {
-  const b = backups.find(x => x._id === id);
+function openRestoreModal(dbId) {
+  const b = backups.find(x => x._dbId === dbId);
   if (!b) return;
-  const cmd = `!restaurar ${b.id}_${(b.backup_at||'').replace(/[: T]/g,'').slice(0,15)}.json`;
+  const cmd = `/xenon restore ${dbId}`;
   document.getElementById('restore-cmd').textContent = cmd;
   document.getElementById('modal-restore').dataset.cmd = cmd;
   document.getElementById('modal-restore').classList.add('show');
@@ -734,9 +790,7 @@ function copyRestoreCmd() {
   navigator.clipboard.writeText(cmd).then(() => {
     toast('📋 Comando copiado!', 'success');
     closeModal('modal-restore');
-  }).catch(() => {
-    toast('❌ Não foi possível copiar', 'error');
-  });
+  }).catch(() => toast('❌ Não foi possível copiar', 'error'));
 }
 
 // ══════════════════════════════════════════════════════
@@ -752,6 +806,17 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
 });
 
 // ══════════════════════════════════════════════════════
+//  LOADING
+// ══════════════════════════════════════════════════════
+function showLoading(msg) {
+  document.getElementById('loading-text').textContent = msg || 'Processando...';
+  document.getElementById('loading-overlay').classList.add('show');
+}
+function hideLoading() {
+  document.getElementById('loading-overlay').classList.remove('show');
+}
+
+// ══════════════════════════════════════════════════════
 //  TOAST
 // ══════════════════════════════════════════════════════
 function toast(msg, type = 'info') {
@@ -762,7 +827,7 @@ function toast(msg, type = 'info') {
   setTimeout(() => {
     el.style.animation = 'slideOut 0.2s ease forwards';
     setTimeout(() => el.remove(), 200);
-  }, 3000);
+  }, 3500);
 }
 
 // ══════════════════════════════════════════════════════
@@ -785,9 +850,9 @@ function formatDateFull(iso) {
 }
 
 // ══════════════════════════════════════════════════════
-//  START
+//  START — carrega ao abrir a página
 // ══════════════════════════════════════════════════════
-init();
+loadFromSupabase();
 </script>
 </body>
 </html>
