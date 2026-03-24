@@ -7,57 +7,35 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=gg+sans:wght@400;500;600;700&display=swap');
   :root {
-    --bg-primary:   #313338;
-    --bg-secondary: #2b2d31;
-    --bg-tertiary:  #1e1f22;
-    --bg-hover:     #35373c;
-    --bg-selected:  #404249;
-    --text-normal:  #dbdee1;
-    --text-muted:   #80848e;
-    --brand:        #5865f2;
-    --brand-hover:  #4752c4;
-    --green:        #23a55a;
-    --green-hover:  #1a8a45;
-    --red:          #f23f43;
-    --red-hover:    #c73337;
-    --border:       #3f4147;
-    --font:         'gg sans','Noto Sans',Whitney,sans-serif;
+    --bg-primary:#313338;--bg-secondary:#2b2d31;--bg-tertiary:#1e1f22;
+    --bg-hover:#35373c;--bg-selected:#404249;--text-normal:#dbdee1;
+    --text-muted:#80848e;--brand:#5865f2;--brand-hover:#4752c4;
+    --green:#23a55a;--green-hover:#1a8a45;--red:#f23f43;--red-hover:#c73337;
+    --border:#3f4147;--font:'gg sans','Noto Sans',Whitney,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg-primary);color:var(--text-normal);font-family:var(--font);font-size:15px;line-height:1.4;min-height:100vh;display:flex;flex-direction:column}
-  ::-webkit-scrollbar{width:8px}
-  ::-webkit-scrollbar-track{background:var(--bg-tertiary)}
-  ::-webkit-scrollbar-thumb{background:#1a1b1e;border-radius:4px}
-
-  /* TOPBAR */
+  ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg-tertiary)}::-webkit-scrollbar-thumb{background:#1a1b1e;border-radius:4px}
   #topbar{background:var(--bg-secondary);border-bottom:1px solid var(--border);padding:0 20px;height:48px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;flex-shrink:0}
   .logo{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
   .logo-icon{width:32px;height:32px;background:var(--brand);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
   .divider-v{width:1px;height:24px;background:var(--border);margin:0 4px}
-  .page-title{font-size:15px;font-weight:600}
-  .spacer{flex:1}
+  .page-title{font-size:15px;font-weight:600}.spacer{flex:1}
   .topbar-stats{display:flex;gap:20px;font-size:12px;color:var(--text-muted)}
   .topbar-stats span strong{color:var(--text-normal);font-weight:600}
-
   #layout{display:flex;flex:1;min-height:0}
-
-  /* SIDEBAR */
   #sidebar{width:240px;background:var(--bg-secondary);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
   .sidebar-section{padding:16px 8px 8px}
   .sidebar-section-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:0 8px;margin-bottom:6px}
   .nav-item{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:4px;cursor:pointer;color:var(--text-muted);font-size:14px;font-weight:500;transition:background .1s,color .1s;user-select:none}
-  .nav-item:hover{background:var(--bg-hover);color:var(--text-normal)}
-  .nav-item.active{background:var(--bg-selected);color:var(--text-normal)}
+  .nav-item:hover{background:var(--bg-hover);color:var(--text-normal)}.nav-item.active{background:var(--bg-selected);color:var(--text-normal)}
   .nav-icon{font-size:17px;width:20px;text-align:center}
   .nav-badge{margin-left:auto;background:var(--brand);color:#fff;font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;min-width:20px;text-align:center}
   .server-filter-wrap{padding:8px}
   .server-filter-wrap select{width:100%;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;color:var(--text-normal);font-family:var(--font);font-size:13px;padding:7px 10px;outline:none;cursor:pointer}
-
-  /* MAIN */
   #main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
   #ch-header{background:var(--bg-primary);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-  .ch-icon{color:var(--text-muted);font-size:20px;font-weight:700}
-  .ch-name{font-size:16px;font-weight:700}
+  .ch-icon{color:var(--text-muted);font-size:20px;font-weight:700}.ch-name{font-size:16px;font-weight:700}
   .ch-desc{font-size:13px;color:var(--text-muted);margin-left:8px;padding-left:8px;border-left:1px solid var(--border)}
   #toolbar{background:var(--bg-primary);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex-shrink:0}
   .search-box{display:flex;align-items:center;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;padding:0 10px;gap:8px;flex:1;min-width:180px;max-width:360px}
@@ -70,8 +48,6 @@
   .btn-danger{background:var(--red);color:#fff}.btn-danger:hover{background:var(--red-hover)}
   .btn-ghost{background:var(--bg-tertiary);color:var(--text-muted);border:1px solid var(--border)}.btn-ghost:hover{background:var(--bg-hover);color:var(--text-normal)}
   #results-count{font-size:13px;color:var(--text-muted);margin-left:auto}
-
-  /* BACKUP LIST */
   #backup-list{flex:1;overflow-y:auto}
   .state-msg{display:flex;flex-direction:column;align-items:center;justify-content:center;height:320px;gap:12px;color:var(--text-muted);font-size:15px}
   .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite}
@@ -86,8 +62,6 @@
   .backup-actions{display:flex;gap:8px;flex-shrink:0}
   .icon-btn{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;color:var(--text-muted);font-size:15px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .1s}
   .icon-btn:hover{background:var(--bg-hover);color:var(--text-normal)}.icon-btn.danger:hover{background:var(--red);border-color:var(--red);color:#fff}
-
-  /* DETAIL PANEL */
   #detail-panel{width:320px;background:var(--bg-secondary);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;transition:width .2s}
   #detail-panel.hidden{width:0;overflow:hidden;border:none}
   .detail-header{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
@@ -104,8 +78,6 @@
   .detail-tag-list{display:flex;flex-wrap:wrap;gap:6px}
   .detail-tag{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;font-size:12px;color:var(--text-muted);padding:2px 8px}
   .detail-actions{display:flex;flex-direction:column;gap:8px;padding:16px;border-top:1px solid var(--border)}
-
-  /* MODAL */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center}
   .modal-overlay.show{display:flex}
   .modal{background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;width:460px;max-width:95vw;overflow:hidden;animation:pop .15s ease}
@@ -116,50 +88,53 @@
   .modal-body{padding:20px}.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
   .modal-warn{background:rgba(242,63,67,.12);border:1px solid rgba(242,63,67,.4);border-radius:6px;padding:12px 14px;font-size:13px;color:#f23f43;display:flex;gap:8px;align-items:flex-start}
 
-  /* ═══════════ VIEWER DISCORD-STYLE ═══════════ */
-  .viewer-sidebar{width:220px;background:var(--bg-secondary);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:8px 0}
-  .viewer-sb-sec{margin-bottom:4px}
+  /* ═══ VIEWER ═══ */
+  .viewer-sidebar{width:230px;background:var(--bg-secondary);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:8px 0}
   .viewer-sb-hdr{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:8px 12px 4px;cursor:pointer;user-select:none;display:flex;align-items:center}
   .viewer-sb-hdr .arr{font-size:10px;transition:transform .15s;margin-left:auto}
   .viewer-sb-hdr.collapsed .arr{transform:rotate(-90deg)}
-  .vsb-items{display:flex;flex-direction:column}
-  .vsb-items.hidden{display:none}
+  .vsb-items{display:flex;flex-direction:column}.vsb-items.hidden{display:none}
   .vsb-item{display:flex;align-items:center;gap:8px;padding:6px 12px;cursor:pointer;color:var(--text-muted);font-size:13px;font-weight:500;border-radius:4px;margin:0 4px;transition:background .1s,color .1s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .vsb-item:hover{background:var(--bg-hover);color:var(--text-normal)}.vsb-item.active{background:var(--bg-selected);color:var(--text-normal)}
   .vsb-icon{font-size:14px;flex-shrink:0;width:16px;text-align:center}
   .vsb-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
   .vsb-ch{padding-left:24px}
-
   .viewer-content{flex:1;overflow-y:auto;padding:20px 24px}
   .vc-title{font-size:20px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px}
   .vc-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;display:flex;flex-wrap:wrap;gap:6px}
 
-  /* permissões estilo Discord */
-  .ps{margin-bottom:20px}
-  .ps-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-  .pr{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(63,65,71,.5)}
-  .pr:last-child{border-bottom:none}
-  .pr-name{font-size:14px;color:var(--text-normal)}
-  .pr-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
-  .ptoggle{width:36px;height:20px;border-radius:10px;position:relative;flex-shrink:0}
-  .ptoggle.on{background:#23a55a}.ptoggle.off{background:#80848e}
-  .ptoggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .1s}
-  .ptoggle.on::after{left:18px}.ptoggle.off::after{left:2px}
+  /* ═══ PERMISSÕES ESTILO DISCORD ═══ */
+  .perm-section{margin-bottom:24px}
+  .perm-section-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .perm-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid rgba(63,65,71,.5)}
+  .perm-row:last-child{border-bottom:none}
+  .perm-info{flex:1}
+  .perm-name{font-size:14px;color:var(--text-normal);font-weight:500;margin-bottom:3px}
+  .perm-desc{font-size:12px;color:var(--text-muted);line-height:1.4}
+  .perm-toggle{width:40px;height:22px;border-radius:11px;position:relative;flex-shrink:0;margin-top:2px}
+  .perm-toggle.on{background:#23a55a}.perm-toggle.off{background:#80848e}.perm-toggle.neutral{background:#4e5058}
+  .perm-toggle::after{content:'';position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .1s}
+  .perm-toggle.on::after{left:21px}.perm-toggle.off::after,.perm-toggle.neutral::after{left:3px}
 
-  /* overwrites canal */
+  /* ═══ OVERWRITES CANAL ═══ */
   .ow-block{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:6px;margin-bottom:10px;overflow:hidden}
   .ow-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;user-select:none;font-size:13px;font-weight:600}
   .ow-hdr:hover{background:var(--bg-hover)}.ow-hdr .arr{margin-left:auto;font-size:10px;color:var(--text-muted);transition:transform .15s}
   .ow-hdr.collapsed .arr{transform:rotate(-90deg)}
   .ow-body{padding:0 14px 10px}.ow-body.hidden{display:none}
-  .ow-row{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;border-bottom:1px solid rgba(63,65,71,.4)}
-  .ow-row:last-child{border-bottom:none}
-  .ow-ico{font-size:14px;width:18px;text-align:center;flex-shrink:0}
-  .ow-ico.allow{color:#23a55a}.ow-ico.deny{color:#f23f43}
+
+  /* Permissões de canal estilo Discord */
+  .ow-perm-section{margin-top:10px}
+  .ow-perm-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+  .ow-perm-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid rgba(63,65,71,.4)}
+  .ow-perm-row:last-child{border-bottom:none}
+  .ow-perm-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;margin-top:1px}
+  .ow-perm-icon.allow{color:#23a55a}.ow-perm-icon.deny{color:#f23f43}
+  .ow-perm-info{flex:1}
+  .ow-perm-name{font-size:13px;color:var(--text-normal);font-weight:500}
+  .ow-perm-desc{font-size:11px;color:var(--text-muted);margin-top:1px;line-height:1.3}
 
   .chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:4px;font-size:12px;color:var(--text-muted);padding:2px 8px}
-
-  /* Toast / loading */
   #toast-container{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:1000}
   .toast{background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:10px 16px;font-size:14px;display:flex;align-items:center;gap:10px;min-width:240px;animation:slideIn .2s ease;box-shadow:0 4px 16px rgba(0,0,0,.4)}
   .toast.success{border-color:var(--green)}.toast.error{border-color:var(--red)}.toast.info{border-color:var(--brand)}
@@ -226,7 +201,7 @@
 
 <!-- MODAL VIEWER -->
 <div class="modal-overlay" id="modal-viewer">
-  <div class="modal" style="width:820px;max-width:96vw;max-height:88vh;overflow:hidden;display:flex;flex-direction:column">
+  <div class="modal" style="width:860px;max-width:96vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column">
     <div class="modal-header">
       <span class="modal-title" id="viewer-title">Conteúdo do Backup</span>
       <button class="modal-close" onclick="closeModal('modal-viewer')">✕</button>
@@ -280,124 +255,164 @@ const HEADERS={'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'C
 
 let backups=[],currentFilter='all',selectedId=null,filtered=[],deleteTargetId=null,viewerBackup=null;
 
-// ─── Definição das permissões ───
-const PERM_GROUPS={
-  'Permissões Gerais do Servidor':[
-    {bit:1n<<3n,  name:'Administrador',            desc:'Possui todas as permissões e ignora restrições de canal.'},
-    {bit:1n<<28n, name:'Ver canais',               desc:'Permite ver os canais (exceto privados).'},
-    {bit:1n<<4n,  name:'Gerenciar canais',         desc:'Criar, editar ou excluir canais.'},
-    {bit:1n<<28n, name:'Gerenciar cargos',         desc:'Criar e editar cargos abaixo do seu.'},
-    {bit:1n<<29n, name:'Gerenciar expressões',     desc:'Editar ou remover emojis e figurinhas.'},
-    {bit:1n<<32n, name:'Ver registro de auditoria',desc:'Ver ações feitas no servidor.'},
-    {bit:1n<<1n,  name:'Gerenciar servidor',       desc:'Alterar configurações do servidor.'},
-    {bit:1n<<5n,  name:'Kick de membros',          desc:'Remover membros do servidor.'},
-    {bit:1n<<2n,  name:'Banir membros',            desc:'Banir membros permanentemente.'},
-    {bit:1n<<22n, name:'Gerenciar apelidos',       desc:'Alterar apelidos de outros membros.'},
-    {bit:1n<<30n, name:'Gerenciar webhooks',       desc:'Criar e gerenciar webhooks.'},
-  ],
-  'Permissões de Texto':[
-    {bit:1n<<11n, name:'Enviar mensagens',         desc:'Enviar mensagens em canais de texto.'},
-    {bit:1n<<15n, name:'Enviar em threads',        desc:'Enviar mensagens em threads.'},
-    {bit:1n<<16n, name:'Criar threads públicas',   desc:'Criar threads públicas.'},
-    {bit:1n<<17n, name:'Criar threads privadas',   desc:'Criar threads privadas.'},
-    {bit:1n<<13n, name:'Incorporar links',         desc:'Links exibem como prévia.'},
-    {bit:1n<<14n, name:'Anexar arquivos',          desc:'Enviar arquivos e imagens.'},
-    {bit:1n<<12n, name:'Ver histórico de mensagens',desc:'Acessar mensagens anteriores.'},
-    {bit:1n<<18n, name:'Mencionar @todos',         desc:'Usar @everyone e @here.'},
-    {bit:1n<<19n, name:'Usar emojis externos',     desc:'Emojis de outros servidores.'},
-    {bit:1n<<20n, name:'Adicionar reações',        desc:'Reagir a mensagens.'},
-    {bit:1n<<38n, name:'Usar comandos de app',     desc:'Usar comandos de bots e aplicativos.'},
-    {bit:1n<<9n,  name:'Gerenciar mensagens',      desc:'Excluir e fixar mensagens de outros.'},
-    {bit:1n<<34n, name:'Gerenciar threads',        desc:'Renomear e arquivar threads.'},
-    {bit:1n<<7n,  name:'Ignorar modo lento',       desc:'Sem limite de espera entre mensagens.'},
-    {bit:1n<<23n, name:'Enviar TTS',               desc:'Enviar mensagens texto-para-voz.'},
-  ],
-  'Permissões de Voz':[
-    {bit:1n<<20n, name:'Conectar',                 desc:'Entrar em canais de voz.'},
-    {bit:1n<<21n, name:'Falar',                    desc:'Transmitir áudio no canal de voz.'},
-    {bit:1n<<25n, name:'Vídeo',                    desc:'Transmitir vídeo no canal de voz.'},
-    {bit:1n<<26n, name:'Atividade por voz',        desc:'Usar detecção por voz (sem PTT).'},
-    {bit:1n<<24n, name:'Silenciar membros',        desc:'Silenciar membros no canal.'},
-    {bit:1n<<22n, name:'Ensurdecer membros',       desc:'Desativar áudio recebido de membros.'},
-    {bit:1n<<23n, name:'Mover membros',            desc:'Mover membros entre canais de voz.'},
-  ],
-};
-
-const OW_PERMS=[
-  {bit:1n<<28n,name:'Ver canal'},
-  {bit:1n<<11n,name:'Enviar mensagens'},
-  {bit:1n<<12n,name:'Ver histórico'},
-  {bit:1n<<13n,name:'Incorporar links'},
-  {bit:1n<<14n,name:'Anexar arquivos'},
-  {bit:1n<<20n,name:'Adicionar reações'},
-  {bit:1n<<9n, name:'Gerenciar mensagens'},
-  {bit:1n<<18n,name:'Mencionar @todos'},
-  {bit:1n<<19n,name:'Emojis externos'},
-  {bit:1n<<38n,name:'Usar comandos'},
-  {bit:1n<<7n, name:'Ignorar modo lento'},
-  {bit:1n<<20n,name:'Conectar (voz)'},
-  {bit:1n<<21n,name:'Falar (voz)'},
-  {bit:1n<<24n,name:'Silenciar membros'},
-  {bit:1n<<25n,name:'Vídeo'},
-  {bit:1n<<15n,name:'Enviar em threads'},
-  {bit:1n<<16n,name:'Criar threads públicas'},
+// ════════════════════════════════════════════════════
+//  DEFINIÇÃO COMPLETA DE PERMISSÕES — igual ao Discord
+// ════════════════════════════════════════════════════
+const PERM_CANAL = [
+  {
+    grupo: 'Permissões gerais do canal',
+    perms: [
+      {bit:1n<<10n, name:'Ver canal',           desc:'Permite que os membros vejam este canal.'},
+      {bit:1n<<4n,  name:'Gerenciar canal',     desc:'Permite que os membros mudem o nome, a descrição e as configurações de texto deste canal. Eles também poderão excluir o canal.'},
+      {bit:1n<<28n, name:'Gerenciar permissões',desc:'Permite que os membros mudem as permissões deste canal.'},
+      {bit:1n<<29n, name:'Gerenciar webhooks', desc:'Permite que os membros criem, editem ou excluam webhooks neste canal, que permitem a postagem de mensagens de outros apps ou sites neste servidor.'},
+    ]
+  },
+  {
+    grupo: 'Permissões da assinatura',
+    perms: [
+      {bit:1n<<0n, name:'Criar convite', desc:'Permite que os membros convidem pessoas novas para este servidor através de um link de convite para este canal.'},
+    ]
+  },
+  {
+    grupo: 'Permissões de canal de texto',
+    perms: [
+      {bit:1n<<11n, name:'Enviar mensagens',                    desc:'Permite que os membros mandem mensagens neste canal.'},
+      {bit:1n<<38n, name:'Enviar mensagens em tópicos',         desc:'Permite que os membros mandem mensagens em tópicos neste canal.'},
+      {bit:1n<<35n, name:'Criar tópicos públicos',              desc:'Permitir que membros criem tópicos que todos neste canal podem visualizar.'},
+      {bit:1n<<36n, name:'Criar tópicos privados',              desc:'Permite que os membros criem tópicos controlados por convite neste canal.'},
+      {bit:1n<<14n, name:'Inserir links',                       desc:'Permite que links compartilhados por membros mostrem conteúdo integrado neste canal.'},
+      {bit:1n<<15n, name:'Anexar arquivos',                     desc:'Permite que os membros enviem arquivos ou mídia neste canal.'},
+      {bit:1n<<6n,  name:'Adicionar reações',                   desc:'Permite que os membros adicionem novas reações de emoji a uma mensagem neste canal. Se esta permissão for desabilitada, os membros ainda poderão reagir usando reações existentes.'},
+      {bit:1n<<18n, name:'Usar emojis externos',                desc:'Permite que os membros usem emojis de outros servidores neste canal, se forem membros do Discord Nitro.'},
+      {bit:1n<<37n, name:'Usar figurinhas externas',            desc:'Permite que os membros usem figurinhas de outros servidores neste canal, se forem membros do Discord Nitro.'},
+      {bit:1n<<17n, name:'Mencionar @everyone, @here e todos os cargos', desc:'Permite que os membros usem @everyone ou @here (apenas membros online) neste canal. Eles também podem mencionar (@mention) todos os cargos, mesmo que a permissão "Permitir que todos mencionem este cargo" estiver desabilitada.'},
+      {bit:1n<<13n, name:'Gerenciar mensagens',                 desc:'Permite que membros excluam ou removam anexos de mensagens de outros membros neste canal.'},
+      {bit:1n<<13n, name:'Fixar mensagens',                     desc:'Permite que membros fixem ou desafixem mensagens neste canal.'},
+      {bit:1n<<7n,  name:'Ignorar modo lento',                  desc:'Permite que membros enviem mensagens neste canal sem serem afetados pelo modo lento.'},
+      {bit:1n<<34n, name:'Gerenciar tópicos',                   desc:'Permite que os membros renomeiem, excluam, fechem e ativem o modo lento dos tópicos neste canal. Eles também podem ver tópicos privados.'},
+      {bit:1n<<16n, name:'Ver histórico de mensagens',          desc:'Permite que os membros leiam mensagens anteriores enviadas neste canal. Se esta permissão for desabilitada, os membros verão apenas as mensagens enviadas quando estavam online no canal.'},
+      {bit:1n<<12n, name:'Enviar mensagens em Texto-para-voz',  desc:'Permite que os membros enviem mensagens em Texto-para-voz neste canal ao começar uma mensagem com /tts. Estas mensagens podem ser ouvidas por todos que estiverem no canal.'},
+      {bit:1n<<46n, name:'Enviar mensagens de voz',             desc:'Permite que os membros mandem mensagens de voz neste canal. Também requer a permissão "Anexar arquivos".'},
+      {bit:1n<<49n, name:'Criar Enquetes',                      desc:'Permite que os membros criem enquetes neste canal.'},
+    ]
+  },
+  {
+    grupo: 'Permissões de Aplicativos',
+    perms: [
+      {bit:1n<<31n, name:'Usar comandos de aplicativo', desc:'Permite que os membros usem comandos de aplicativos neste canal, incluindo comandos de barra e de menu contextual.'},
+      {bit:1n<<39n, name:'Usar atividades',             desc:'Permite que os membros usem atividades neste canal.'},
+      {bit:1n<<50n, name:'Utilize Aplicativos Externos',desc:'Permite que os aplicativos que os membros adicionaram à sua conta postem mensagens neste canal. Quando desativado, as mensagens serão privadas.'},
+    ]
+  },
 ];
 
-function chkBit(v,b){try{return(BigInt(v)&b)===b}catch{return false}}
+// Permissões de voz (só para canais de voz)
+const PERM_VOZ = [
+  {
+    grupo: 'Permissões de voz',
+    perms: [
+      {bit:1n<<20n, name:'Conectar',          desc:'Permite que os membros se conectem ao canal de voz.'},
+      {bit:1n<<21n, name:'Falar',             desc:'Permite que os membros transmitam áudio no canal de voz.'},
+      {bit:1n<<9n,  name:'Vídeo',             desc:'Permite que os membros transmitam vídeo no canal de voz.'},
+      {bit:1n<<25n, name:'Atividade por voz', desc:'Permite que os membros usem detecção por voz (sem PTT).'},
+      {bit:1n<<8n,  name:'Voz prioritária',   desc:'Permite que o volume dos outros seja reduzido automaticamente quando este membro estiver falando.'},
+      {bit:1n<<22n, name:'Silenciar membros', desc:'Permite que os membros silencie outros no canal de voz.'},
+      {bit:1n<<23n, name:'Ensurdecer membros',desc:'Permite que os membros desativem o áudio recebido de outros.'},
+      {bit:1n<<24n, name:'Mover membros',     desc:'Permite que os membros movam outros entre canais de voz.'},
+      {bit:1n<<32n, name:'Pedir para falar',  desc:'Permite que o membro peça para falar em canais de palco.'},
+    ]
+  },
+];
 
-// ─── Viewer ───
+// Permissões de cargos (servidor inteiro)
+const PERM_CARGO = [
+  {
+    grupo: 'Permissões Gerais do Servidor',
+    perms: [
+      {bit:1n<<3n,  name:'Administrador',             desc:'Possui todas as permissões e ignora restrições de canal. Perigoso conceder.'},
+      {bit:1n<<10n, name:'Ver canais',                desc:'Permite ver os canais do servidor (exceto privados).'},
+      {bit:1n<<4n,  name:'Gerenciar canais',          desc:'Criar, editar ou excluir canais.'},
+      {bit:1n<<28n, name:'Gerenciar cargos',          desc:'Criar e editar cargos abaixo do seu.'},
+      {bit:1n<<29n, name:'Gerenciar expressões',      desc:'Editar ou remover emojis e figurinhas.'},
+      {bit:1n<<32n, name:'Ver registro de auditoria', desc:'Ver ações feitas no servidor.'},
+      {bit:1n<<1n,  name:'Gerenciar servidor',        desc:'Alterar configurações do servidor.'},
+      {bit:1n<<5n,  name:'Kick de membros',           desc:'Remover membros do servidor.'},
+      {bit:1n<<2n,  name:'Banir membros',             desc:'Banir membros permanentemente.'},
+      {bit:1n<<22n, name:'Gerenciar apelidos',        desc:'Alterar apelidos de outros membros.'},
+      {bit:1n<<29n, name:'Gerenciar webhooks',        desc:'Criar e gerenciar webhooks.'},
+    ]
+  },
+  {
+    grupo: 'Permissões de Membros',
+    perms: [
+      {bit:1n<<0n,  name:'Criar convite',   desc:'Permitir que membros criem convites para o servidor.'},
+      {bit:1n<<6n,  name:'Adicionar reações',desc:'Reagir a mensagens.'},
+      {bit:1n<<16n, name:'Ver histórico de mensagens', desc:'Ler mensagens antigas.'},
+      {bit:1n<<11n, name:'Enviar mensagens',desc:'Enviar mensagens em canais de texto.'},
+      {bit:1n<<18n, name:'Usar emojis externos',desc:'Emojis de outros servidores.'},
+      {bit:1n<<19n, name:'Usar figurinhas externas',desc:'Figurinhas de outros servidores.'},
+      {bit:1n<<31n, name:'Usar comandos de aplicativo',desc:'Usar comandos de bots e aplicativos.'},
+    ]
+  },
+  {
+    grupo: 'Permissões de Voz',
+    perms: [
+      {bit:1n<<20n, name:'Conectar',          desc:'Entrar em canais de voz.'},
+      {bit:1n<<21n, name:'Falar',             desc:'Transmitir áudio no canal de voz.'},
+      {bit:1n<<9n,  name:'Vídeo',             desc:'Transmitir vídeo no canal de voz.'},
+      {bit:1n<<25n, name:'Atividade por voz', desc:'Usar detecção por voz (sem PTT).'},
+      {bit:1n<<8n,  name:'Voz prioritária',   desc:'Volume dos outros reduzido quando este membro falar.'},
+      {bit:1n<<22n, name:'Silenciar membros', desc:'Silenciar membros no canal.'},
+      {bit:1n<<23n, name:'Ensurdecer membros',desc:'Desativar áudio recebido de membros.'},
+      {bit:1n<<24n, name:'Mover membros',     desc:'Mover membros entre canais de voz.'},
+    ]
+  },
+];
+
+function chk(val, bit){ try{ return (BigInt(val) & bit) === bit; }catch{ return false; } }
+
+// ════════════════════════════════════════════════════
+//  VIEWER
+// ════════════════════════════════════════════════════
 function viewBackup(dbId){
   viewerBackup=backups.find(x=>x._dbId===dbId);if(!viewerBackup)return;
   document.getElementById('viewer-title').textContent=`📦 ${viewerBackup.name}`;
   document.getElementById('modal-viewer').dataset.currentDbId=dbId;
-  buildSidebar(viewerBackup);
-  renderOverview(viewerBackup);
+  buildSidebar(viewerBackup);renderOverview(viewerBackup);
   document.getElementById('modal-viewer').classList.add('show');
 }
 
 function buildSidebar(b){
-  const sb=document.getElementById('viewer-sidebar');
-  let h=`<div class="viewer-sb-sec">
-    <div class="vsb-item active" id="vsb-ov" onclick="selVSB(this,'ov')"><span class="vsb-icon">🏠</span>Visão Geral</div>
-  </div>`;
-
+  const sb=document.getElementById('viewer-sidebar');let h='';
+  h+=`<div style="padding:4px"><div class="vsb-item active" id="vsb-ov" onclick="selVSB(this,'ov')"><span class="vsb-icon">🏠</span>Visão Geral</div></div>`;
   if(b.roles&&b.roles.length){
-    h+=`<div class="viewer-sb-sec">
-      <div class="viewer-sb-hdr" onclick="togSec(this)">👥 Cargos (${b.roles.length})<span class="arr">▾</span></div>
-      <div class="vsb-items">`;
+    h+=`<div class="viewer-sb-hdr" onclick="togSec(this)">👥 Cargos (${b.roles.length})<span class="arr">▾</span></div>
+    <div class="vsb-items">`;
     for(const r of [...b.roles].sort((a,z)=>z.position-a.position)){
       const col=r.color?`#${r.color.toString(16).padStart(6,'0')}`:null;
-      h+=`<div class="vsb-item" onclick="selVSB(this,'role',${r.id})" title="@${esc(r.name)}">
-        ${col?`<span class="vsb-dot" style="background:${col}"></span>`:`<span class="vsb-dot" style="background:#80848e"></span>`}
+      h+=`<div class="vsb-item" onclick="selVSB(this,'role',${r.id})">
+        <span class="vsb-dot" style="background:${col||'#80848e'}"></span>
         <span style="overflow:hidden;text-overflow:ellipsis">@${esc(r.name)}</span>
       </div>`;
     }
-    h+=`</div></div>`;
+    h+=`</div>`;
   }
-
   const allCats=b.categories||[],noCat=b.channels_no_category||[];
   if(allCats.length||noCat.length){
-    h+=`<div class="viewer-sb-sec">
-      <div class="viewer-sb-hdr" onclick="togSec(this)">📁 Canais<span class="arr">▾</span></div>
-      <div class="vsb-items">`;
+    h+=`<div class="viewer-sb-hdr" onclick="togSec(this)">📁 Canais<span class="arr">▾</span></div><div class="vsb-items">`;
     for(const cat of [...allCats].sort((a,z)=>a.position-z.position)){
-      h+=`<div class="vsb-item" onclick="selVSB(this,'cat',${cat.id})" title="${esc(cat.name)}">
-        <span class="vsb-icon">📁</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(cat.name)}</span>
-      </div>`;
+      h+=`<div class="vsb-item" onclick="selVSB(this,'cat',${cat.id})"><span class="vsb-icon">📁</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(cat.name)}</span></div>`;
       for(const ch of [...(cat.channels||[])].sort((a,z)=>a.position-z.position)){
         const ic=ch.type&&ch.type.includes('voice')?'🔊':'#';
-        h+=`<div class="vsb-item vsb-ch" onclick="selVSB(this,'ch',${ch.id},'cat',${cat.id})" title="${esc(ch.name)}">
-          <span class="vsb-icon">${ic}</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(ch.name)}</span>
-        </div>`;
+        h+=`<div class="vsb-item vsb-ch" onclick="selVSB(this,'ch',${ch.id})"><span class="vsb-icon">${ic}</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(ch.name)}</span></div>`;
       }
     }
     for(const ch of [...noCat].sort((a,z)=>a.position-z.position)){
       const ic=ch.type&&ch.type.includes('voice')?'🔊':'#';
-      h+=`<div class="vsb-item vsb-ch" onclick="selVSB(this,'chnc',${ch.id})" title="${esc(ch.name)}">
-        <span class="vsb-icon">${ic}</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(ch.name)}</span>
-      </div>`;
+      h+=`<div class="vsb-item vsb-ch" onclick="selVSB(this,'chnc',${ch.id})"><span class="vsb-icon">${ic}</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(ch.name)}</span></div>`;
     }
-    h+=`</div></div>`;
+    h+=`</div>`;
   }
   sb.innerHTML=h;
 }
@@ -405,54 +420,50 @@ function buildSidebar(b){
 function togSec(el){el.classList.toggle('collapsed');el.nextElementSibling.classList.toggle('hidden');}
 function togOw(el){el.classList.toggle('collapsed');el.nextElementSibling.classList.toggle('hidden');}
 
-function selVSB(el,type,id,parentType,parentId){
+function selVSB(el,type,id){
   document.querySelectorAll('#viewer-sidebar .vsb-item').forEach(e=>e.classList.remove('active'));
-  el.classList.add('active');
-  const b=viewerBackup;
+  el.classList.add('active');const b=viewerBackup;
   if(type==='ov'){renderOverview(b);return;}
-  if(type==='role'){const r=b.roles.find(x=>x.id===id);if(r)renderRole(r,b);return;}
-  if(type==='cat'){const c=b.categories.find(x=>x.id===id);if(c)renderCat(c,b);return;}
+  if(type==='role'){const r=b.roles.find(x=>x.id===id);if(r)renderRole(r);return;}
+  if(type==='cat'){const c=(b.categories||[]).find(x=>x.id===id);if(c)renderCat(c,b);return;}
   if(type==='ch'){
     let ch=null;
-    for(const cat of b.categories){ch=(cat.channels||[]).find(x=>x.id===id);if(ch)break;}
-    if(ch)renderCh(ch,b);return;
+    for(const cat of(b.categories||[])){ch=(cat.channels||[]).find(x=>x.id===id);if(ch)break;}
+    if(!ch)ch=(b.channels_no_category||[]).find(x=>x.id===id);
+    if(ch)renderCh(ch,b);
   }
   if(type==='chnc'){const ch=(b.channels_no_category||[]).find(x=>x.id===id);if(ch)renderCh(ch,b);}
 }
 
 function renderOverview(b){
   document.getElementById('viewer-content').innerHTML=`
-    <div class="vc-title">🏠 Visão Geral</div>
-    <div class="vc-sub"></div>
-    <div class="ps"><div class="ps-title">Servidor</div>
-      <div class="pr"><div><div class="pr-name">Nome</div></div><span class="chip">${esc(b.name)}</span></div>
-      <div class="pr"><div><div class="pr-name">Backup em</div></div><span class="chip">${formatDateFull(b.backup_at)}</span></div>
+    <div class="vc-title">🏠 Visão Geral</div><div class="vc-sub"></div>
+    <div class="perm-section"><div class="perm-section-title">Servidor</div>
+      <div class="perm-row"><div class="perm-info"><div class="perm-name">Nome</div></div><span class="chip">${esc(b.name)}</span></div>
+      <div class="perm-row"><div class="perm-info"><div class="perm-name">Backup em</div></div><span class="chip">${formatDateFull(b.backup_at)}</span></div>
     </div>
-    <div class="ps"><div class="ps-title">Conteúdo</div>
-      <div class="pr"><div><div class="pr-name">👥 Cargos</div></div><span class="chip">${b.roles?.length||0}</span></div>
-      <div class="pr"><div><div class="pr-name">📁 Categorias</div></div><span class="chip">${b.categories?.length||0}</span></div>
-      <div class="pr"><div><div class="pr-name"># Canais</div></div><span class="chip">${countChannels(b)}</span></div>
+    <div class="perm-section"><div class="perm-section-title">Conteúdo</div>
+      <div class="perm-row"><div class="perm-info"><div class="perm-name">👥 Cargos</div></div><span class="chip">${b.roles?.length||0}</span></div>
+      <div class="perm-row"><div class="perm-info"><div class="perm-name">📁 Categorias</div></div><span class="chip">${b.categories?.length||0}</span></div>
+      <div class="perm-row"><div class="perm-info"><div class="perm-name"># Canais</div></div><span class="chip">${countChannels(b)}</span></div>
     </div>`;
 }
 
-function renderRole(r,b){
+function renderRole(r){
   const col=r.color?`#${r.color.toString(16).padStart(6,'0')}`:null;
-  let h=`<div class="vc-title">
-    ${col?`<span style="width:16px;height:16px;border-radius:50%;background:${col};display:inline-block;flex-shrink:0"></span>`:''}
-    @${esc(r.name)}
-  </div>
+  let h=`<div class="vc-title">${col?`<span style="width:16px;height:16px;border-radius:50%;background:${col};display:inline-block;flex-shrink:0"></span>`:''} @${esc(r.name)}</div>
   <div class="vc-sub">
     ${r.hoist?'<span class="chip">Exibido separadamente</span>':''}
     ${r.mentionable?'<span class="chip">Mencionável</span>':''}
     ${col?`<span class="chip" style="color:${col}">${col}</span>`:''}
   </div>`;
-  for(const[gName,perms]of Object.entries(PERM_GROUPS)){
-    h+=`<div class="ps"><div class="ps-title">${gName}</div>`;
-    for(const p of perms){
-      const on=chkBit(r.permissions,p.bit);
-      h+=`<div class="pr">
-        <div><div class="pr-name">${p.name}</div><div class="pr-desc">${p.desc}</div></div>
-        <div class="ptoggle ${on?'on':'off'}"></div>
+  for(const grp of PERM_CARGO){
+    h+=`<div class="perm-section"><div class="perm-section-title">${grp.grupo}</div>`;
+    for(const p of grp.perms){
+      const on=chk(r.permissions,p.bit);
+      h+=`<div class="perm-row">
+        <div class="perm-info"><div class="perm-name">${p.name}</div><div class="perm-desc">${p.desc}</div></div>
+        <div class="perm-toggle ${on?'on':'off'}"></div>
       </div>`;
     }
     h+=`</div>`;
@@ -463,15 +474,15 @@ function renderRole(r,b){
 function renderCat(cat,b){
   let h=`<div class="vc-title">📁 ${esc(cat.name)}</div>
   <div class="vc-sub"><span class="chip">${(cat.channels||[]).length} canal(is)</span><span class="chip">Posição ${cat.position}</span></div>`;
+  h+=`<div class="perm-section"><div class="perm-section-title">Permissões por Cargo / Membro</div>`;
   const ows=cat.overwrites||[];
-  h+=`<div class="ps"><div class="ps-title">Permissões por Cargo</div>`;
-  h+=ows.length?renderOws(ows,b):`<div style="color:var(--text-muted);font-size:13px">Nenhuma permissão específica salva.</div>`;
+  h+=ows.length?renderOws(ows,b,false):`<div style="color:var(--text-muted);font-size:13px;padding:8px 0">Nenhuma permissão específica configurada.</div>`;
   h+=`</div>`;
   if((cat.channels||[]).length){
-    h+=`<div class="ps"><div class="ps-title">Canais nesta categoria</div>`;
+    h+=`<div class="perm-section"><div class="perm-section-title">Canais nesta categoria</div>`;
     for(const ch of [...cat.channels].sort((a,z)=>a.position-z.position)){
       const ic=ch.type&&ch.type.includes('voice')?'🔊':'#';
-      h+=`<div class="pr"><div><div class="pr-name">${ic} ${esc(ch.name)}</div></div><span class="chip">${ch.type||'text'}</span></div>`;
+      h+=`<div class="perm-row"><div class="perm-info"><div class="perm-name">${ic} ${esc(ch.name)}</div></div><span class="chip">${ch.type||'text'}</span></div>`;
     }
     h+=`</div>`;
   }
@@ -479,52 +490,78 @@ function renderCat(cat,b){
 }
 
 function renderCh(ch,b){
-  const ic=ch.type&&ch.type.includes('voice')?'🔊':'#';
+  const isVoice=ch.type&&ch.type.includes('voice');
+  const ic=isVoice?'🔊':'#';
   let h=`<div class="vc-title">${ic} ${esc(ch.name)}</div>
   <div class="vc-sub">
     ${ch.nsfw?'<span class="chip" style="color:var(--red)">NSFW</span>':''}
     ${ch.slowmode_delay?`<span class="chip">Slowmode: ${ch.slowmode_delay}s</span>`:''}
     ${ch.topic?`<span class="chip">${esc(ch.topic)}</span>`:''}
   </div>`;
+  h+=`<div class="perm-section"><div class="perm-section-title">Permissões por Cargo / Membro</div>`;
   const ows=ch.overwrites||[];
-  h+=`<div class="ps"><div class="ps-title">Permissões por Cargo</div>`;
-  h+=ows.length?renderOws(ows,b):`<div style="color:var(--text-muted);font-size:13px">Nenhuma permissão específica salva.</div>`;
+  h+=ows.length?renderOws(ows,b,isVoice):`<div style="color:var(--text-muted);font-size:13px;padding:8px 0">Nenhuma permissão específica configurada.</div>`;
   h+=`</div>`;
   document.getElementById('viewer-content').innerHTML=h;
 }
 
-function renderOws(ows,b){
+function renderOws(ows,b,isVoice){
+  const permGroups=isVoice?[...PERM_CANAL,...PERM_VOZ]:PERM_CANAL;
   let h='';
   for(const ow of ows){
-    const rd=b.roles.find(r=>r.id===ow.id);
-    const name=rd?`@${rd.name}`:`ID ${ow.id}`;
+    const rd=(b.roles||[]).find(r=>r.id===ow.id);
+    const name=rd?`@${rd.name}`:(ow.name||`ID ${ow.id}`);
     const col=rd?.color?`#${rd.color.toString(16).padStart(6,'0')}`:'#80848e';
     const av=BigInt(ow.allow||0),dv=BigInt(ow.deny||0);
-    const rows=OW_PERMS.map(p=>{
-      const al=(av&p.bit)===p.bit,dn=(dv&p.bit)===p.bit;
-      if(!al&&!dn)return null;
-      return `<div class="ow-row"><span class="ow-ico ${al?'allow':'deny'}">${al?'✅':'❌'}</span><span>${p.name}</span></div>`;
-    }).filter(Boolean).join('');
-    if(!rows)continue;
+
+    // Monta as permissões por grupo
+    let gruposHtml='';
+    for(const grp of permGroups){
+      const linhas=grp.perms.map(p=>{
+        const al=(av&p.bit)===p.bit,dn=(dv&p.bit)===p.bit;
+        if(!al&&!dn)return null;
+        return `<div class="ow-perm-row">
+          <span class="ow-perm-icon ${al?'allow':'deny'}">${al?'✅':'❌'}</span>
+          <div class="ow-perm-info">
+            <div class="ow-perm-name">${p.name}</div>
+            <div class="ow-perm-desc">${p.desc}</div>
+          </div>
+        </div>`;
+      }).filter(Boolean);
+      if(!linhas.length)continue;
+      gruposHtml+=`<div class="ow-perm-section">
+        <div class="ow-perm-title">${grp.grupo}</div>
+        ${linhas.join('')}
+      </div>`;
+    }
+    if(!gruposHtml)continue;
+
     h+=`<div class="ow-block">
       <div class="ow-hdr" onclick="togOw(this)">
         <span style="width:12px;height:12px;border-radius:50%;background:${col};flex-shrink:0;display:inline-block"></span>
         ${esc(name)}<span class="arr">▾</span>
       </div>
-      <div class="ow-body">${rows}</div>
+      <div class="ow-body">${gruposHtml}</div>
     </div>`;
   }
-  return h||'<div style="color:var(--text-muted);font-size:13px">Nenhuma permissão configurada.</div>';
+  return h||`<div style="color:var(--text-muted);font-size:13px;padding:8px 0">Nenhuma permissão configurada.</div>`;
 }
 
-// ─── Supabase ───
+// ════════════════════════════════════════════════════
+//  SUPABASE
+// ════════════════════════════════════════════════════
 async function loadFromSupabase(){
   showLoading('Carregando backups...');
   try{
     const resp=await fetch(`${SUPABASE_URL}/rest/v1/server_backups?select=id,guild_id,guild_name,backup_at,created_at,data&order=created_at.desc&limit=100`,{headers:HEADERS});
     if(!resp.ok)throw new Error(`HTTP ${resp.status}`);
     const rows=await resp.json();
-    backups=rows.map(r=>({_dbId:r.id,_guildId:r.guild_id,name:r.guild_name||r.data?.name||'Servidor',backup_at:r.backup_at||r.created_at,created_at:r.created_at,icon:r.data?.icon||null,roles:r.data?.roles||[],categories:r.data?.categories||[],channels_no_category:r.data?.channels_no_category||[],_raw:r.data}));
+    backups=rows.map(r=>({
+      _dbId:r.id,_guildId:r.guild_id,name:r.guild_name||r.data?.name||'Servidor',
+      backup_at:r.backup_at||r.created_at,created_at:r.created_at,icon:r.data?.icon||null,
+      roles:r.data?.roles||[],categories:r.data?.categories||[],
+      channels_no_category:r.data?.channels_no_category||[],_raw:r.data
+    }));
     updateStats();updateBadges();updateServerSelect();applyFilters();
     toast(`✅ ${backups.length} backup(s) carregado(s)`,'success');
   }catch(e){
@@ -547,7 +584,7 @@ function applyFilters(){
 }
 function renderList(){
   const el=document.getElementById('backup-list');
-  if(!filtered.length){el.innerHTML=`<div class="state-msg"><span style="font-size:52px">${backups.length?'🔍':'💾'}</span><span>${backups.length?'Nenhum backup encontrado':'Nenhum backup no Supabase'}</span><span style="font-size:13px">${backups.length?'Tente outro filtro':'Use !xenon no Discord para criar um backup'}</span></div>`;return;}
+  if(!filtered.length){el.innerHTML=`<div class="state-msg"><span style="font-size:52px">${backups.length?'🔍':'💾'}</span><span>${backups.length?'Nenhum backup encontrado':'Nenhum backup no Supabase'}</span></div>`;return;}
   el.innerHTML=filtered.map(b=>{
     const roles=b.roles?.length||0,cats=b.categories?.length||0,chs=countChannels(b),date=formatDateShort(b.backup_at),sel=selectedId===b._dbId?' selected':'';
     const iconHtml=b.icon?`<img src="${b.icon}" alt="icon" onerror="this.parentElement.textContent='🗄️'">`:'🗄️';
@@ -604,7 +641,7 @@ function confirmDeleteOne(dbId){const b=backups.find(x=>x._dbId===dbId);if(!b)re
 async function deleteOneConfirmed(){closeModal('modal-delete-one');if(!deleteTargetId)return;const b=backups.find(x=>x._dbId===deleteTargetId);showLoading('Deletando...');try{await supabaseDelete(deleteTargetId);backups=backups.filter(x=>x._dbId!==deleteTargetId);if(selectedId===deleteTargetId)closeDetail();deleteTargetId=null;updateStats();updateBadges();updateServerSelect();applyFilters();toast(`🗑️ "${b?.name}" deletado`,'info');}catch(e){toast(`❌ Erro: ${e.message}`,'error');}finally{hideLoading();}}
 function confirmDeleteAll(){if(!backups.length){toast('❌ Nenhum backup','error');return;}document.getElementById('modal-delete-all').classList.add('show');}
 async function deleteAllConfirmed(){closeModal('modal-delete-all');showLoading('Deletando todos...');try{await supabaseDeleteAll();backups=[];closeDetail();updateStats();updateBadges();updateServerSelect();applyFilters();toast('🗑️ Todos removidos','info');}catch(e){toast(`❌ Erro: ${e.message}`,'error');}finally{hideLoading();}}
-function openRestoreModal(dbId){const b=backups.find(x=>x._dbId===dbId);if(!b)return;const cmd=`/xenon restore ${dbId}`;document.getElementById('restore-cmd').textContent=cmd;document.getElementById('modal-restore').dataset.cmd=cmd;document.getElementById('modal-restore').classList.add('show');}
+function openRestoreModal(dbId){const b=backups.find(x=>x._dbId===dbId);if(!b)return;const cmd=`!xenon restore ${dbId}`;document.getElementById('restore-cmd').textContent=cmd;document.getElementById('modal-restore').dataset.cmd=cmd;document.getElementById('modal-restore').classList.add('show');}
 function copyRestoreCmd(){navigator.clipboard.writeText(document.getElementById('modal-restore').dataset.cmd).then(()=>{toast('📋 Copiado!','success');closeModal('modal-restore');}).catch(()=>toast('❌ Não foi possível copiar','error'));}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
 document.querySelectorAll('.modal-overlay').forEach(el=>{el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});});
