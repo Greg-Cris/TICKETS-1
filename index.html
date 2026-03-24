@@ -116,7 +116,7 @@
   .perm-toggle::after{content:'';position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .1s}
   .perm-toggle.on::after{left:21px}.perm-toggle.off::after{left:3px}
 
-  /* Layout canal/categoria — sidebar de cargos + painel direito */
+  /* Layout canal/categoria */
   .ow-layout{display:flex;height:100%;min-height:0}
   .ow-roles-sidebar{width:185px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto}
   .ow-roles-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:12px 12px 8px}
@@ -134,16 +134,13 @@
   .ow-perm-name{font-size:14px;font-weight:500;color:var(--text-normal);margin-bottom:3px}
   .ow-perm-desc{font-size:12px;color:var(--text-muted);line-height:1.4}
 
-  /* ═══ 3 BOTÕES ESTILO DISCORD ═══ */
+  /* 3 BOTÕES ESTILO DISCORD */
   .perm-btns{display:flex;gap:3px;flex-shrink:0;margin-top:2px}
   .perm-btn{width:28px;height:28px;border-radius:4px;border:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;line-height:1;cursor:default}
-  /* X — Negar */
   .perm-btn.deny-on {background:#f23f43;color:#fff}
   .perm-btn.deny-off{background:#3a3c40;color:#4e5058}
-  /* / — Neutro */
   .perm-btn.neutral-on {background:#4e5058;color:#dbdee1}
   .perm-btn.neutral-off{background:#3a3c40;color:#4e5058}
-  /* ✓ — Permitir */
   .perm-btn.allow-on {background:#23a55a;color:#fff}
   .perm-btn.allow-off{background:#3a3c40;color:#4e5058}
 
@@ -267,95 +264,99 @@ const SUPABASE_KEY='sb_publishable_16iUpOU_xTLW8xvi-bFNZw_nd3u5qp-';
 const HEADERS={'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json'};
 
 let backups=[],currentFilter='all',selectedId=null,filtered=[],deleteTargetId=null,viewerBackup=null;
-let _viewerOwIdx=null; // índice do overwrite selecionado
+let _viewerOwIdx=null;
 
+// ══════════════════════════════════════════════════════════
+// LISTA COMPLETA DE PERMISSÕES DE CANAL (texto + voz)
+// ══════════════════════════════════════════════════════════
 const PERM_CANAL=[
-  {grupo:'Permissões gerais do canal',perms:[
-    {bit:1n<<10n,name:'Ver canal',desc:'Permite que os membros vejam este canal. Desabilitar esta opção para todos (@everyone) tornará este canal privado.'},
-    {bit:1n<<4n, name:'Gerenciar canal',desc:'Permite que os membros mudem o nome, a descrição e as configurações de texto deste canal. Eles também poderão excluir o canal.'},
-    {bit:1n<<28n,name:'Gerenciar permissões',desc:'Permite que os membros mudem as permissões deste canal.'},
-    {bit:1n<<29n,name:'Gerenciar webhooks',desc:'Permite que os membros criem, editem ou excluam webhooks neste canal.'},
-    {bit:1n<<0n, name:'Criar convite',desc:'Permite que os membros convidem pessoas novas para este servidor através de um link de convite para este canal.'},
+  {grupo:'Permissões Gerais do Canal',perms:[
+    {bit:1n<<10n, name:'Ver canal',             desc:'Permite que os membros vejam este canal. Desabilitar para @everyone torna o canal privado.'},
+    {bit:1n<<4n,  name:'Gerenciar canal',        desc:'Permite mudar o nome, descrição e configurações do canal, além de excluí-lo.'},
+    {bit:1n<<28n, name:'Gerenciar permissões',   desc:'Permite alterar as permissões deste canal para cargos e membros.'},
+    {bit:1n<<29n, name:'Gerenciar webhooks',     desc:'Permite criar, editar ou excluir webhooks neste canal.'},
+    {bit:1n<<0n,  name:'Criar convite',          desc:'Permite convidar pessoas para o servidor através de um link de convite para este canal.'},
   ]},
-  {grupo:'Permissões de canal de texto',perms:[
-    {bit:1n<<11n,name:'Enviar mensagens',desc:'Permite que os membros mandem mensagens neste canal.'},
-    {bit:1n<<38n,name:'Enviar mensagens em tópicos',desc:'Permite que os membros mandem mensagens em tópicos neste canal.'},
-    {bit:1n<<35n,name:'Criar tópicos públicos',desc:'Permitir que membros criem tópicos que todos neste canal podem visualizar.'},
-    {bit:1n<<36n,name:'Criar tópicos privados',desc:'Permite que os membros criem tópicos controlados por convite neste canal.'},
-    {bit:1n<<14n,name:'Inserir links',desc:'Permite que links compartilhados por membros mostrem conteúdo integrado neste canal.'},
-    {bit:1n<<15n,name:'Anexar arquivos',desc:'Permite que os membros enviem arquivos ou mídia neste canal.'},
-    {bit:1n<<6n, name:'Adicionar reações',desc:'Permite que os membros adicionem novas reações de emoji a uma mensagem neste canal.'},
-    {bit:1n<<18n,name:'Usar emojis externos',desc:'Permite que os membros usem emojis de outros servidores neste canal.'},
-    {bit:1n<<37n,name:'Usar figurinhas externas',desc:'Permite que os membros usem figurinhas de outros servidores neste canal.'},
-    {bit:1n<<17n,name:'Mencionar @everyone, @here e todos os cargos',desc:'Permite que os membros usem @everyone ou @here neste canal.'},
-    {bit:1n<<13n,name:'Gerenciar mensagens',desc:'Permite que membros excluam ou removam anexos de mensagens de outros membros neste canal.'},
-    {bit:1n<<34n,name:'Gerenciar tópicos',desc:'Permite que os membros renomeiem, excluam e fechem tópicos neste canal.'},
-    {bit:1n<<16n,name:'Ver histórico de mensagens',desc:'Permite que os membros leiam mensagens anteriores enviadas neste canal.'},
-    {bit:1n<<12n,name:'Enviar mensagens em Texto-para-voz',desc:'Permite que os membros enviem mensagens em Texto-para-voz neste canal.'},
-    {bit:1n<<46n,name:'Enviar mensagens de voz',desc:'Permite que os membros mandem mensagens de voz neste canal.'},
-    {bit:1n<<49n,name:'Criar Enquetes',desc:'Permite que os membros criem enquetes neste canal.'},
+  {grupo:'Permissões de Mensagens',perms:[
+    {bit:1n<<11n, name:'Enviar mensagens',                        desc:'Permite que os membros enviem mensagens neste canal.'},
+    {bit:1n<<38n, name:'Enviar mensagens em tópicos',             desc:'Permite que os membros enviem mensagens dentro de tópicos deste canal.'},
+    {bit:1n<<35n, name:'Criar tópicos públicos',                  desc:'Permite que os membros criem tópicos públicos que todos neste canal podem visualizar.'},
+    {bit:1n<<36n, name:'Criar tópicos privados',                  desc:'Permite que os membros criem tópicos privados controlados por convite neste canal.'},
+    {bit:1n<<14n, name:'Inserir links',                           desc:'Permite que links compartilhados mostrem conteúdo integrado (embed) neste canal.'},
+    {bit:1n<<15n, name:'Anexar arquivos',                         desc:'Permite que os membros enviem arquivos ou mídias neste canal.'},
+    {bit:1n<<6n,  name:'Adicionar reações',                       desc:'Permite que os membros adicionem novas reações de emoji a mensagens neste canal.'},
+    {bit:1n<<18n, name:'Usar emojis externos',                    desc:'Permite que os membros usem emojis de outros servidores neste canal.'},
+    {bit:1n<<37n, name:'Usar figurinhas externas',                desc:'Permite que os membros usem figurinhas (stickers) de outros servidores neste canal.'},
+    {bit:1n<<17n, name:'Mencionar @everyone, @here e todos os cargos', desc:'Permite que os membros usem @everyone, @here ou mencionem cargos neste canal.'},
+    {bit:1n<<13n, name:'Gerenciar mensagens',                     desc:'Permite excluir ou remover anexos de mensagens de outros membros neste canal.'},
+    {bit:1n<<22n, name:'Fixar mensagens',                         desc:'Permite que os membros fixem mensagens neste canal.'},
+    {bit:1n<<19n, name:'Ignorar modo lento',                      desc:'Permite que o membro envie mensagens sem ser afetado pelo limite de slowmode do canal.'},
+    {bit:1n<<34n, name:'Gerenciar tópicos',                       desc:'Permite renomear, excluir e fechar tópicos neste canal.'},
+    {bit:1n<<16n, name:'Ver histórico de mensagens',              desc:'Permite que os membros leiam mensagens enviadas anteriormente neste canal.'},
+    {bit:1n<<12n, name:'Enviar mensagens em texto e voz',         desc:'Permite que os membros enviem mensagens em Texto-para-voz (TTS) neste canal.'},
+    {bit:1n<<46n, name:'Enviar mensagens de voz',                 desc:'Permite que os membros enviem mensagens de voz (áudio) neste canal.'},
+    {bit:1n<<49n, name:'Criar enquetes',                          desc:'Permite que os membros criem enquetes neste canal.'},
   ]},
-  {grupo:'Permissões de aplicativos',perms:[
-    {bit:1n<<31n,name:'Usar comandos de aplicativo',desc:'Permite que os membros usem comandos de aplicativos neste canal.'},
-    {bit:1n<<39n,name:'Usar atividades',desc:'Permite que os membros usem atividades neste canal.'},
-    {bit:1n<<50n,name:'Usar aplicativos externos',desc:'Permite que os aplicativos que os membros adicionaram à sua conta postem mensagens neste canal.'},
+  {grupo:'Permissões de Aplicativos',perms:[
+    {bit:1n<<31n, name:'Usar comandos de aplicativo',  desc:'Permite que os membros usem comandos de bots e aplicativos (slash commands) neste canal.'},
+    {bit:1n<<39n, name:'Usar atividades',              desc:'Permite que os membros iniciem atividades (Activities) neste canal de voz.'},
+    {bit:1n<<50n, name:'Utilizar aplicativos externos',desc:'Permite que aplicativos adicionados à conta do membro postem mensagens neste canal.'},
   ]},
 ];
 
 const PERM_VOZ=[
-  {grupo:'Permissões de voz',perms:[
-    {bit:1n<<20n,name:'Conectar',desc:'Permite que os membros se conectem ao canal de voz.'},
-    {bit:1n<<21n,name:'Falar',desc:'Permite que os membros transmitam áudio no canal de voz.'},
-    {bit:1n<<9n, name:'Vídeo',desc:'Permite que os membros transmitam vídeo no canal de voz.'},
-    {bit:1n<<25n,name:'Atividade por voz',desc:'Permite que os membros usem detecção por voz (sem PTT).'},
-    {bit:1n<<8n, name:'Voz prioritária',desc:'Permite que o volume dos outros seja reduzido quando este membro estiver falando.'},
-    {bit:1n<<22n,name:'Silenciar membros',desc:'Permite que os membros silencie outros no canal de voz.'},
-    {bit:1n<<23n,name:'Ensurdecer membros',desc:'Permite que os membros desativem o áudio recebido de outros.'},
-    {bit:1n<<24n,name:'Mover membros',desc:'Permite que os membros movam outros entre canais de voz.'},
-    {bit:1n<<32n,name:'Pedir para falar',desc:'Permite que o membro peça para falar em canais de palco.'},
+  {grupo:'Permissões de Voz',perms:[
+    {bit:1n<<20n, name:'Conectar',          desc:'Permite que os membros se conectem ao canal de voz.'},
+    {bit:1n<<21n, name:'Falar',             desc:'Permite que os membros transmitam áudio no canal de voz.'},
+    {bit:1n<<9n,  name:'Vídeo',             desc:'Permite que os membros transmitam vídeo no canal de voz.'},
+    {bit:1n<<25n, name:'Atividade por voz', desc:'Permite usar detecção por voz (VAD) sem precisar de Push-to-Talk.'},
+    {bit:1n<<8n,  name:'Voz prioritária',   desc:'Permite que o volume dos outros seja reduzido quando este membro estiver falando.'},
+    {bit:1n<<22n, name:'Silenciar membros', desc:'Permite silenciar o microfone de outros membros no canal de voz.'},
+    {bit:1n<<23n, name:'Ensurdecer membros',desc:'Permite desativar o áudio recebido de outros membros no canal de voz.'},
+    {bit:1n<<24n, name:'Mover membros',     desc:'Permite mover outros membros entre canais de voz.'},
+    {bit:1n<<32n, name:'Pedir para falar',  desc:'Permite que o membro peça para falar em canais de palco (Stage).'},
   ]},
 ];
 
 const PERM_CARGO=[
   {grupo:'Permissões Gerais do Servidor',perms:[
-    {bit:1n<<3n, name:'Administrador',desc:'Possui todas as permissões e ignora restrições de canal.'},
-    {bit:1n<<10n,name:'Ver canais',desc:'Permite ver os canais do servidor (exceto privados).'},
-    {bit:1n<<4n, name:'Gerenciar canais',desc:'Criar, editar ou excluir canais.'},
-    {bit:1n<<28n,name:'Gerenciar cargos',desc:'Criar e editar cargos abaixo do seu.'},
-    {bit:1n<<29n,name:'Gerenciar expressões',desc:'Editar ou remover emojis e figurinhas.'},
-    {bit:1n<<1n, name:'Gerenciar servidor',desc:'Alterar configurações do servidor.'},
-    {bit:1n<<5n, name:'Kick de membros',desc:'Remover membros do servidor.'},
-    {bit:1n<<2n, name:'Banir membros',desc:'Banir membros permanentemente.'},
-    {bit:1n<<22n,name:'Gerenciar apelidos',desc:'Alterar apelidos de outros membros.'},
-    {bit:1n<<33n,name:'Gerenciar eventos',desc:'Criar e gerenciar eventos do servidor.'},
+    {bit:1n<<3n,  name:'Administrador',         desc:'Possui todas as permissões e ignora restrições de canal.'},
+    {bit:1n<<10n, name:'Ver canais',             desc:'Permite ver os canais do servidor (exceto privados).'},
+    {bit:1n<<4n,  name:'Gerenciar canais',       desc:'Criar, editar ou excluir canais.'},
+    {bit:1n<<28n, name:'Gerenciar cargos',       desc:'Criar e editar cargos abaixo do seu.'},
+    {bit:1n<<29n, name:'Gerenciar expressões',   desc:'Editar ou remover emojis e figurinhas.'},
+    {bit:1n<<1n,  name:'Gerenciar servidor',     desc:'Alterar configurações do servidor.'},
+    {bit:1n<<5n,  name:'Kick de membros',        desc:'Remover membros do servidor.'},
+    {bit:1n<<2n,  name:'Banir membros',          desc:'Banir membros permanentemente.'},
+    {bit:1n<<22n, name:'Gerenciar apelidos',     desc:'Alterar apelidos de outros membros.'},
+    {bit:1n<<33n, name:'Gerenciar eventos',      desc:'Criar e gerenciar eventos do servidor.'},
   ]},
   {grupo:'Permissões de Membros',perms:[
-    {bit:1n<<0n, name:'Criar convite',desc:'Permitir que membros criem convites para o servidor.'},
-    {bit:1n<<6n, name:'Adicionar reações',desc:'Reagir a mensagens.'},
-    {bit:1n<<16n,name:'Ver histórico de mensagens',desc:'Ler mensagens antigas.'},
-    {bit:1n<<11n,name:'Enviar mensagens',desc:'Enviar mensagens em canais de texto.'},
-    {bit:1n<<18n,name:'Usar emojis externos',desc:'Emojis de outros servidores.'},
-    {bit:1n<<37n,name:'Usar figurinhas externas',desc:'Figurinhas de outros servidores.'},
-    {bit:1n<<31n,name:'Usar comandos de aplicativo',desc:'Usar comandos de bots e aplicativos.'},
+    {bit:1n<<0n,  name:'Criar convite',              desc:'Permitir que membros criem convites para o servidor.'},
+    {bit:1n<<6n,  name:'Adicionar reações',          desc:'Reagir a mensagens.'},
+    {bit:1n<<16n, name:'Ver histórico de mensagens', desc:'Ler mensagens antigas.'},
+    {bit:1n<<11n, name:'Enviar mensagens',           desc:'Enviar mensagens em canais de texto.'},
+    {bit:1n<<18n, name:'Usar emojis externos',       desc:'Emojis de outros servidores.'},
+    {bit:1n<<37n, name:'Usar figurinhas externas',   desc:'Figurinhas de outros servidores.'},
+    {bit:1n<<31n, name:'Usar comandos de aplicativo',desc:'Usar comandos de bots e aplicativos.'},
   ]},
   {grupo:'Permissões de Voz',perms:[
-    {bit:1n<<20n,name:'Conectar',desc:'Entrar em canais de voz.'},
-    {bit:1n<<21n,name:'Falar',desc:'Transmitir áudio no canal de voz.'},
-    {bit:1n<<9n, name:'Vídeo',desc:'Transmitir vídeo no canal de voz.'},
-    {bit:1n<<25n,name:'Atividade por voz',desc:'Usar detecção por voz (sem PTT).'},
-    {bit:1n<<8n, name:'Voz prioritária',desc:'Volume dos outros reduzido quando este membro falar.'},
-    {bit:1n<<22n,name:'Silenciar membros',desc:'Silenciar membros no canal.'},
-    {bit:1n<<23n,name:'Ensurdecer membros',desc:'Desativar áudio recebido de membros.'},
-    {bit:1n<<24n,name:'Mover membros',desc:'Mover membros entre canais de voz.'},
+    {bit:1n<<20n, name:'Conectar',          desc:'Entrar em canais de voz.'},
+    {bit:1n<<21n, name:'Falar',             desc:'Transmitir áudio no canal de voz.'},
+    {bit:1n<<9n,  name:'Vídeo',             desc:'Transmitir vídeo no canal de voz.'},
+    {bit:1n<<25n, name:'Atividade por voz', desc:'Usar detecção por voz (sem PTT).'},
+    {bit:1n<<8n,  name:'Voz prioritária',   desc:'Volume dos outros reduzido quando este membro falar.'},
+    {bit:1n<<22n, name:'Silenciar membros', desc:'Silenciar membros no canal.'},
+    {bit:1n<<23n, name:'Ensurdecer membros',desc:'Desativar áudio recebido de membros.'},
+    {bit:1n<<24n, name:'Mover membros',     desc:'Mover membros entre canais de voz.'},
   ]},
 ];
 
 function chk(val,bit){try{return(BigInt(val)&bit)===bit;}catch{return false;}}
 
-// ═══ 3 BOTÕES COM CORES CERTAS ═══
 function permBtns(allow,deny,bit){
   const av=BigInt(allow||0),dv=BigInt(deny||0);
-  const isAllow=(av&bit)===bit, isDeny=(dv&bit)===bit, isNeutral=!isAllow&&!isDeny;
+  const isAllow=(av&bit)===bit,isDeny=(dv&bit)===bit,isNeutral=!isAllow&&!isDeny;
   return `<div class="perm-btns">
     <span class="perm-btn ${isDeny    ?'deny-on'   :'deny-off'}"    title="Negar">✕</span>
     <span class="perm-btn ${isNeutral ?'neutral-on':'neutral-off'}" title="Neutro">/</span>
@@ -455,16 +456,13 @@ function renderRole(r){
   document.getElementById('viewer-content').innerHTML=h;
 }
 
-// ═══ CANAL/CATEGORIA — layout Discord ═══
 function renderCanalOrCat(item,b,isVoice,itemType){
   const isCat=itemType==='cat';
   const ic=isCat?'📁':(isVoice?'🔊':'#');
   const ows=item.overwrites||[];
 
-  // salva contexto para re-render ao mudar cargo
   document.getElementById('viewer-content').dataset.ctx=JSON.stringify({id:item.id,name:item.name,itemType,isVoice});
 
-  // constrói HTML da sidebar de cargos
   let rolesSb='';
   if(!ows.length){
     rolesSb=`<div style="padding:12px 10px;color:var(--text-muted);font-size:12px">Nenhum cargo configurado</div>`;
@@ -478,10 +476,10 @@ function renderCanalOrCat(item,b,isVoice,itemType){
     }).join('');
   }
 
-  // constrói painel de permissões
   let permsHtml='';
   if(_viewerOwIdx!==null && ows[_viewerOwIdx]){
     const ow=ows[_viewerOwIdx];
+    // Canais de voz mostram permissões de texto + voz; canais de texto só texto
     const grupos=isVoice?[...PERM_CANAL,...PERM_VOZ]:PERM_CANAL;
     permsHtml=`<div style="padding:14px 20px 6px;font-size:15px;font-weight:700;border-bottom:1px solid var(--border);color:var(--text-normal)">Permissões avançadas</div>`;
     for(const grp of grupos){
@@ -501,7 +499,6 @@ function renderCanalOrCat(item,b,isVoice,itemType){
     </div>`;
   }
 
-  // cabeçalho do item
   const headerChips=[
     item.nsfw?`<span class="chip" style="color:var(--red)">NSFW</span>`:'',
     item.slowmode_delay?`<span class="chip">Slowmode: ${item.slowmode_delay}s</span>`:'',
@@ -557,6 +554,7 @@ async function loadFromSupabase(){
     document.getElementById('backup-list').innerHTML=`<div class="state-msg"><span style="font-size:52px">⚠️</span><span>Erro ao conectar ao Supabase</span><span style="font-size:13px">${e.message}</span></div>`;
   }finally{hideLoading();}
 }
+
 async function supabaseDelete(id){const r=await fetch(`${SUPABASE_URL}/rest/v1/server_backups?id=eq.${id}`,{method:'DELETE',headers:HEADERS});if(!r.ok)throw new Error(`HTTP ${r.status}`);}
 async function supabaseDeleteAll(){const r=await fetch(`${SUPABASE_URL}/rest/v1/server_backups?id=gt.0`,{method:'DELETE',headers:HEADERS});if(!r.ok)throw new Error(`HTTP ${r.status}`);}
 
