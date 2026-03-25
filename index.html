@@ -170,7 +170,8 @@
     <span>Servidores: <strong id="stat-servers">0</strong></span>
   </div>
   <button class="btn btn-primary" onclick="loadFromSupabase()" style="margin-left:8px">🔄 Atualizar</button>
-  <a href="Discord-viewer.html" target="_blank"><button class="btn btn-success" style="margin-left:4px">💬 Ver Mensagens</button></a>
+  <!-- CORREÇÃO: usa window.open com nome fixo para reutilizar a mesma aba -->
+  <button class="btn btn-success" style="margin-left:4px" onclick="window.open('Discord-viewer.html','xenon-viewer')">💬 Ver Mensagens</button>
 </div>
 
 <div id="layout">
@@ -363,7 +364,6 @@ const PERM_CATEGORIA=[
   ]},
 ];
 
-// Não usado separadamente — PERM_CATEGORIA já contém tudo
 const PERM_VOZ=[];
 
 // ══════════════════════════════════════════════════════════
@@ -591,7 +591,6 @@ function renderCanalOrCat(item,b,isVoice,itemType){
   let permsHtml='';
   if(_viewerOwIdx!==null && ows[_viewerOwIdx]){
     const ow=ows[_viewerOwIdx];
-    // Canais de voz mostram permissões de texto + voz; canais de texto só texto
     const grupos=isCat?PERM_CATEGORIA:PERM_CANAL;
     permsHtml=`<div style="padding:14px 20px 6px;font-size:15px;font-weight:700;border-bottom:1px solid var(--border);color:var(--text-normal)">Permissões avançadas</div>`;
     for(const grp of grupos){
