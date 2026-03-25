@@ -17,6 +17,8 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg-primary);color:var(--text-normal);font-family:var(--font);font-size:15px;line-height:1.375;height:100vh;overflow:hidden;display:flex}
   ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#1a1b1e;border-radius:4px}
+
+  /* SERVERS */
   #servers-col{width:var(--servers-width);background:var(--bg-tertiary);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:2px;overflow-y:auto;flex-shrink:0}
   .server-icon{width:48px;height:48px;border-radius:50%;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-radius .15s,background .15s;position:relative;overflow:hidden;flex-shrink:0}
   .server-icon:hover{border-radius:16px;background:var(--brand)}.server-icon.active{border-radius:16px;background:var(--brand)}
@@ -28,6 +30,8 @@
   .servers-divider{width:32px;height:2px;background:var(--border);border-radius:1px;margin:4px 0}
   .server-tooltip{position:absolute;left:calc(var(--servers-width) + 8px);background:#18191c;color:#fff;font-size:14px;font-weight:600;padding:8px 12px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5)}
   .server-icon:hover .server-tooltip{display:block}
+
+  /* SIDEBAR */
   #sidebar{width:var(--sidebar-width);background:var(--bg-secondary);display:flex;flex-direction:column;flex-shrink:0}
   #sidebar-header{padding:0 16px;height:48px;display:flex;align-items:center;border-bottom:1px solid var(--border);flex-shrink:0}
   #sidebar-server-name{font-size:15px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -41,19 +45,25 @@
   .channel-icon{font-size:18px;flex-shrink:0;width:18px;text-align:center;color:var(--text-muted)}
   .channel-row.active .channel-icon,.channel-row:hover .channel-icon{color:var(--text-normal)}
   .channel-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* MAIN */
   #main{flex:1;display:flex;flex-direction:column;min-width:0}
   #channel-header{height:48px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;background:var(--bg-primary)}
   .header-name{font-size:16px;font-weight:700}
   .header-topic{font-size:13px;color:var(--text-muted);margin-left:8px;padding-left:8px;border-left:1px solid var(--border);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:400px}
   .header-spacer{flex:1}
-  #sync-badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .15s}
-  #sync-badge:hover{border-color:var(--brand);color:var(--text-normal)}
-  #sync-badge.syncing{border-color:var(--yellow);color:var(--yellow)}
-  #sync-badge.ok{border-color:var(--green);color:var(--green)}
-  #sync-badge.err{border-color:var(--red);color:var(--red)}
-  .sync-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+
+  /* SYNC BADGE */
+  .sync-badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .15s;user-select:none}
+  .sync-badge:hover{border-color:var(--brand);color:var(--text-normal)}
+  .sync-badge.syncing{border-color:var(--yellow);color:var(--yellow)}
+  .sync-badge.ok{border-color:var(--green);color:var(--green)}
+  .sync-badge.err{border-color:var(--red);color:var(--red)}
+  .sync-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
   .sync-dot.pulse{animation:pulse 1s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+
+  /* MESSAGES */
   #messages-wrap{flex:1;overflow-y:auto;padding:16px 0 24px}
   .load-more-btn{display:block;margin:12px auto;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-muted);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 20px;border-radius:4px;cursor:pointer}
   .load-more-btn:hover{background:var(--bg-hover);color:var(--text-normal)}
@@ -87,16 +97,20 @@
   .embed-desc{font-size:14px;color:var(--text-normal);white-space:pre-wrap;word-break:break-word}
   .embed-image{max-width:100%;border-radius:4px;margin-top:8px}
   .embed-footer{font-size:12px;color:var(--text-muted);margin-top:8px}
+
+  /* WELCOME */
   #welcome-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--text-muted)}
   #welcome-screen .big-icon{font-size:80px;opacity:.4}
   #welcome-screen h2{font-size:24px;font-weight:700;color:var(--text-normal)}
   #welcome-screen p{font-size:15px;text-align:center;max-width:360px}
-  .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;margin:40px auto}
-  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* TOAST */
   #toast-wrap{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:1000}
   .toast{background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:10px 16px;font-size:14px;min-width:240px;animation:slideIn .2s ease;box-shadow:0 4px 16px rgba(0,0,0,.4)}
   .toast.success{border-color:var(--green)}.toast.error{border-color:var(--red)}.toast.info{border-color:var(--brand)}
   @keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+  /* LIGHTBOX */
   #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;align-items:center;justify-content:center;cursor:zoom-out}
   #lightbox.show{display:flex}
   #lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px}
@@ -129,7 +143,7 @@
     <span class="header-name" id="hdr-name"></span>
     <span class="header-topic" id="hdr-topic"></span>
     <div class="header-spacer"></div>
-    <div id="sync-badge" onclick="manualSync()">
+    <div class="sync-badge" id="sync-badge-header" onclick="manualSync()">
       <span class="sync-dot" id="sync-dot"></span>
       <span id="sync-label">Sincronizar</span>
     </div>
@@ -139,7 +153,7 @@
     <div class="big-icon">💾</div>
     <h2>Xenon Message Viewer</h2>
     <p>Selecione um servidor para ver as mensagens salvas.</p>
-    <div id="sync-badge" style="margin-top:12px" onclick="manualSync()">
+    <div class="sync-badge" style="margin-top:12px" onclick="manualSync()">
       <span class="sync-dot"></span>
       <span>Verificar novos lotes</span>
     </div>
@@ -153,31 +167,27 @@
 
 <script>
 // ═══ CONFIG ═══
-// Troque pela URL real do seu site na Vercel
 const API = '/api/github-sync';
 
-const SB_URL = 'https://kdcocwihlmptwkqgxxzq.supabase.co';
-const SB_KEY = 'sb_publishable_zRpwfR1re_nBUOEc7Oe08g_9rMQdDoc';
-const SB_HDR = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
-
 // ═══ ESTADO ═══
-let allMessages = {};   // { "guild_id:channel_id": [...msgs] }
+let allMessages = {};
 let guilds = {};
 let currentGuildId = null;
 let currentChannelId = null;
 let pageIndex = {};
 const PAGE_SIZE = 100;
 let syncBusy = false;
+let pollTimer = null;
 
 // ═══ INIT ═══
 async function init() {
   await loadMessagesFromGitHub();
-  await buildGuildsFromLocal();
+  buildGuilds();
   renderServers();
-  pollForBatch();  // começa polling automático
+  startPolling();
 }
 
-// ═══ CARREGA messages_db.json DO GITHUB (via API segura) ═══
+// ═══ CARREGA messages_db.json DO GITHUB (via API) ═══
 async function loadMessagesFromGitHub() {
   try {
     const r = await fetch(`${API}?action=messages`);
@@ -190,86 +200,63 @@ async function loadMessagesFromGitHub() {
   }
 }
 
-// ═══ MONTA GUILDS DO LOCAL + SUPABASE ═══
-async function buildGuildsFromLocal() {
+// ═══ MONTA GUILDS A PARTIR DAS MENSAGENS ═══
+function buildGuilds() {
   guilds = {};
-
-  // Do cache local
   for (const key of Object.keys(allMessages)) {
     const [gid, cid] = key.split(':');
     const msgs = allMessages[key];
     if (!msgs || msgs.length === 0) continue;
     const s = msgs[0];
     if (!guilds[gid]) guilds[gid] = { name: s.guild_name || gid, icon: s.guild_icon || null, channels: {} };
-    if (!guilds[gid].channels[cid]) guilds[gid].channels[cid] = { name: s.channel_name || cid, category: s.category_name || null };
+    if (!guilds[gid].channels[cid]) {
+      guilds[gid].channels[cid] = { name: s.channel_name || cid, category: s.category_name || null };
+    }
     if (s.guild_icon && !guilds[gid].icon) guilds[gid].icon = s.guild_icon;
   }
-
-  // Complementa com Supabase (metadados de canais)
-  try {
-    const r = await fetch(
-      `${SB_URL}/rest/v1/messages?select=guild_id,guild_name,guild_icon,channel_id,channel_name,category_name&order=guild_name.asc&limit=1000`,
-      { headers: SB_HDR }
-    );
-    const rows = await r.json();
-    if (Array.isArray(rows)) {
-      for (const row of rows) {
-        if (!guilds[row.guild_id]) guilds[row.guild_id] = { name: row.guild_name, icon: row.guild_icon, channels: {} };
-        if (row.channel_id && !guilds[row.guild_id].channels[row.channel_id]) {
-          guilds[row.guild_id].channels[row.channel_id] = { name: row.channel_name, category: row.category_name };
-        }
-      }
-    }
-  } catch(e) {}
 }
 
-// ═══ POLLING AUTOMÁTICO (30s) ═══
-function pollForBatch() {
-  setInterval(checkForBatch, 30000);
+// ═══ POLLING AUTOMÁTICO A CADA 30s ═══
+function startPolling() {
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(checkAndProcess, 30000);
 }
 
-async function checkForBatch() {
+// ═══ VERIFICA E PROCESSA LOTES PENDENTES ═══
+async function checkAndProcess() {
+  if (syncBusy) return;
+
   try {
-    const r = await fetch(`${API}?action=status`);
+    // 1️⃣ Verifica se tem lotes pendentes no Supabase
+    const r = await fetch(`${API}?action=pending`);
     if (!r.ok) return;
-    const status = await r.json();
-    const pending   = status.pending_token;
-    const confirmed = status.confirmed_token;
-    if (pending && pending !== confirmed) {
-      toast(`📦 Novo lote do bot (${status.batch_count} msgs) — processando...`, 'info');
-      await processBatch(pending, status.batch_count);
-    }
-  } catch(e) {}
+    const { count } = await r.json();
+
+    if (count === 0) return; // nada a fazer
+
+    // 2️⃣ Tem lotes! Processa tudo
+    toast(`📦 ${count} lote(s) novo(s) do bot — processando...`, 'info');
+    await processNow();
+
+  } catch(e) {
+    console.warn('Polling error:', e);
+  }
 }
 
 // ═══ SYNC MANUAL ═══
 async function manualSync() {
   if (syncBusy) { toast('Sync já em andamento...', 'info'); return; }
-  await checkForBatch();
+  await processNow();
 }
 
-// ═══ PROCESSA LOTE ═══
-async function processBatch(batchToken, batchCount) {
+// ═══ CHAMA API PARA PROCESSAR TODOS OS LOTES ═══
+async function processNow() {
   if (syncBusy) return;
   syncBusy = true;
-  setSyncState('syncing', `Salvando ${batchCount} msgs...`);
+  setSyncState('syncing', 'Processando...');
 
   try {
-    // 1️⃣ Busca SÓ O LOTE pelo token — não baixa tudo do banco!
-    const batchMsgs = await fetchBatchFromSupabase(batchToken);
-    if (batchMsgs.length === 0) {
-      toast('Lote vazio ou não encontrado no Supabase', 'info');
-      setSyncState('', 'Sincronizar');
-      syncBusy = false;
-      return;
-    }
-
-    // 2️⃣ Envia para a API segura salvar no GitHub e confirmar
-    const r = await fetch(`${API}?action=save-batch`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ batchToken, newMessages: batchMsgs })
-    });
+    const r = await fetch(`${API}?action=process`, { method: 'POST' });
 
     if (!r.ok) {
       const err = await r.json();
@@ -278,9 +265,16 @@ async function processBatch(batchToken, batchCount) {
 
     const result = await r.json();
 
-    // 3️⃣ Atualiza estado local sem recarregar tudo
-    mergeLocal(batchMsgs);
-    await buildGuildsFromLocal();
+    if (result.processed === 0) {
+      setSyncState('', 'Sincronizar');
+      toast('Nenhum lote novo.', 'info');
+      syncBusy = false;
+      return;
+    }
+
+    // Recarrega as mensagens do GitHub (já foram atualizadas pela API)
+    await loadMessagesFromGitHub();
+    buildGuilds();
     renderServers();
 
     if (currentGuildId && currentChannelId) {
@@ -288,71 +282,29 @@ async function processBatch(batchToken, batchCount) {
     }
 
     setSyncState('ok', `✅ +${result.added} msgs`);
-    toast(`✅ ${result.added} mensagens novas salvas!`, 'success');
+    toast(`✅ ${result.added} mensagens novas! (${result.processed} lote(s))`, 'success');
     setTimeout(() => setSyncState('', 'Sincronizar'), 3000);
 
   } catch(e) {
     setSyncState('err', 'Erro');
-    toast('Erro ao processar lote: ' + e.message, 'error');
+    toast('Erro ao processar: ' + e.message, 'error');
+    setTimeout(() => setSyncState('', 'Sincronizar'), 3000);
   }
 
   syncBusy = false;
 }
 
-// ═══ BUSCA APENAS O LOTE PELO TOKEN NO SUPABASE ═══
-async function fetchBatchFromSupabase(batchToken) {
-  try {
-    const r = await fetch(
-      `${SB_URL}/rest/v1/batches?batch_token=eq.${encodeURIComponent(batchToken)}&select=data`,
-      { headers: SB_HDR }
-    );
-    if (!r.ok) throw new Error(`Supabase: ${r.status}`);
-    const rows = await r.json();
-    if (!rows || rows.length === 0) return [];
-    // data é o array de mensagens salvo pelo bot
-    const data = rows[0].data;
-    return Array.isArray(data) ? data : [];
-  } catch(e) {
-    console.error('fetchBatch error:', e);
-    return [];
-  }
-}
-
-// ═══ MESCLA LOCAL EM MEMÓRIA ═══
-function mergeLocal(msgs) {
-  for (const msg of msgs) {
-    const key = `${msg.guild_id}:${msg.channel_id}`;
-    if (!allMessages[key]) allMessages[key] = [];
-    const ids = new Set(allMessages[key].map(m => m.message_id));
-    if (!ids.has(msg.message_id)) {
-      allMessages[key].push(msg);
-    } else {
-      const idx = allMessages[key].findIndex(m => m.message_id === msg.message_id);
-      if (idx !== -1) allMessages[key][idx] = msg;
-    }
-  }
-  for (const key of Object.keys(allMessages)) {
-    allMessages[key].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-  }
-}
-
-// ═══ UI ═══
+// ═══ UI — SYNC BADGE ═══
 function setSyncState(state, label) {
-  document.querySelectorAll('#sync-badge').forEach(b => {
-    b.className = state ? `sync-badge ${state}` : 'sync-badge';  // não existe classe base sync-badge no CSS, usa id
-    b.setAttribute('class', state ? state : '');
-    // re-seta o id para manter estilos
-    b.id = 'sync-badge';
-  });
-  document.querySelector('#sync-dot')?.classList.toggle('pulse', state === 'syncing');
-  document.querySelectorAll('#sync-label, #sync-label-welcome').forEach(el => el && (el.textContent = label));
-  // Atualiza estado visual via classe no badge
-  document.querySelectorAll('#sync-badge').forEach(b => {
-    b.className = '';
-    if (state) b.classList.add(state);
-  });
+  const badge = document.getElementById('sync-badge-header');
+  const dot   = document.getElementById('sync-dot');
+  const lbl   = document.getElementById('sync-label');
+  if (badge) { badge.className = 'sync-badge' + (state ? ' ' + state : ''); }
+  if (dot)   { dot.classList.toggle('pulse', state === 'syncing'); }
+  if (lbl)   { lbl.textContent = label; }
 }
 
+// ═══ SERVERS ═══
 function renderServers() {
   const el = document.getElementById('servers-list');
   el.innerHTML = '';
@@ -389,6 +341,7 @@ function goHome() {
   showWelcome();
 }
 
+// ═══ SIDEBAR ═══
 function renderSidebar(gid) {
   const g = guilds[gid]; if (!g) return;
   document.getElementById('sidebar-server-name').textContent = g.name;
@@ -433,21 +386,21 @@ function selectChannel(gid, cid, cname) {
   renderChannelMessages(gid, cid, true);
 }
 
+// ═══ MENSAGENS ═══
 function renderChannelMessages(gid, cid, reset) {
-  const key = `${gid}:${cid}`;
+  const key  = `${gid}:${cid}`;
   const msgs = allMessages[key] || [];
   const wrap = document.getElementById('messages-wrap');
   if (reset) { wrap.innerHTML = ''; pageIndex[key] = 0; }
 
   if (msgs.length === 0) {
-    wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-muted)">Nenhuma mensagem salva neste canal.<br><small style="display:block;margin-top:8px;font-size:12px">Clique em "Sincronizar" para buscar do bot.</small></div>';
+    wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-muted)">Nenhuma mensagem salva neste canal.</div>';
     document.getElementById('hdr-topic').textContent = '0 mensagens';
     return;
   }
 
   const offset = pageIndex[key] || 0;
-  const page = msgs.slice(offset, offset + PAGE_SIZE);
-  if (reset) wrap.innerHTML = '';
+  const page   = msgs.slice(offset, offset + PAGE_SIZE);
 
   if (offset > 0) {
     const btn = document.createElement('button'); btn.className = 'load-more-btn';
@@ -483,11 +436,10 @@ function renderMessages(msgs, wrap) {
     lastAuthor = msg.author_id; lastTs = ts.getTime();
     const div = document.createElement('div');
     div.className = 'msg-group' + (isFirst ? ' first-in-group' : '');
-    div.dataset.authorId = msg.author_id;
     let inner = '';
     if (isFirst) {
       inner += msg.author_avatar
-        ? `<img class="msg-avatar" src="${msg.author_avatar}" alt="" onerror="this.src=''">`
+        ? `<img class="msg-avatar" src="${msg.author_avatar}" alt="" onerror="this.style.display='none'">`
         : `<div class="msg-avatar" style="display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;background:var(--brand);color:#fff">${(msg.author_name||'?')[0].toUpperCase()}</div>`;
     } else { inner += `<div class="msg-avatar-spacer"></div>`; }
     inner += `<div class="msg-content-wrap">`;
@@ -538,6 +490,7 @@ function showWelcome() {
   document.querySelectorAll('.channel-row').forEach(e => e.classList.remove('active'));
 }
 
+// ═══ HELPERS ═══
 function formatText(text) {
   if (!text) return '';
   let s = esc(text);
