@@ -12,13 +12,13 @@
     --text-normal:#dbdee1;--text-muted:#80848e;--text-link:#00a8fc;
     --brand:#5865f2;--green:#23a55a;--red:#f23f43;--yellow:#f0b232;
     --border:#3f4147;--font:'gg sans','Noto Sans',Whitney,sans-serif;
-    --servers-width:72px;--sidebar-width:240px;--members-width:240px;
+    --servers-width:72px;--sidebar-width:240px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg-primary);color:var(--text-normal);font-family:var(--font);font-size:15px;line-height:1.375;height:100vh;overflow:hidden;display:flex}
   ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#1a1b1e;border-radius:4px}
 
-  /* ═══ COLUNA DE SERVIDORES ═══ */
+  /* SERVIDORES */
   #servers-col{width:var(--servers-width);background:var(--bg-tertiary);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:2px;overflow-y:auto;flex-shrink:0}
   .server-icon{width:48px;height:48px;border-radius:50%;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-radius .15s,background .15s;position:relative;overflow:hidden;flex-shrink:0}
   .server-icon:hover{border-radius:16px;background:var(--brand)}
@@ -33,26 +33,24 @@
   .server-tooltip{position:absolute;left:calc(var(--servers-width) + 8px);background:#18191c;color:#fff;font-size:14px;font-weight:600;padding:8px 12px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5)}
   .server-icon:hover .server-tooltip{display:block}
 
-  /* ═══ BARRA LATERAL CANAIS ═══ */
+  /* SIDEBAR */
   #sidebar{width:var(--sidebar-width);background:var(--bg-secondary);display:flex;flex-direction:column;flex-shrink:0}
   #sidebar-header{padding:0 16px;height:48px;display:flex;align-items:center;border-bottom:1px solid var(--border);flex-shrink:0;cursor:pointer}
   #sidebar-header:hover{background:var(--bg-hover)}
   #sidebar-server-name{font-size:15px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #channels-list{flex:1;overflow-y:auto;padding:8px 0}
   .category-row{display:flex;align-items:center;gap:4px;padding:16px 8px 4px 8px;cursor:pointer;user-select:none}
-  .category-row:hover .category-name{color:var(--text-normal)}
+  .category-name{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;flex:1}
   .category-arrow{font-size:10px;color:var(--text-muted);transition:transform .1s}
   .category-arrow.collapsed{transform:rotate(-90deg)}
-  .category-name{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;flex:1}
   .channel-row{display:flex;align-items:center;gap:6px;padding:2px 8px 2px 16px;height:34px;border-radius:4px;cursor:pointer;color:var(--text-muted);font-size:14px;font-weight:500;transition:background .05s,color .05s;margin:0 8px;position:relative}
   .channel-row:hover{background:var(--bg-hover);color:var(--text-normal)}
   .channel-row.active{background:var(--bg-selected);color:#fff}
   .channel-icon{font-size:18px;flex-shrink:0;width:18px;text-align:center;color:var(--text-muted)}
   .channel-row.active .channel-icon,.channel-row:hover .channel-icon{color:var(--text-normal)}
   .channel-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .unread-badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:1px 5px;border-radius:8px;min-width:18px;text-align:center;margin-left:auto}
 
-  /* ═══ ÁREA PRINCIPAL ═══ */
+  /* MAIN */
   #main{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg-primary)}
   #channel-header{height:48px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;background:var(--bg-primary)}
   .header-icon{font-size:20px;color:var(--text-muted)}
@@ -62,7 +60,17 @@
   .header-btn{background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px;transition:color .1s}
   .header-btn:hover{color:var(--text-normal)}
 
-  /* ═══ MENSAGENS ═══ */
+  /* SYNC BADGE */
+  #sync-badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .15s;user-select:none}
+  #sync-badge:hover{border-color:var(--brand);color:var(--text-normal)}
+  #sync-badge.syncing{border-color:var(--yellow);color:var(--yellow)}
+  #sync-badge.success{border-color:var(--green);color:var(--green)}
+  #sync-badge.error{border-color:var(--red);color:var(--red)}
+  .sync-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+  .sync-dot.pulse{animation:pulse 1s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* MENSAGENS */
   #messages-wrap{flex:1;overflow-y:auto;padding:16px 0 24px}
   .load-more-btn{display:block;margin:12px auto;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-muted);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 20px;border-radius:4px;cursor:pointer;transition:all .1s}
   .load-more-btn:hover{background:var(--bg-hover);color:var(--text-normal)}
@@ -82,14 +90,9 @@
   .msg-text{font-size:15px;color:var(--text-normal);line-height:1.375;word-break:break-word;white-space:pre-wrap}
   .msg-text a{color:var(--text-link);text-decoration:none}.msg-text a:hover{text-decoration:underline}
   .msg-edited{font-size:10px;color:var(--text-muted);margin-left:4px}
-
-  /* reply */
-  .msg-reply{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);margin-bottom:4px;padding-left:8px;border-left:2px solid var(--border);cursor:pointer}
-  .msg-reply:hover{color:var(--text-normal)}
-  .reply-author{font-weight:600;color:var(--text-muted)}
+  .msg-reply{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);margin-bottom:4px;padding-left:8px;border-left:2px solid var(--border)}
+  .reply-author{font-weight:600}
   .reply-content{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:400px}
-
-  /* anexos */
   .msg-attachments{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
   .attachment-img{max-width:400px;max-height:300px;border-radius:4px;cursor:pointer;object-fit:contain;background:var(--bg-tertiary)}
   .attachment-file{display:flex;align-items:center;gap:10px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;padding:10px 14px;max-width:400px}
@@ -97,9 +100,8 @@
   .attachment-file-info{flex:1;min-width:0}
   .attachment-file-name{font-size:14px;font-weight:600;color:var(--text-link);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .attachment-file-size{font-size:12px;color:var(--text-muted)}
-  .attachment-file-dl{color:var(--text-muted);font-size:18px;cursor:pointer;text-decoration:none}.attachment-file-dl:hover{color:var(--text-normal)}
-
-  /* embeds */
+  .attachment-file-dl{color:var(--text-muted);font-size:18px;cursor:pointer;text-decoration:none}
+  .attachment-file-dl:hover{color:var(--text-normal)}
   .msg-embeds{display:flex;flex-direction:column;gap:4px;margin-top:4px}
   .embed{border-left:4px solid var(--brand);background:var(--bg-secondary);border-radius:4px;padding:10px 14px;max-width:520px}
   .embed-author{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:4px}
@@ -108,26 +110,22 @@
   .embed-image{max-width:100%;border-radius:4px;margin-top:8px}
   .embed-footer{font-size:12px;color:var(--text-muted);margin-top:8px}
 
-  /* ═══ ESTADO VAZIO ═══ */
+  /* WELCOME */
   #welcome-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--text-muted)}
   #welcome-screen .big-icon{font-size:80px;opacity:.4}
   #welcome-screen h2{font-size:24px;font-weight:700;color:var(--text-normal)}
   #welcome-screen p{font-size:15px;text-align:center;max-width:360px}
 
-  /* ═══ SPINNER ═══ */
   .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;margin:40px auto}
   @keyframes spin{to{transform:rotate(360deg)}}
 
-  /* ═══ TOPBAR (acima de tudo) ═══ */
-  #topbar{position:fixed;top:0;left:0;right:0;height:0;z-index:0;display:none}
-
-  /* ═══ TOAST ═══ */
+  /* TOAST */
   #toast-wrap{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:1000}
   .toast{background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:10px 16px;font-size:14px;min-width:240px;animation:slideIn .2s ease;box-shadow:0 4px 16px rgba(0,0,0,.4)}
   .toast.success{border-color:var(--green)}.toast.error{border-color:var(--red)}.toast.info{border-color:var(--brand)}
   @keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-  /* ═══ IMAGE LIGHTBOX ═══ */
+  /* LIGHTBOX */
   #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;align-items:center;justify-content:center;cursor:zoom-out}
   #lightbox.show{display:flex}
   #lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px}
@@ -135,9 +133,9 @@
 </head>
 <body>
 
-<!-- COLUNA DE SERVIDORES -->
+<!-- SERVIDORES -->
 <div id="servers-col">
-  <div class="server-icon active" id="home-btn" onclick="goHome()" title="Início">
+  <div class="server-icon active" id="home-btn" onclick="goHome()">
     <div class="server-pill"></div>
     <span class="initials">💾</span>
     <span class="server-tooltip">Xenon Viewer</span>
@@ -146,31 +144,39 @@
   <div id="servers-list"></div>
 </div>
 
-<!-- BARRA LATERAL -->
+<!-- SIDEBAR -->
 <div id="sidebar">
   <div id="sidebar-header">
     <span id="sidebar-server-name">Xenon Viewer</span>
   </div>
   <div id="channels-list">
     <div style="padding:40px 16px;text-align:center;color:var(--text-muted);font-size:13px">
-      Selecione um servidor ao lado →
+      Selecione um servidor →
     </div>
   </div>
 </div>
 
-<!-- ÁREA PRINCIPAL -->
+<!-- MAIN -->
 <div id="main">
   <div id="channel-header" style="display:none">
     <span class="header-icon" id="hdr-icon">#</span>
     <span class="header-name" id="hdr-name">canal</span>
     <span class="header-topic" id="hdr-topic"></span>
     <div class="header-spacer"></div>
+    <div id="sync-badge" onclick="manualSync()" title="Clique para sincronizar agora">
+      <span class="sync-dot" id="sync-dot"></span>
+      <span id="sync-label">Sincronizar</span>
+    </div>
   </div>
 
   <div id="welcome-screen">
     <div class="big-icon">💾</div>
     <h2>Xenon Message Viewer</h2>
     <p>Selecione um servidor na barra esquerda para ver os canais e mensagens salvas.</p>
+    <div id="sync-badge" style="margin-top:8px" onclick="manualSync()" title="Verificar e salvar novos lotes do bot">
+      <span class="sync-dot" id="sync-dot-welcome"></span>
+      <span id="sync-label-welcome">Verificar novos lotes</span>
+    </div>
   </div>
 
   <div id="messages-wrap" style="display:none"></div>
@@ -180,54 +186,290 @@
 <div id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" src="" alt="">
 </div>
-
-<!-- TOAST -->
 <div id="toast-wrap"></div>
 
 <script>
-const SB_URL  = 'https://kdcocwihlmptwkqgxxzq.supabase.co';
-const SB_KEY  = 'sb_publishable_zRpwfR1re_nBUOEc7Oe08g_9rMQdDoc';
-const HEADERS = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
+// ═══ CONFIG ═══
+const SB_URL   = 'https://kdcocwihlmptwkqgxxzq.supabase.co';
+const SB_KEY   = 'sb_publishable_zRpwfR1re_nBUOEc7Oe08g_9rMQdDoc';
+const SB_HDR   = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
 
-let guilds = {};           // { guild_id: { name, icon, channels: {} } }
+// GitHub — preencha com o novo token que você criar
+const GH_TOKEN  = 'SEU_GITHUB_TOKEN_AQUI';   // ← troque pelo novo token
+const GH_REPO   = 'Greg-Cris/TICKETS-1';
+const GH_BRANCH = 'main';
+
+// ═══ ESTADO ═══
+let guilds = {};
 let currentGuildId = null;
 let currentChannelId = null;
-let channelOffsets = {};   // { channel_id: offset }
+// Todas as mensagens carregadas: { "guild_id:channel_id": [ ...msgs ] }
+let allMessages = {};
+let pageIndex = {};    // { "guild:channel": offset de exibição }
+const PAGE_SIZE = 100; // mensagens exibidas por vez
 let loadingMore = false;
+let syncInProgress = false;
 
 // ═══ INIT ═══
 async function init() {
-  await loadGuilds();
+  await loadLocalMessages();   // carrega JSON salvo no GitHub
+  await loadGuildsFromLocal(); // monta a lista de servidores/canais do local
+  checkForPendingBatch();      // verifica se há lote novo do bot
 }
 
-// ═══ CARREGA LISTA DE SERVIDORES E CANAIS ═══
-async function loadGuilds() {
+// ═══ CARREGA MENSAGENS DO GITHUB (storage permanente) ═══
+async function loadLocalMessages() {
   try {
-    const r = await fetch(
-      `${SB_URL}/rest/v1/messages?select=guild_id,guild_name,guild_icon,channel_id,channel_name,category_name&order=guild_name.asc`,
-      { headers: HEADERS }
-    );
-    const rows = await r.json();
-    if (!Array.isArray(rows)) { toast('Erro ao carregar servidores', 'error'); return; }
-
-    guilds = {};
-    for (const row of rows) {
-      if (!guilds[row.guild_id]) {
-        guilds[row.guild_id] = { name: row.guild_name, icon: row.guild_icon, channels: {} };
-      }
-      const g = guilds[row.guild_id];
-      if (row.channel_id && !g.channels[row.channel_id]) {
-        g.channels[row.channel_id] = { name: row.channel_name, category: row.category_name };
-      }
-      if (row.guild_icon && !g.icon) g.icon = row.guild_icon;
+    const raw = await githubReadFile('messages_db.json');
+    if (raw) {
+      allMessages = JSON.parse(raw);
     }
-    renderServers();
   } catch(e) {
-    toast('Erro ao conectar ao Supabase', 'error');
+    // arquivo ainda não existe, tudo bem
+    allMessages = {};
   }
 }
 
-// ═══ RENDERIZA SERVIDORES NA COLUNA ═══
+// ═══ MONTA GUILDS/CANAIS A PARTIR DO LOCAL ═══
+async function loadGuildsFromLocal() {
+  guilds = {};
+
+  // Também pega do Supabase para não perder nada não salvo ainda
+  try {
+    const r = await fetch(
+      `${SB_URL}/rest/v1/messages?select=guild_id,guild_name,guild_icon,channel_id,channel_name,category_name&order=guild_name.asc`,
+      { headers: SB_HDR }
+    );
+    const rows = await r.json();
+    if (Array.isArray(rows)) {
+      for (const row of rows) {
+        if (!guilds[row.guild_id]) {
+          guilds[row.guild_id] = { name: row.guild_name, icon: row.guild_icon, channels: {} };
+        }
+        const g = guilds[row.guild_id];
+        if (row.channel_id && !g.channels[row.channel_id]) {
+          g.channels[row.channel_id] = { name: row.channel_name, category: row.category_name };
+        }
+        if (row.guild_icon && !g.icon) g.icon = row.guild_icon;
+      }
+    }
+  } catch(e) {}
+
+  // Complementa com dados locais salvos
+  for (const key of Object.keys(allMessages)) {
+    const [gid, cid] = key.split(':');
+    const msgs = allMessages[key];
+    if (!msgs || msgs.length === 0) continue;
+    const sample = msgs[0];
+    if (!guilds[gid]) {
+      guilds[gid] = { name: sample.guild_name || gid, icon: sample.guild_icon || null, channels: {} };
+    }
+    if (cid && !guilds[gid].channels[cid]) {
+      guilds[gid].channels[cid] = { name: sample.channel_name || cid, category: sample.category_name || null };
+    }
+    if (sample.guild_icon && !guilds[gid].icon) guilds[gid].icon = sample.guild_icon;
+  }
+
+  renderServers();
+}
+
+// ═══ VERIFICA LOTE PENDENTE DO BOT ═══
+async function checkForPendingBatch() {
+  try {
+    const raw = await githubReadFile('sync_status.json');
+    if (!raw) return;
+    const status = JSON.parse(raw);
+    const pending = status.pending_token;
+    const confirmed = status.confirmed_token;
+
+    if (pending && pending !== confirmed) {
+      // Há lote novo do bot esperando!
+      toast(`📦 Novo lote do bot disponível (${status.batch_count} msgs) — salvando...`, 'info');
+      await processPendingBatch(pending, status.batch_count);
+    }
+  } catch(e) {}
+}
+
+// ═══ PROCESSA LOTE PENDENTE ═══
+async function processPendingBatch(batchToken, batchCount) {
+  if (syncInProgress) return;
+  syncInProgress = true;
+  setSyncState('syncing', `Salvando ${batchCount} msgs...`);
+
+  try {
+    // 1. Lê TODAS as mensagens do Supabase em batches
+    const newMsgs = await fetchAllFromSupabase();
+    if (newMsgs.length === 0) {
+      toast('Nenhuma mensagem nova no Supabase', 'info');
+      setSyncState('', 'Sincronizar');
+      syncInProgress = false;
+      return;
+    }
+
+    // 2. Mescla com os dados locais
+    mergeMessages(newMsgs);
+
+    // 3. Salva no GitHub
+    await githubWriteFile(
+      'messages_db.json',
+      JSON.stringify(allMessages),
+      `site: salvo lote ${batchToken} (${newMsgs.length} msgs)`
+    );
+
+    // 4. Confirma o lote para o bot
+    const statusRaw = await githubReadFile('sync_status.json');
+    const status = statusRaw ? JSON.parse(statusRaw) : {};
+    status.confirmed_token = batchToken;
+    status.confirmed_at = new Date().toISOString();
+    status.confirmed_count = newMsgs.length;
+    await githubWriteFile(
+      'sync_status.json',
+      JSON.stringify(status, null, 2),
+      `site: confirmado lote ${batchToken}`
+    );
+
+    // 5. Atualiza a UI
+    await loadGuildsFromLocal();
+    if (currentGuildId && currentChannelId) {
+      renderChannelMessages(currentGuildId, currentChannelId, true);
+    }
+
+    setSyncState('success', `✅ ${newMsgs.length} msgs salvas`);
+    toast(`✅ ${newMsgs.length} mensagens salvas e confirmadas ao bot!`, 'success');
+    setTimeout(() => setSyncState('', 'Sincronizar'), 3000);
+
+  } catch(e) {
+    setSyncState('error', 'Erro ao salvar');
+    toast('Erro ao processar lote: ' + e.message, 'error');
+  }
+
+  syncInProgress = false;
+}
+
+// ═══ BUSCA TUDO DO SUPABASE EM BATCHES ═══
+async function fetchAllFromSupabase() {
+  const all = [];
+  let offset = 0;
+  const limit = 500; // máximo Supabase por request
+
+  while (true) {
+    try {
+      const r = await fetch(
+        `${SB_URL}/rest/v1/messages?order=timestamp.asc&limit=${limit}&offset=${offset}`,
+        { headers: SB_HDR }
+      );
+      const batch = await r.json();
+      if (!Array.isArray(batch) || batch.length === 0) break;
+      all.push(...batch);
+      if (batch.length < limit) break;
+      offset += limit;
+    } catch(e) {
+      break;
+    }
+  }
+  return all;
+}
+
+// ═══ MESCLA MENSAGENS NO ESTADO LOCAL ═══
+function mergeMessages(msgs) {
+  for (const msg of msgs) {
+    const key = `${msg.guild_id}:${msg.channel_id}`;
+    if (!allMessages[key]) allMessages[key] = [];
+
+    // evita duplicatas por message_id
+    const existingIds = new Set(allMessages[key].map(m => m.message_id));
+    if (!existingIds.has(msg.message_id)) {
+      allMessages[key].push(msg);
+    } else {
+      // atualiza (edited)
+      const idx = allMessages[key].findIndex(m => m.message_id === msg.message_id);
+      if (idx !== -1) allMessages[key][idx] = msg;
+    }
+  }
+
+  // Ordena por timestamp
+  for (const key of Object.keys(allMessages)) {
+    allMessages[key].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  }
+}
+
+// ═══ SYNC MANUAL ═══
+async function manualSync() {
+  if (syncInProgress) { toast('Sync já em andamento...', 'info'); return; }
+  await checkForPendingBatch();
+  // Se não havia lote pendente, tenta pegar qualquer coisa nova do Supabase
+  if (!syncInProgress) {
+    toast('Verificando Supabase...', 'info');
+    await processPendingBatch('manual_' + Date.now(), '?');
+  }
+}
+
+// ═══ GITHUB API ═══
+async function githubReadFile(path) {
+  const url = `https://api.github.com/repos/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}`;
+  const r = await fetch(url, {
+    headers: {
+      'Authorization': `token ${GH_TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json'
+    }
+  });
+  if (r.status === 404) return null;
+  if (!r.ok) throw new Error(`GitHub read error: ${r.status}`);
+  const data = await r.json();
+  return atob(data.content.replace(/\n/g, ''));
+}
+
+async function githubWriteFile(path, content, commitMsg) {
+  const url = `https://api.github.com/repos/${GH_REPO}/contents/${path}`;
+  const headers = {
+    'Authorization': `token ${GH_TOKEN}`,
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json'
+  };
+
+  // Pega SHA atual
+  let sha = null;
+  try {
+    const r = await fetch(url + `?ref=${GH_BRANCH}`, { headers });
+    if (r.ok) { const d = await r.json(); sha = d.sha; }
+  } catch(e) {}
+
+  const payload = {
+    message: commitMsg,
+    content: btoa(unescape(encodeURIComponent(content))),
+    branch: GH_BRANCH
+  };
+  if (sha) payload.sha = sha;
+
+  const r = await fetch(url, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(payload)
+  });
+  if (!r.ok) {
+    const txt = await r.text();
+    throw new Error(`GitHub write error: ${r.status} ${txt.slice(0,200)}`);
+  }
+}
+
+// ═══ ESTADO DO BADGE DE SYNC ═══
+function setSyncState(state, label) {
+  ['sync-badge', 'sync-badge'].forEach((_, i) => {
+    const badges = document.querySelectorAll('#sync-badge');
+    badges.forEach(b => {
+      b.className = 'sync-badge' + (state ? ' ' + state : '');
+    });
+  });
+  const dots = document.querySelectorAll('.sync-dot');
+  dots.forEach(d => {
+    d.className = 'sync-dot' + (state === 'syncing' ? ' pulse' : '');
+  });
+  document.querySelectorAll('#sync-label, #sync-label-welcome').forEach(el => {
+    el.textContent = label;
+  });
+}
+
+// ═══ RENDER SERVIDORES ═══
 function renderServers() {
   const el = document.getElementById('servers-list');
   el.innerHTML = '';
@@ -241,15 +483,9 @@ function renderServers() {
     div.appendChild(pill);
     if (g.icon) {
       const img = document.createElement('img');
-      img.src = g.icon;
-      img.alt = g.name;
-      img.onerror = () => { img.style.display='none'; div.querySelector('.initials').style.display='flex'; };
+      img.src = g.icon; img.alt = g.name;
+      img.onerror = () => { img.style.display='none'; };
       div.appendChild(img);
-      const ini = document.createElement('span');
-      ini.className = 'initials';
-      ini.style.display = 'none';
-      ini.textContent = initials(g.name);
-      div.appendChild(ini);
     } else {
       const ini = document.createElement('span');
       ini.className = 'initials';
@@ -285,33 +521,32 @@ function goHome() {
   showWelcome();
 }
 
-// ═══ RENDERIZA CANAIS NA SIDEBAR ═══
+// ═══ SIDEBAR CANAIS ═══
 function renderSidebar(gid) {
   const g = guilds[gid];
   if (!g) return;
   document.getElementById('sidebar-server-name').textContent = g.name;
-
-  // agrupa por categoria
   const cats = {};
   for (const [cid, ch] of Object.entries(g.channels)) {
     const cat = ch.category || '—';
     if (!cats[cat]) cats[cat] = [];
     cats[cat].push({ id: cid, ...ch });
   }
-
   let h = '';
   for (const [cat, chs] of Object.entries(cats)) {
     const catId = `cat-${gid}-${cat.replace(/\s/g,'_')}`;
     h += `<div class="category-row" onclick="toggleCat('${catId}')">
       <span class="category-arrow" id="arr-${catId}">▾</span>
       <span class="category-name">${esc(cat === '—' ? 'Sem categoria' : cat)}</span>
-    </div>
-    <div id="${catId}">`;
+    </div><div id="${catId}">`;
     for (const ch of chs) {
+      const msgCount = (allMessages[`${gid}:${ch.id}`] || []).length;
       const active = currentChannelId === ch.id ? ' active' : '';
-      h += `<div class="channel-row${active}" data-chid="${ch.id}" onclick="selectChannel('${gid}','${ch.id}','${esc(ch.name)}')">
+      h += `<div class="channel-row${active}" data-chid="${ch.id}"
+             onclick="selectChannel('${gid}','${ch.id}','${esc(ch.name)}')">
         <span class="channel-icon">#</span>
         <span class="channel-name">${esc(ch.name)}</span>
+        ${msgCount > 0 ? `<span style="font-size:11px;color:var(--text-muted);margin-left:auto">${msgCount}</span>` : ''}
       </div>`;
     }
     h += `</div>`;
@@ -329,10 +564,10 @@ function toggleCat(id) {
 }
 
 // ═══ SELECIONA CANAL ═══
-async function selectChannel(gid, cid, cname) {
+function selectChannel(gid, cid, cname) {
   currentGuildId = gid;
   currentChannelId = cid;
-  channelOffsets[cid] = 0;
+  pageIndex[`${gid}:${cid}`] = 0;
 
   document.querySelectorAll('.channel-row').forEach(e => e.classList.remove('active'));
   document.querySelector(`.channel-row[data-chid="${cid}"]`)?.classList.add('active');
@@ -341,79 +576,76 @@ async function selectChannel(gid, cid, cname) {
   document.getElementById('hdr-icon').textContent = '#';
   document.getElementById('hdr-name').textContent = cname;
   document.getElementById('hdr-topic').textContent = '';
-
   document.getElementById('welcome-screen').style.display = 'none';
+
   const wrap = document.getElementById('messages-wrap');
   wrap.style.display = 'block';
-  wrap.innerHTML = '<div class="spinner"></div>';
 
-  await loadMessages(gid, cid, true);
+  renderChannelMessages(gid, cid, true);
 }
 
-// ═══ CARREGA MENSAGENS ═══
-async function loadMessages(gid, cid, reset = false) {
-  if (loadingMore) return;
-  loadingMore = true;
-  const offset = reset ? 0 : (channelOffsets[cid] || 0);
+// ═══ RENDERIZA MENSAGENS DO CACHE LOCAL ═══
+function renderChannelMessages(gid, cid, reset) {
+  const key = `${gid}:${cid}`;
+  const msgs = allMessages[key] || [];
+  const wrap = document.getElementById('messages-wrap');
 
-  try {
-    const r = await fetch(
-      `${SB_URL}/rest/v1/messages?guild_id=eq.${gid}&channel_id=eq.${cid}&order=timestamp.asc&limit=50&offset=${offset}`,
-      { headers: HEADERS }
-    );
-    const msgs = await r.json();
-    if (!Array.isArray(msgs)) { toast('Erro ao carregar mensagens', 'error'); return; }
-
-    channelOffsets[cid] = offset + msgs.length;
-
-    const wrap = document.getElementById('messages-wrap');
-    if (reset) {
-      wrap.innerHTML = '';
-    } else {
-      // remove botão "carregar mais" se existir
-      wrap.querySelector('.load-more-btn')?.remove();
-    }
-
-    if (reset && msgs.length === 0) {
-      wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-muted)">Nenhuma mensagem salva neste canal ainda.</div>';
-      return;
-    }
-
-    renderMessages(msgs, wrap, reset);
-
-    // botão carregar mais no topo (mensagens mais antigas)
-    if (msgs.length === 50) {
-      const btn = document.createElement('button');
-      btn.className = 'load-more-btn';
-      btn.textContent = '⬆️ Carregar mensagens anteriores';
-      btn.onclick = () => loadMessages(gid, cid, false);
-      wrap.insertBefore(btn, wrap.firstChild);
-    }
-
-    if (reset) wrap.scrollTop = wrap.scrollHeight;
-
-  } catch(e) {
-    toast('Erro ao carregar mensagens: ' + e.message, 'error');
-  } finally {
-    loadingMore = false;
+  if (reset) {
+    wrap.innerHTML = '';
+    pageIndex[key] = 0;
   }
+
+  if (msgs.length === 0) {
+    wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-muted)">Nenhuma mensagem salva neste canal ainda.<br><small style="font-size:12px;margin-top:8px;display:block">Clique em "Sincronizar" para buscar do bot.</small></div>';
+    return;
+  }
+
+  const offset = pageIndex[key] || 0;
+  const page = msgs.slice(offset, offset + PAGE_SIZE);
+
+  if (reset) {
+    wrap.innerHTML = '';
+  } else {
+    wrap.querySelector('.load-more-btn')?.remove();
+  }
+
+  // Botão de carregar mais (mensagens anteriores)
+  if (offset > 0) {
+    const btn = document.createElement('button');
+    btn.className = 'load-more-btn';
+    btn.textContent = '⬆️ Carregar mensagens anteriores';
+    btn.onclick = () => {
+      pageIndex[key] = Math.max(0, offset - PAGE_SIZE);
+      renderChannelMessages(gid, cid, true);
+    };
+    wrap.insertBefore(btn, wrap.firstChild);
+  }
+
+  // Próxima página
+  if (offset + PAGE_SIZE < msgs.length) {
+    const btn = document.createElement('button');
+    btn.className = 'load-more-btn';
+    btn.textContent = '⬇️ Carregar mensagens seguintes';
+    btn.onclick = () => {
+      pageIndex[key] = offset + PAGE_SIZE;
+      renderChannelMessages(gid, cid, true);
+    };
+    wrap.appendChild(btn);
+  }
+
+  renderMessages(page, wrap, reset);
+
+  if (reset) wrap.scrollTop = wrap.scrollHeight;
+
+  // Mostra total
+  const total = msgs.length;
+  const showing = Math.min(offset + PAGE_SIZE, total);
+  document.getElementById('hdr-topic').textContent = `${showing}/${total} mensagens`;
 }
 
-// ═══ RENDERIZA MENSAGENS ═══
+// ═══ RENDERIZA MENSAGENS (DOM) ═══
 function renderMessages(msgs, wrap, reset) {
-  let lastDate = '';
-  let lastAuthor = '';
-  let lastTs = 0;
-
-  // se não é reset, precisa pegar data/autor da última mensagem já renderizada
-  if (!reset) {
-    const existing = wrap.querySelectorAll('.msg-group');
-    if (existing.length) {
-      const last = existing[existing.length - 1];
-      lastAuthor = last.dataset.authorId || '';
-    }
-  }
-
+  let lastDate = '', lastAuthor = '', lastTs = 0;
   const frag = document.createDocumentFragment();
 
   for (const msg of msgs) {
@@ -429,19 +661,18 @@ function renderMessages(msgs, wrap, reset) {
       lastAuthor = '';
     }
 
-    const isFirstInGroup = msg.author_id !== lastAuthor || (ts.getTime() - lastTs) > 5 * 60 * 1000;
+    const isFirst = msg.author_id !== lastAuthor || (ts.getTime() - lastTs) > 5 * 60 * 1000;
     lastAuthor = msg.author_id;
     lastTs = ts.getTime();
 
     const div = document.createElement('div');
-    div.className = 'msg-group' + (isFirstInGroup ? ' first-in-group' : '');
+    div.className = 'msg-group' + (isFirst ? ' first-in-group' : '');
     div.dataset.authorId = msg.author_id;
     div.dataset.msgId = msg.message_id;
 
     let inner = '';
 
-    // avatar ou espaço
-    if (isFirstInGroup) {
+    if (isFirst) {
       const av = msg.author_avatar
         ? `<img class="msg-avatar" src="${msg.author_avatar}" alt="" onerror="this.src=''">`
         : `<div class="msg-avatar" style="display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;background:var(--brand);color:#fff">${(msg.author_name||'?')[0].toUpperCase()}</div>`;
@@ -452,33 +683,28 @@ function renderMessages(msgs, wrap, reset) {
 
     inner += `<div class="msg-content-wrap">`;
 
-    // reply
     if (msg.reply_to) {
       let rep = msg.reply_to;
       if (typeof rep === 'string') try { rep = JSON.parse(rep); } catch{}
       if (rep && rep.author_name) {
-        inner += `<div class="msg-reply">↩ <span class="reply-author">${esc(rep.author_name)}</span><span class="reply-content">${esc(rep.content || '')}</span></div>`;
+        inner += `<div class="msg-reply">↩ <span class="reply-author">${esc(rep.author_name)}</span> <span class="reply-content">${esc(rep.content||'')}</span></div>`;
       }
     }
 
-    // header
-    if (isFirstInGroup) {
+    if (isFirst) {
       const botClass = msg.author_bot ? ' bot-tag' : '';
       const timeStr = ts.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-      const fullTime = ts.toLocaleString('pt-BR');
       inner += `<div class="msg-header">
         <span class="msg-author${botClass}" style="color:${authorColor(msg.author_id)}">${esc(msg.author_name)}</span>
-        <span class="msg-timestamp" title="${fullTime}">${timeStr}</span>
+        <span class="msg-timestamp" title="${ts.toLocaleString('pt-BR')}">${timeStr}</span>
       </div>`;
     }
 
-    // conteúdo
     if (msg.content) {
       const edited = msg.edited_at ? `<span class="msg-edited">(editado)</span>` : '';
       inner += `<div class="msg-text">${formatText(msg.content)}${edited}</div>`;
     }
 
-    // anexos
     const attachments = parseJson(msg.attachments, []);
     if (attachments.length) {
       inner += `<div class="msg-attachments">`;
@@ -486,27 +712,25 @@ function renderMessages(msgs, wrap, reset) {
         if (a.content_type && a.content_type.startsWith('image/')) {
           inner += `<img class="attachment-img" src="${a.url}" alt="${esc(a.filename)}" loading="lazy" onclick="openLightbox('${a.url}')">`;
         } else {
-          const size = formatSize(a.size);
           inner += `<div class="attachment-file">
             <span class="attachment-file-icon">📄</span>
             <div class="attachment-file-info">
               <div class="attachment-file-name">${esc(a.filename)}</div>
-              <div class="attachment-file-size">${size}</div>
+              <div class="attachment-file-size">${formatSize(a.size)}</div>
             </div>
-            <a class="attachment-file-dl" href="${a.url}" target="_blank" download title="Baixar">⬇️</a>
+            <a class="attachment-file-dl" href="${a.url}" target="_blank" download>⬇️</a>
           </div>`;
         }
       }
       inner += `</div>`;
     }
 
-    // embeds
     const embeds = parseJson(msg.embeds, []);
     if (embeds.length) {
       inner += `<div class="msg-embeds">`;
       for (const e of embeds) {
-        const borderColor = e.color ? `#${e.color.toString(16).padStart(6,'0')}` : 'var(--brand)';
-        inner += `<div class="embed" style="border-left-color:${borderColor}">`;
+        const bc = e.color ? `#${e.color.toString(16).padStart(6,'0')}` : 'var(--brand)';
+        inner += `<div class="embed" style="border-left-color:${bc}">`;
         if (e.author) inner += `<div class="embed-author">${esc(e.author)}</div>`;
         if (e.title) inner += `<div class="embed-title">${esc(e.title)}</div>`;
         if (e.description) inner += `<div class="embed-desc">${formatText(e.description)}</div>`;
@@ -522,7 +746,13 @@ function renderMessages(msgs, wrap, reset) {
     frag.appendChild(div);
   }
 
-  wrap.appendChild(frag);
+  // Insere antes do botão de "próxima página" se existir
+  const nextBtn = wrap.querySelector('.load-more-btn:last-child');
+  if (nextBtn) {
+    wrap.insertBefore(frag, nextBtn);
+  } else {
+    wrap.appendChild(frag);
+  }
 }
 
 // ═══ UTILITÁRIOS ═══
@@ -536,13 +766,9 @@ function showWelcome() {
 function formatText(text) {
   if (!text) return '';
   let s = esc(text);
-  // bold
   s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  // italic
   s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
-  // code inline
   s = s.replace(/`([^`]+)`/g, '<code style="background:var(--bg-tertiary);padding:1px 4px;border-radius:3px;font-size:13px">$1</code>');
-  // links
   s = s.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
   return s;
 }
@@ -564,38 +790,33 @@ const COLOR_CACHE = {};
 function authorColor(id) {
   if (COLOR_CACHE[id]) return COLOR_CACHE[id];
   const colors = ['#f23f43','#5865f2','#23a55a','#f0b232','#eb459e','#3ba55c','#ed4245','#57f287','#fee75c','#9b59b6'];
-  const idx = Math.abs(hashCode(id||'0')) % colors.length;
-  COLOR_CACHE[id] = colors[idx];
-  return colors[idx];
+  COLOR_CACHE[id] = colors[Math.abs(hashCode(id||'0')) % colors.length];
+  return COLOR_CACHE[id];
 }
 function hashCode(s) { let h=0; for(let i=0;i<s.length;i++){h=Math.imul(31,h)+s.charCodeAt(i)|0;} return h; }
-
 function initials(name) {
   if (!name) return '?';
   const words = name.trim().split(/\s+/);
-  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
-  return name.slice(0,2).toUpperCase();
+  return words.length >= 2 ? (words[0][0]+words[1][0]).toUpperCase() : name.slice(0,2).toUpperCase();
 }
-
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
 function openLightbox(url) {
   document.getElementById('lightbox-img').src = url;
   document.getElementById('lightbox').classList.add('show');
 }
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('show');
-}
-
+function closeLightbox() { document.getElementById('lightbox').classList.remove('show'); }
 function toast(msg, type='info') {
   const el = document.createElement('div');
   el.className = `toast ${type}`;
   el.textContent = msg;
   document.getElementById('toast-wrap').appendChild(el);
-  setTimeout(() => el.remove(), 3500);
+  setTimeout(() => el.remove(), 4000);
 }
+
+// Polling automático: verifica lotes a cada 30 segundos
+setInterval(checkForPendingBatch, 30000);
 
 init();
 </script>
