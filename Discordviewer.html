@@ -73,8 +73,6 @@
 
   /* MESSAGES */
   #messages-wrap{flex:1;overflow-y:auto;padding:16px 0 56px}
-  .load-more-btn{display:block;margin:12px auto;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-muted);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 20px;border-radius:4px;cursor:pointer}
-  .load-more-btn:hover{background:var(--bg-hover);color:var(--text-normal)}
   .date-divider{display:flex;align-items:center;gap:12px;padding:16px 16px 8px;color:var(--text-muted);font-size:12px;font-weight:600}
   .date-divider::before,.date-divider::after{content:'';flex:1;height:1px;background:var(--border)}
   .msg-group{padding:2px 16px;display:flex;gap:16px;transition:background .05s}
@@ -176,7 +174,6 @@
   .log-icon{flex-shrink:0;width:20px;text-align:center}
   .log-lvl{flex-shrink:0;font-weight:700;width:48px}
   .log-msg{flex:1;word-break:break-all;color:var(--text-normal)}
-  /* cores por nível */
   .log-line.INFO  .log-lvl{color:#4a9eff}
   .log-line.OK    .log-lvl{color:var(--green)}
   .log-line.WARN  .log-lvl{color:var(--yellow)}
@@ -192,7 +189,6 @@
   .log-line.DONE  .log-msg{color:#7ec89b}
   .log-line.PERF  .log-msg{color:#ffbe76}
   .log-empty{text-align:center;padding:60px 20px;color:var(--text-muted);font-family:var(--font);font-size:14px}
-  /* scrollbar terminal */
   #log-terminal::-webkit-scrollbar{width:6px}
   #log-terminal::-webkit-scrollbar-thumb{background:#2a2c30;border-radius:3px}
 
@@ -314,7 +310,6 @@
       </div>
     </div>
     <div class="logs-toolbar">
-      <!-- filtros de nível -->
       <span style="font-size:11px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px">Filtro:</span>
       <button class="logs-btn active" data-filter="ALL"  onclick="setFilter(this)">Todos</button>
       <button class="logs-btn" data-filter="OK"   onclick="setFilter(this)">✅ OK</button>
@@ -348,19 +343,17 @@ const LOG_REFRESH    = 5000;
 // ══════════════════════════════════════════════
 let allMessages = {}, guilds = {};
 let currentGuildId = null, currentChannelId = null;
-let pageIndex = {};
-const PAGE_SIZE = 100;
 let syncBusy = false;
 let currentView = 'welcome';
 let nextSyncIn = POLL_INTERVAL / 1000;
 
 // ── logs ──
-let logLines      = [];      // todas as linhas recebidas
-let logFilter     = 'ALL';   // filtro ativo
+let logLines       = [];
+let logFilter      = 'ALL';
 let logAutoRefresh = true;
-let logAutoTimer  = null;
-let logAutoScroll = true;    // segue o fim automaticamente
-let seenLogLines  = new Set(); // evita duplicatas
+let logAutoTimer   = null;
+let logAutoScroll  = true;
+let seenLogLines   = new Set();
 
 // ══════════════════════════════════════════════
 //  INIT
@@ -435,7 +428,6 @@ async function processNow(silent = false) {
     const r = await fetch(`${API}?action=process`, { method: 'POST' });
     if (!r.ok) { const e = await r.json(); throw new Error(e.error || 'Erro na API'); }
     const result = await r.json();
-    // injeta logs retornados pelo process na tela de logs
     if (result.logs?.length) ingestLogLines(result.logs, false);
     if (result.processed > 0) {
       await loadMessagesFromGitHub();
@@ -485,21 +477,52 @@ function buildGuilds() {
 //  LOGS — engine
 // ══════════════════════════════════════════════
 
-// Recebe linhas do formato "[HH:MM:SS] ✅ [OK] mensagem"
-// e também linhas diretas do buffer do servidor
+// ─────────────────────────────────────────────
+// FIX #1 — normalização de formato de log
+//
+// O backend pode retornar logs em dois formatos:
+//   A) "[HH:MM:SS] ✅ [OK] mensagem"        ← formato completo
+//   B) "mensagem simples sem timestamp"      ← fallback sem estrutura
+//
+// Esta função normaliza AMBOS para o formato A,
+// garantindo que o terminal sempre consiga parsear
+// e colorir corretamente cada linha.
+// ─────────────────────────────────────────────
+function normalizeLogLine(raw) {
+  if (!raw || typeof raw !== 'string') return null;
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+
+  // Já está no formato esperado: [HH:MM:SS] ... [LEVEL] ...
+  if (/^\[\d{2}:\d{2}:\d{2}\]/.test(trimmed)) return trimmed;
+
+  // Tenta detectar nível pela presença de palavras-chave
+  const ts = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  let level = 'INFO', icon = 'ℹ️';
+  if (/error|erro|fail|falh/i.test(trimmed))       { level='ERR';   icon='❌'; }
+  else if (/warn|aviso/i.test(trimmed))             { level='WARN';  icon='⚠️'; }
+  else if (/ok|success|sucesso|salvo|saved/i.test(trimmed)) { level='OK'; icon='✅'; }
+  else if (/batch|lote/i.test(trimmed))             { level='BATCH'; icon='📦'; }
+  else if (/perf|tempo|ms\b|latên/i.test(trimmed)) { level='PERF';  icon='⏱️'; }
+
+  return `[${ts}] ${icon} [${level}] ${trimmed}`;
+}
+
 function ingestLogLines(lines, markNew = true) {
+  if (!Array.isArray(lines)) return;
   let added = 0;
   for (const raw of lines) {
-    if (seenLogLines.has(raw)) continue;
-    seenLogLines.add(raw);
-    logLines.push({ raw, isNew: markNew });
+    const normalized = normalizeLogLine(raw);
+    if (!normalized) continue;
+    if (seenLogLines.has(normalized)) continue;
+    seenLogLines.add(normalized);
+    logLines.push({ raw: normalized, isNew: markNew });
     added++;
   }
   if (added > 0) renderLogTerminal();
 }
 
 function parseLogLine(raw) {
-  // formato esperado: [HH:MM:SS] icon [LEVEL] mensagem
   const m = raw.match(/^\[(\d{2}:\d{2}:\d{2})\]\s+\S+\s+\[(\w+)\]\s+(.*)$/);
   if (m) return { ts: m[1], level: m[2], msg: m[3] };
   return { ts: '', level: 'INFO', msg: raw };
@@ -533,7 +556,7 @@ function renderLogTerminal() {
       `<span class="log-lvl">[${level}]</span>` +
       `<span class="log-msg">${esc(msg)}</span>`;
     frag.appendChild(div);
-    entry.isNew = false; // já renderizou como novo, não repete
+    entry.isNew = false;
   }
 
   term.innerHTML = '';
@@ -542,12 +565,38 @@ function renderLogTerminal() {
   if (logAutoScroll) term.scrollTop = term.scrollHeight;
 }
 
+// ─────────────────────────────────────────────
+// FIX #1 — fetchAndIngestLogs robusto
+//
+// Antes: só tentava action=logs
+// Agora: tenta action=logs, e se a API não
+//        retornar o campo "logs", cai para o
+//        campo "recent_logs" do action=status
+//        como fallback, garantindo que sempre
+//        haja algo para mostrar no terminal.
+// ─────────────────────────────────────────────
 async function fetchAndIngestLogs() {
   try {
+    // Tentativa 1: endpoint dedicado de logs
     const r = await fetch(`${API}?action=logs&lines=300`);
-    if (!r.ok) return;
-    const data = await r.json();
-    if (data.logs?.length) ingestLogLines(data.logs, true);
+    if (r.ok) {
+      const data = await r.json();
+      // Aceita "logs" OU "recent_logs" OU array direto
+      const lines = data.logs ?? data.recent_logs ?? (Array.isArray(data) ? data : null);
+      if (lines?.length) {
+        ingestLogLines(lines, true);
+        return; // sucesso, não precisa do fallback
+      }
+    }
+  } catch(e) { /* tenta fallback abaixo */ }
+
+  // Fallback: action=status sempre tem recent_logs
+  try {
+    const r2 = await fetch(`${API}?action=status`);
+    if (r2.ok) {
+      const data2 = await r2.json();
+      if (data2.recent_logs?.length) ingestLogLines(data2.recent_logs, true);
+    }
   } catch(e) { /* silencioso */ }
 }
 
@@ -579,7 +628,6 @@ function copyLogs() {
   navigator.clipboard.writeText(text).then(() => {
     toast(`📋 ${logLines.length} linhas copiadas!`, 'success');
   }).catch(() => {
-    // fallback
     const ta = document.createElement('textarea');
     ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
     document.body.appendChild(ta); ta.select();
@@ -595,7 +643,6 @@ function clearLogDisplay() {
   document.getElementById('log-count').textContent = '0 linhas';
 }
 
-// scroll automático — para se o usuário rolar pra cima
 document.addEventListener('DOMContentLoaded', () => {
   const term = document.getElementById('log-terminal');
   if (term) {
@@ -635,7 +682,6 @@ async function showLogs() {
         <span style="font-size:11px;color:var(--text-muted)">${Object.keys(g.channels).length}ch</span>
       </div>`).join('')}`;
 
-  // busca logs imediatamente ao abrir
   await fetchAndIngestLogs();
   startLogAutoRefresh();
 }
@@ -668,7 +714,6 @@ async function loadPainel() {
     const r = await fetch(`${API}?action=status`);
     if (!r.ok) throw new Error('API indisponível');
     const data = await r.json();
-    // injeta recent_logs do status na tela de logs
     if (data.recent_logs?.length) ingestLogLines(data.recent_logs, false);
     renderPainelData(data);
   } catch(e) {
@@ -791,7 +836,6 @@ function toggleCat(id) {
 
 function selectChannel(gid,cid,cname) {
   currentGuildId=gid; currentChannelId=cid; currentView='messages';
-  pageIndex[`${gid}:${cid}`]=0;
   document.querySelectorAll('.channel-row').forEach(e=>e.classList.remove('active'));
   document.querySelector(`.channel-row[data-chid="${cid}"]`)?.classList.add('active');
   _hideAll();
@@ -807,84 +851,102 @@ function showWelcomeInServer() {
 }
 
 // ══════════════════════════════════════════════
-//  MENSAGENS
+//  MENSAGENS — SEM PAGINAÇÃO
 // ══════════════════════════════════════════════
-function renderChannelMessages(gid,cid,reset) {
-  const key=`${gid}:${cid}`, msgs=allMessages[key]||[], wrap=document.getElementById('messages-wrap');
-  if(reset){wrap.innerHTML=''; pageIndex[key]=0;}
-  if(msgs.length===0){
-    wrap.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--text-muted)">Nenhuma mensagem neste canal ainda.</div>';
-    document.getElementById('hdr-topic').textContent='0 msgs · aguardando...';
+
+// ─────────────────────────────────────────────
+// FIX #2 — paginação completamente removida
+//
+// Antes: exibia apenas 100 msgs por vez com
+//        botões "anteriores" / "seguintes",
+//        usando pageIndex para controle de offset.
+//
+// Agora: renderiza TODAS as mensagens de uma vez,
+//        sem limite, sem botões de paginação,
+//        com scroll contínuo estilo Discord.
+//
+// Variáveis removidas: PAGE_SIZE, pageIndex
+// Lógica removida: slice(offset, offset+PAGE_SIZE),
+//   botão "⬆️ Mensagens anteriores",
+//   botão "⬇️ Mensagens seguintes"
+// ─────────────────────────────────────────────
+function renderChannelMessages(gid, cid, reset) {
+  const key = `${gid}:${cid}`;
+  const msgs = allMessages[key] || [];
+  const wrap = document.getElementById('messages-wrap');
+
+  if (reset) wrap.innerHTML = '';
+
+  if (msgs.length === 0) {
+    wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-muted)">Nenhuma mensagem neste canal ainda.</div>';
+    document.getElementById('hdr-topic').textContent = '0 msgs · aguardando...';
     return;
   }
-  const offset=pageIndex[key]||0, page=msgs.slice(offset,offset+PAGE_SIZE);
-  if(offset>0){
-    const btn=document.createElement('button'); btn.className='load-more-btn';
-    btn.textContent='⬆️ Mensagens anteriores';
-    btn.onclick=()=>{pageIndex[key]=Math.max(0,offset-PAGE_SIZE); renderChannelMessages(gid,cid,true);};
-    wrap.appendChild(btn);
-  }
-  renderMessages(page,wrap);
-  if(offset+PAGE_SIZE<msgs.length){
-    const btn=document.createElement('button'); btn.className='load-more-btn';
-    btn.textContent='⬇️ Mensagens seguintes';
-    btn.onclick=()=>{pageIndex[key]=offset+PAGE_SIZE; renderChannelMessages(gid,cid,true);};
-    wrap.appendChild(btn);
-  }
-  wrap.scrollTop=wrap.scrollHeight;
-  document.getElementById('hdr-topic').textContent=`${Math.min(offset+PAGE_SIZE,msgs.length)}/${msgs.length} msgs · auto-sync`;
+
+  // Renderiza TODAS as mensagens sem slice / paginação
+  renderMessages(msgs, wrap);
+
+  wrap.scrollTop = wrap.scrollHeight;
+  document.getElementById('hdr-topic').textContent = `${msgs.length.toLocaleString('pt-BR')} msgs · auto-sync`;
 }
 
-function renderMessages(msgs,wrap) {
-  let lastDate='',lastAuthor='',lastTs=0;
-  const frag=document.createDocumentFragment();
-  for(const msg of msgs){
-    const ts=new Date(msg.timestamp);
-    const ds=ts.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
-    if(ds!==lastDate){
-      const d=document.createElement('div'); d.className='date-divider'; d.textContent=ds; frag.appendChild(d);
+function renderMessages(msgs, wrap) {
+  let lastDate='', lastAuthor='', lastTs=0;
+  const frag = document.createDocumentFragment();
+  for (const msg of msgs) {
+    const ts = new Date(msg.timestamp);
+    const ds = ts.toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
+    if (ds !== lastDate) {
+      const d = document.createElement('div'); d.className='date-divider'; d.textContent=ds; frag.appendChild(d);
       lastDate=ds; lastAuthor='';
     }
-    const isFirst=msg.author_id!==lastAuthor||(ts.getTime()-lastTs)>300000;
-    lastAuthor=msg.author_id; lastTs=ts.getTime();
-    const div=document.createElement('div');
-    div.className='msg-group'+(isFirst?' first-in-group':'');
-    let inner='';
-    if(isFirst){
-      inner+=msg.author_avatar
-        ?`<img class="msg-avatar" src="${msg.author_avatar}" alt="" onerror="this.style.display='none'">`
-        :`<div class="msg-avatar" style="display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;background:var(--brand);color:#fff">${(msg.author_name||'?')[0].toUpperCase()}</div>`;
-    } else inner+=`<div class="msg-avatar-spacer"></div>`;
-    inner+=`<div class="msg-content-wrap">`;
-    if(msg.reply_to){let rep=msg.reply_to;if(typeof rep==='string')try{rep=JSON.parse(rep)}catch{}if(rep?.author_name)inner+=`<div class="msg-reply">↩ <span class="reply-author">${esc(rep.author_name)}</span> <span class="reply-content">${esc(rep.content||'')}</span></div>`;}
-    if(isFirst){const t=ts.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});inner+=`<div class="msg-header"><span class="msg-author${msg.author_bot?' bot-tag':''}" style="color:${authorColor(msg.author_id)}">${esc(msg.author_name)}</span><span class="msg-timestamp">${t}</span></div>`;}
-    if(msg.content)inner+=`<div class="msg-text">${formatText(msg.content)}${msg.edited_at?'<span class="msg-edited">(editado)</span>':''}</div>`;
-    const atts=parseJson(msg.attachments,[]);
-    if(atts.length){
-      inner+=`<div class="msg-attachments">`;
-      for(const a of atts){
-        if(a.content_type?.startsWith('image/'))inner+=`<img class="attachment-img" src="${a.url}" alt="${esc(a.filename)}" loading="lazy" onclick="openLightbox('${a.url}')">`;
-        else inner+=`<div class="attachment-file"><span class="attachment-file-icon">📄</span><div class="attachment-file-info"><div class="attachment-file-name">${esc(a.filename)}</div><div class="attachment-file-size">${formatSize(a.size)}</div></div><a class="attachment-file-dl" href="${a.url}" target="_blank" download>⬇️</a></div>`;
-      }
-      inner+=`</div>`;
+    const isFirst = msg.author_id !== lastAuthor || (ts.getTime() - lastTs) > 300000;
+    lastAuthor = msg.author_id; lastTs = ts.getTime();
+    const div = document.createElement('div');
+    div.className = 'msg-group' + (isFirst ? ' first-in-group' : '');
+    let inner = '';
+    if (isFirst) {
+      inner += msg.author_avatar
+        ? `<img class="msg-avatar" src="${msg.author_avatar}" alt="" onerror="this.style.display='none'">`
+        : `<div class="msg-avatar" style="display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;background:var(--brand);color:#fff">${(msg.author_name||'?')[0].toUpperCase()}</div>`;
+    } else inner += `<div class="msg-avatar-spacer"></div>`;
+    inner += `<div class="msg-content-wrap">`;
+    if (msg.reply_to) {
+      let rep = msg.reply_to;
+      if (typeof rep === 'string') try { rep = JSON.parse(rep) } catch {}
+      if (rep?.author_name) inner += `<div class="msg-reply">↩ <span class="reply-author">${esc(rep.author_name)}</span> <span class="reply-content">${esc(rep.content||'')}</span></div>`;
     }
-    const embs=parseJson(msg.embeds,[]);
-    if(embs.length){
-      inner+=`<div class="msg-embeds">`;
-      for(const e of embs){
-        const bc=e.color?`#${e.color.toString(16).padStart(6,'0')}`:'var(--brand)';
-        inner+=`<div class="embed" style="border-left-color:${bc}">`;
-        if(e.author)inner+=`<div class="embed-author">${esc(e.author)}</div>`;
-        if(e.title)inner+=`<div class="embed-title">${esc(e.title)}</div>`;
-        if(e.description)inner+=`<div class="embed-desc">${formatText(e.description)}</div>`;
-        if(e.image)inner+=`<img class="embed-image" src="${e.image}" alt="" loading="lazy" onclick="openLightbox('${e.image}')">`;
-        if(e.footer)inner+=`<div class="embed-footer">${esc(e.footer)}</div>`;
-        inner+=`</div>`;
-      }
-      inner+=`</div>`;
+    if (isFirst) {
+      const t = ts.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      inner += `<div class="msg-header"><span class="msg-author${msg.author_bot?' bot-tag':''}" style="color:${authorColor(msg.author_id)}">${esc(msg.author_name)}</span><span class="msg-timestamp">${t}</span></div>`;
     }
-    inner+=`</div>`;
-    div.innerHTML=inner;
+    if (msg.content) inner += `<div class="msg-text">${formatText(msg.content)}${msg.edited_at?'<span class="msg-edited">(editado)</span>':''}</div>`;
+    const atts = parseJson(msg.attachments, []);
+    if (atts.length) {
+      inner += `<div class="msg-attachments">`;
+      for (const a of atts) {
+        if (a.content_type?.startsWith('image/')) inner += `<img class="attachment-img" src="${a.url}" alt="${esc(a.filename)}" loading="lazy" onclick="openLightbox('${a.url}')">`;
+        else inner += `<div class="attachment-file"><span class="attachment-file-icon">📄</span><div class="attachment-file-info"><div class="attachment-file-name">${esc(a.filename)}</div><div class="attachment-file-size">${formatSize(a.size)}</div></div><a class="attachment-file-dl" href="${a.url}" target="_blank" download>⬇️</a></div>`;
+      }
+      inner += `</div>`;
+    }
+    const embs = parseJson(msg.embeds, []);
+    if (embs.length) {
+      inner += `<div class="msg-embeds">`;
+      for (const e of embs) {
+        const bc = e.color ? `#${e.color.toString(16).padStart(6,'0')}` : 'var(--brand)';
+        inner += `<div class="embed" style="border-left-color:${bc}">`;
+        if (e.author)      inner += `<div class="embed-author">${esc(e.author)}</div>`;
+        if (e.title)       inner += `<div class="embed-title">${esc(e.title)}</div>`;
+        if (e.description) inner += `<div class="embed-desc">${formatText(e.description)}</div>`;
+        if (e.image)       inner += `<img class="embed-image" src="${e.image}" alt="" loading="lazy" onclick="openLightbox('${e.image}')">`;
+        if (e.footer)      inner += `<div class="embed-footer">${esc(e.footer)}</div>`;
+        inner += `</div>`;
+      }
+      inner += `</div>`;
+    }
+    inner += `</div>`;
+    div.innerHTML = inner;
     frag.appendChild(div);
   }
   wrap.appendChild(frag);
