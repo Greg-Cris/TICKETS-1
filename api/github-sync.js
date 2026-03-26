@@ -42,7 +42,6 @@ export default async function handler(req, res) {
     }
 
     // ── GET ?action=status ──
-    // Retorna métricas do sistema para o painel web
     if (req.method === "GET" && action === "status") {
       const status = await fetchStatus();
       return res.status(200).json(status);
@@ -88,6 +87,7 @@ async function deleteBatch(batchToken) {
 
 // ═══════════════════════════════════════════════════
 //  CARREGA messages_db.json DO GITHUB
+//  CORREÇÃO: usa download_url (raw) para arquivos grandes
 // ═══════════════════════════════════════════════════
 
 async function loadMessagesDb() {
@@ -98,8 +98,12 @@ async function loadMessagesDb() {
       repo:  GITHUB_REPO,
       path:  GITHUB_FILE,
     });
-    const content = Buffer.from(data.content, "base64").toString("utf-8");
-    return JSON.parse(content);
+
+    // getContent trunca arquivos grandes — usa download_url que retorna completo
+    const r = await fetch(data.download_url);
+    if (!r.ok) throw new Error(`GitHub raw fetch: ${r.status}`);
+    return await r.json();
+
   } catch (e) {
     if (e.status === 404) return {};
     throw e;
@@ -221,19 +225,16 @@ async function fetchStatus() {
     });
   }
 
-  // Msgs ainda pendentes nos lotes do Supabase
   const pendingMsgs = batches.reduce((acc, b) => {
     return acc + (Array.isArray(b.data) ? b.data.length : 0);
   }, 0);
 
-  // Idade do lote mais antigo (em segundos)
   let oldestBatchAge = null;
   if (batches.length > 0 && batches[0].created_at) {
     const diffMs = Date.now() - new Date(batches[0].created_at).getTime();
     oldestBatchAge = Math.round(diffMs / 1000);
   }
 
-  // Top 5 canais mais ativos
   const topChannels = [...channelStats]
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
