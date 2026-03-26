@@ -29,25 +29,21 @@ export default async function handler(req, res) {
   const action = req.query.action;
 
   try {
-    // ── GET ?action=messages ──
     if (req.method === "GET" && action === "messages") {
       const db = await loadMessagesDb();
       return res.status(200).json(db);
     }
 
-    // ── GET ?action=pending ──
     if (req.method === "GET" && action === "pending") {
-      const batches = await fetchPendingBatches();
+      const batches = await fetchPendingBatches(100);
       return res.status(200).json({ count: batches.length, batches: batches.map(b => b.batch_token) });
     }
 
-    // ── GET ?action=status ──
     if (req.method === "GET" && action === "status") {
       const status = await fetchStatus();
       return res.status(200).json(status);
     }
 
-    // ── POST ?action=process ──
     if (req.method === "POST" && action === "process") {
       const result = await processAllBatches();
       return res.status(200).json(result);
@@ -62,32 +58,35 @@ export default async function handler(req, res) {
 }
 
 // ═══════════════════════════════════════════════════
-//  BUSCA LOTES PENDENTES NO SUPABASE
+//  BUSCA LOTES PENDENTES
 // ═══════════════════════════════════════════════════
 
-async function fetchPendingBatches() {
-  const url = `${SUPABASE_URL}/rest/v1/batches?select=batch_token,data,created_at&order=created_at.asc`;
+async function fetchPendingBatches(limit = 20) {
+  const url = `${SUPABASE_URL}/rest/v1/batches?select=batch_token,data,created_at&order=created_at.asc&limit=${limit}`;
   const r = await fetch(url, { headers: SB_HDR });
   if (!r.ok) throw new Error(`Supabase fetchBatches: ${r.status}`);
   return await r.json();
 }
 
 // ═══════════════════════════════════════════════════
-//  APAGA LOTE DO SUPABASE
+//  APAGA VÁRIOS LOTES DE UMA VEZ
 // ═══════════════════════════════════════════════════
 
-async function deleteBatch(batchToken) {
-  const url = `${SUPABASE_URL}/rest/v1/batches?batch_token=eq.${encodeURIComponent(batchToken)}`;
+async function deleteBatches(tokens) {
+  if (!tokens.length) return;
+  const inClause = tokens.map(t => encodeURIComponent(t)).join(",");
+  const url = `${SUPABASE_URL}/rest/v1/batches?batch_token=in.(${inClause})`;
   const r = await fetch(url, { method: "DELETE", headers: SB_HDR });
   if (!r.ok) {
     const text = await r.text();
-    throw new Error(`Supabase deleteBatch: ${r.status} — ${text}`);
+    throw new Error(`Supabase deleteBatches: ${r.status} — ${text}`);
   }
+  console.log(`🗑️ ${tokens.length} lote(s) deletados do Supabase`);
 }
 
 // ═══════════════════════════════════════════════════
 //  CARREGA messages_db.json DO GITHUB
-//  CORREÇÃO: usa download_url (raw) para arquivos grandes
+//  usa download_url (raw) para não truncar arquivos grandes
 // ═══════════════════════════════════════════════════
 
 async function loadMessagesDb() {
@@ -98,12 +97,9 @@ async function loadMessagesDb() {
       repo:  GITHUB_REPO,
       path:  GITHUB_FILE,
     });
-
-    // getContent trunca arquivos grandes — usa download_url que retorna completo
     const r = await fetch(data.download_url);
     if (!r.ok) throw new Error(`GitHub raw fetch: ${r.status}`);
     return await r.json();
-
   } catch (e) {
     if (e.status === 404) return {};
     throw e;
@@ -111,7 +107,7 @@ async function loadMessagesDb() {
 }
 
 // ═══════════════════════════════════════════════════
-//  SALVA messages_db.json NO GITHUB
+//  SALVA messages_db.json NO GITHUB (1x por chamada)
 // ═══════════════════════════════════════════════════
 
 async function saveMessagesDb(db) {
@@ -144,11 +140,15 @@ async function saveMessagesDb(db) {
 }
 
 // ═══════════════════════════════════════════════════
-//  PROCESSA TODOS OS LOTES
+//  PROCESSA LOTES
+//  - Pega no máx 20 lotes por vez (evita timeout Vercel)
+//  - Mescla TUDO na memória primeiro
+//  - Salva no GitHub UMA única vez
+//  - Deleta todos do Supabase UMA única vez
 // ═══════════════════════════════════════════════════
 
 async function processAllBatches() {
-  const batches = await fetchPendingBatches();
+  const batches = await fetchPendingBatches(20);
 
   if (batches.length === 0) {
     return { processed: 0, added: 0, message: "Nenhum lote pendente" };
@@ -157,6 +157,7 @@ async function processAllBatches() {
   const db = await loadMessagesDb();
   let totalAdded = 0;
 
+  // Mescla todos na memória sem salvar ainda
   for (const batch of batches) {
     const msgs = Array.isArray(batch.data) ? batch.data : [];
 
@@ -173,16 +174,21 @@ async function processAllBatches() {
         if (idx !== -1) db[key][idx] = msg;
       }
     }
-
-    for (const key of Object.keys(db)) {
-      db[key].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-    }
-
-    await saveMessagesDb(db);
-    await deleteBatch(batch.batch_token);
-
-    console.log(`✅ Lote ${batch.batch_token} processado — ${msgs.length} msgs`);
   }
+
+  // Ordena uma vez só
+  for (const key of Object.keys(db)) {
+    db[key].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  }
+
+  // Salva no GitHub UMA vez
+  await saveMessagesDb(db);
+
+  // Deleta todos do Supabase de uma vez
+  const tokens = batches.map(b => b.batch_token);
+  await deleteBatches(tokens);
+
+  console.log(`✅ ${batches.length} lote(s) processados — ${totalAdded} msgs novas`);
 
   return {
     processed: batches.length,
@@ -197,7 +203,7 @@ async function processAllBatches() {
 
 async function fetchStatus() {
   const [batches, db] = await Promise.all([
-    fetchPendingBatches().catch(() => []),
+    fetchPendingBatches(100).catch(() => []),
     loadMessagesDb().catch(() => ({})),
   ]);
 
