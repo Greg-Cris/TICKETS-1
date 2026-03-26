@@ -4,11 +4,11 @@
 import { Octokit } from "@octokit/rest";
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY; // service key (server-side)
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_OWNER = process.env.GITHUB_OWNER;   // ex: "Greg-Cris"
-const GITHUB_REPO  = process.env.GITHUB_REPO;    // ex: "TICKETS-1"
-const GITHUB_FILE  = "messages_db.json";          // arquivo no repositório
+const GITHUB_OWNER = process.env.GITHUB_OWNER;
+const GITHUB_REPO  = process.env.GITHUB_REPO;
+const GITHUB_FILE  = "messages_db.json";
 
 const SB_HDR = {
   "apikey":        SUPABASE_KEY,
@@ -21,7 +21,6 @@ const SB_HDR = {
 // ═══════════════════════════════════════════════════
 
 export default async function handler(req, res) {
-  // CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -30,28 +29,32 @@ export default async function handler(req, res) {
   const action = req.query.action;
 
   try {
-    // ── GET /api/github-sync?action=messages ──
-    // Retorna o messages_db.json do GitHub pro site exibir
+    // ── GET ?action=messages ──
     if (req.method === "GET" && action === "messages") {
       const db = await loadMessagesDb();
       return res.status(200).json(db);
     }
 
-    // ── GET /api/github-sync?action=pending ──
-    // Retorna quantos lotes pendentes existem no Supabase
+    // ── GET ?action=pending ──
     if (req.method === "GET" && action === "pending") {
       const batches = await fetchPendingBatches();
       return res.status(200).json({ count: batches.length, batches: batches.map(b => b.batch_token) });
     }
 
-    // ── POST /api/github-sync?action=process ──
-    // Processa TODOS os lotes pendentes do Supabase
+    // ── GET ?action=status ──
+    // Retorna métricas do sistema para o painel web
+    if (req.method === "GET" && action === "status") {
+      const status = await fetchStatus();
+      return res.status(200).json(status);
+    }
+
+    // ── POST ?action=process ──
     if (req.method === "POST" && action === "process") {
       const result = await processAllBatches();
       return res.status(200).json(result);
     }
 
-    return res.status(400).json({ error: "Ação inválida. Use: messages, pending, process" });
+    return res.status(400).json({ error: "Ação inválida. Use: messages, pending, status, process" });
 
   } catch (err) {
     console.error("Erro na API:", err);
@@ -98,7 +101,7 @@ async function loadMessagesDb() {
     const content = Buffer.from(data.content, "base64").toString("utf-8");
     return JSON.parse(content);
   } catch (e) {
-    if (e.status === 404) return {}; // arquivo ainda não existe
+    if (e.status === 404) return {};
     throw e;
   }
 }
@@ -110,7 +113,6 @@ async function loadMessagesDb() {
 async function saveMessagesDb(db) {
   const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
-  // Pega o SHA atual (necessário para update)
   let sha = undefined;
   try {
     const { data } = await octokit.repos.getContent({
@@ -148,15 +150,12 @@ async function processAllBatches() {
     return { processed: 0, added: 0, message: "Nenhum lote pendente" };
   }
 
-  // Carrega o DB atual do GitHub
   const db = await loadMessagesDb();
-
   let totalAdded = 0;
 
   for (const batch of batches) {
     const msgs = Array.isArray(batch.data) ? batch.data : [];
 
-    // Mescla mensagens no DB
     for (const msg of msgs) {
       const key = `${msg.guild_id}:${msg.channel_id}`;
       if (!db[key]) db[key] = [];
@@ -166,21 +165,16 @@ async function processAllBatches() {
         db[key].push(msg);
         totalAdded++;
       } else {
-        // Atualiza mensagem existente (edições)
         const idx = db[key].findIndex(m => m.message_id === msg.message_id);
         if (idx !== -1) db[key][idx] = msg;
       }
     }
 
-    // Ordena por timestamp
     for (const key of Object.keys(db)) {
       db[key].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
     }
 
-    // Salva no GitHub
     await saveMessagesDb(db);
-
-    // Apaga o lote do Supabase — bot vai perceber e mandar mais
     await deleteBatch(batch.batch_token);
 
     console.log(`✅ Lote ${batch.batch_token} processado — ${msgs.length} msgs`);
@@ -190,5 +184,75 @@ async function processAllBatches() {
     processed: batches.length,
     added:     totalAdded,
     message:   `${batches.length} lote(s) processado(s), ${totalAdded} mensagens novas`,
+  };
+}
+
+// ═══════════════════════════════════════════════════
+//  STATUS — MÉTRICAS PARA O PAINEL WEB
+// ═══════════════════════════════════════════════════
+
+async function fetchStatus() {
+  const [batches, db] = await Promise.all([
+    fetchPendingBatches().catch(() => []),
+    loadMessagesDb().catch(() => ({})),
+  ]);
+
+  let totalMsgs     = 0;
+  let totalChannels = 0;
+  const totalGuilds = new Set();
+  const channelStats = [];
+
+  for (const [key, msgs] of Object.entries(db)) {
+    if (!Array.isArray(msgs) || msgs.length === 0) continue;
+    totalMsgs += msgs.length;
+    totalChannels++;
+    const [gid] = key.split(":");
+    totalGuilds.add(gid);
+
+    const first = msgs[0];
+    const last  = msgs[msgs.length - 1];
+    channelStats.push({
+      key,
+      guild_name:   first.guild_name   || gid,
+      channel_name: first.channel_name || key,
+      count:        msgs.length,
+      first_msg:    first.timestamp,
+      last_msg:     last.timestamp,
+    });
+  }
+
+  // Msgs ainda pendentes nos lotes do Supabase
+  const pendingMsgs = batches.reduce((acc, b) => {
+    return acc + (Array.isArray(b.data) ? b.data.length : 0);
+  }, 0);
+
+  // Idade do lote mais antigo (em segundos)
+  let oldestBatchAge = null;
+  if (batches.length > 0 && batches[0].created_at) {
+    const diffMs = Date.now() - new Date(batches[0].created_at).getTime();
+    oldestBatchAge = Math.round(diffMs / 1000);
+  }
+
+  // Top 5 canais mais ativos
+  const topChannels = [...channelStats]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
+
+  return {
+    summary: {
+      total_messages:      totalMsgs,
+      total_channels:      totalChannels,
+      total_guilds:        totalGuilds.size,
+      pending_batches:     batches.length,
+      pending_msgs:        pendingMsgs,
+      oldest_batch_age_s:  oldestBatchAge,
+    },
+    top_channels: topChannels,
+    recent_batches: batches.slice(0, 5).map(b => ({
+      token:      b.batch_token,
+      msgs:       Array.isArray(b.data) ? b.data.length : 0,
+      created_at: b.created_at,
+    })),
+    generated_at: new Date().toISOString(),
   };
 }
