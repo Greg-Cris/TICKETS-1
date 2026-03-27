@@ -359,9 +359,10 @@ const PAINEL_REFRESH = 10000;
 const MSG_REFRESH    = 20000;
 const LOG_REFRESH    = 5000;
 
-// Supabase — leitura direta da tabela messages (tempo real)
-const SUPABASE_URL = 'https://kdcocwihlmptwkqgxxzq.supabase.co';
-const SUPABASE_KEY = 'SUA_SUPABASE_ANON_KEY'; // ← troque pela sua anon key pública
+// ── Supabase Realtime ──
+const SUPABASE_URL  = 'https://kdcocwihlmptwkqgxxzq.supabase.co';
+const SUPABASE_KEY  = 'sb_publishable_zRpwfR1re_nBUOEc7Oe08g_9rMQdDoc'; // ← troque pela anon key pública
+const SUPABASE_PROJ = 'kdcocwihlmptwkqgxxzq';
 
 // ══════════════════════════════════════════════
 //  ESTADO
@@ -371,6 +372,9 @@ let currentGuildId = null, currentChannelId = null;
 let syncBusy = false;
 let currentView = 'welcome';
 let nextSyncIn = POLL_INTERVAL / 1000;
+
+// IDs já vistos — evita duplicatas no realtime
+const seenMessageIds = new Set();
 
 // ── logs ──
 let logLines       = [];
@@ -388,7 +392,155 @@ async function init() {
   buildGuilds();
   renderServers();
   startAutoEngine();
+  startRealtimeListener(); // ← WebSocket Supabase
 }
+
+// ══════════════════════════════════════════════
+//  SUPABASE REALTIME — WebSocket nativo
+//  Escuta INSERT/UPDATE na tabela `messages`
+//  Quando chega algo:
+//    1. Injeta em allMessages (sem duplicar)
+//    2. Atualiza sidebar e tela se canal aberto
+//    3. Salva no GitHub via action=process
+//    4. Apaga do Supabase
+// ══════════════════════════════════════════════
+function startRealtimeListener() {
+  const wsUrl = `wss://${SUPABASE_PROJ}.supabase.co/realtime/v1/websocket?apikey=${SUPABASE_KEY}&vsn=1.0.0`;
+  let ws, heartbeatTimer, reconnectTimer;
+
+  function connect() {
+    ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+      _log('INFO', '[Realtime] WebSocket conectado ✅');
+      updateRealtimeBadge(true);
+
+      // Assina a tabela messages — INSERT e UPDATE
+      ws.send(JSON.stringify({
+        topic:   'realtime:public:messages',
+        event:   'phx_join',
+        payload: { config: { broadcast: { self: true }, presence: { key: '' }, postgres_changes: [
+          { event: 'INSERT', schema: 'public', table: 'messages' },
+          { event: 'UPDATE', schema: 'public', table: 'messages' },
+        ]}},
+        ref:     '1',
+      }));
+
+      // Heartbeat a cada 30s para manter conexão viva
+      heartbeatTimer = setInterval(() => {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: null }));
+        }
+      }, 30000);
+    };
+
+    ws.onmessage = async (e) => {
+      try {
+        const msg = JSON.parse(e.data);
+
+        // Ignora joins/confirmações
+        if (msg.event === 'phx_reply' || msg.event === 'heartbeat') return;
+
+        const rec = msg.payload?.data?.record || msg.payload?.record;
+        if (!rec || !rec.message_id) return;
+
+        // Já processamos essa mensagem?
+        if (seenMessageIds.has(rec.message_id)) return;
+        seenMessageIds.add(rec.message_id);
+
+        _log('OK', `[Realtime] Nova msg de ${rec.author_name} em #${rec.channel_name}`);
+        toast(`💬 Nova msg de ${rec.author_name}`, 'info');
+
+        // 1. Injeta em allMessages
+        injectRealtimeMessage(rec);
+
+        // 2. Atualiza UI se canal aberto
+        if (currentGuildId === rec.guild_id && currentChannelId === rec.channel_id) {
+          renderChannelMessages(currentGuildId, currentChannelId, true);
+        }
+        buildGuilds(); renderServers();
+        if (currentView === 'painel') loadPainel();
+
+        // 3. Salva no GitHub via batch (processo assíncrono, não bloqueia)
+        triggerProcess();
+
+        // 4. Apaga do Supabase depois de 3s (tempo para garantir que o batch foi enviado)
+        setTimeout(() => deleteFromSupabase(rec.message_id), 3000);
+
+      } catch(err) {
+        console.warn('[Realtime] Erro ao processar mensagem:', err);
+      }
+    };
+
+    ws.onerror = (e) => {
+      _log('ERR', '[Realtime] Erro no WebSocket');
+      updateRealtimeBadge(false);
+    };
+
+    ws.onclose = () => {
+      _log('WARN', '[Realtime] WebSocket desconectado — reconectando em 5s...');
+      updateRealtimeBadge(false);
+      clearInterval(heartbeatTimer);
+      reconnectTimer = setTimeout(connect, 5000);
+    };
+  }
+
+  connect();
+}
+
+// Injeta uma mensagem recebida via realtime em allMessages
+function injectRealtimeMessage(msg) {
+  const key = `${msg.guild_id}:${msg.channel_id}`;
+  if (!allMessages[key]) allMessages[key] = [];
+
+  const idx = allMessages[key].findIndex(m => m.message_id === msg.message_id);
+  if (idx === -1) {
+    allMessages[key].push(msg);
+  } else {
+    // UPDATE — mescla (pode ser edição ou deleção)
+    allMessages[key][idx] = { ...allMessages[key][idx], ...msg };
+  }
+  // Mantém ordem cronológica
+  allMessages[key].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+}
+
+// Dispara processamento de lotes (debounce de 2s para não disparar múltiplos)
+let _processDebounce = null;
+function triggerProcess() {
+  if (_processDebounce) clearTimeout(_processDebounce);
+  _processDebounce = setTimeout(() => processNow(true), 2000);
+}
+
+// Apaga mensagem da tabela messages do Supabase após processada
+async function deleteFromSupabase(messageId) {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/messages?message_id=eq.${messageId}`, {
+      method:  'DELETE',
+      headers: {
+        'apikey':        SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type':  'application/json',
+      },
+    });
+    if (r.ok) _log('OK', `[Realtime] Msg ${messageId} apagada do Supabase ✅`);
+    else _log('WARN', `[Realtime] Falha ao apagar ${messageId}: ${r.status}`);
+  } catch(e) {
+    _log('ERR', `[Realtime] Erro ao apagar do Supabase: ${e.message}`);
+  }
+}
+
+// Badge de status do realtime no header
+function updateRealtimeBadge(connected) {
+  const badge = document.getElementById('sync-badge-header');
+  const label = document.getElementById('sync-label');
+  if (!badge || !label) return;
+  if (!syncBusy) {
+    badge.className = 'sync-badge ' + (connected ? 'auto' : 'err');
+    label.textContent = connected ? '⚡ Realtime ativo' : '⚠️ Reconectando...';
+  }
+}
+
+function _log(level, msg) { console.log(`[${level}] ${msg}`); }
 
 // ══════════════════════════════════════════════
 //  AUTO-ENGINE
@@ -483,55 +635,17 @@ async function silentRefreshMessages() {
 async function loadMessagesFromGitHub() {
   try {
     const r = await fetch(`${API}?action=messages`);
-    if (r.ok) allMessages = await r.json();
+    if (r.ok) {
+      const data = await r.json();
+      allMessages = data;
+      // Registra todos os IDs já carregados para evitar duplicatas no realtime
+      for (const msgs of Object.values(allMessages)) {
+        for (const m of msgs) {
+          if (m.message_id) seenMessageIds.add(m.message_id);
+        }
+      }
+    }
   } catch(e) { allMessages = {}; }
-
-  // Mescla com mensagens em tempo real da tabela `messages` do Supabase
-  await mergeRealtimeMessages();
-}
-
-// ─────────────────────────────────────────────
-// Lê tabela `messages` do Supabase e mescla
-// com allMessages (sem duplicar por message_id)
-// ─────────────────────────────────────────────
-async function mergeRealtimeMessages() {
-  try {
-    const url = `${SUPABASE_URL}/rest/v1/messages?select=*&order=timestamp.asc&limit=5000`;
-    const r = await fetch(url, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-      }
-    });
-    if (!r.ok) return;
-    const rows = await r.json();
-    if (!Array.isArray(rows) || rows.length === 0) return;
-
-    let merged = 0;
-    for (const msg of rows) {
-      const key = `${msg.guild_id}:${msg.channel_id}`;
-      if (!allMessages[key]) allMessages[key] = [];
-
-      const ids = new Set(allMessages[key].map(m => m.message_id));
-      if (!ids.has(msg.message_id)) {
-        allMessages[key].push(msg);
-        merged++;
-      } else {
-        // Atualiza o registro existente (pode ter sido editado ou apagado)
-        const idx = allMessages[key].findIndex(m => m.message_id === msg.message_id);
-        if (idx !== -1) allMessages[key][idx] = { ...allMessages[key][idx], ...msg };
-      }
-    }
-
-    // Re-ordena por timestamp
-    for (const key of Object.keys(allMessages)) {
-      allMessages[key].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-    }
-
-    if (merged > 0) console.log(`[mergeRealtime] +${merged} msgs novas do Supabase`);
-  } catch(e) {
-    console.warn('[mergeRealtime] Erro ao ler Supabase:', e);
-  }
 }
 
 function buildGuilds() {
