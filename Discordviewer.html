@@ -18,7 +18,6 @@
   body{background:var(--bg-primary);color:var(--text-normal);font-family:var(--font);font-size:15px;line-height:1.375;height:100vh;overflow:hidden;display:flex}
   ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#1a1b1e;border-radius:4px}
 
-  /* SERVERS */
   #servers-col{width:var(--servers-width);background:var(--bg-tertiary);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:2px;overflow-y:auto;flex-shrink:0}
   .server-icon{width:48px;height:48px;border-radius:50%;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-radius .15s,background .15s;position:relative;overflow:hidden;flex-shrink:0}
   .server-icon:hover{border-radius:16px;background:var(--brand)}.server-icon.active{border-radius:16px;background:var(--brand)}
@@ -31,7 +30,6 @@
   .server-tooltip{position:absolute;left:calc(var(--servers-width) + 8px);background:#18191c;color:#fff;font-size:14px;font-weight:600;padding:8px 12px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5)}
   .server-icon:hover .server-tooltip{display:block}
 
-  /* SIDEBAR */
   #sidebar{width:var(--sidebar-width);background:var(--bg-secondary);display:flex;flex-direction:column;flex-shrink:0}
   #sidebar-header{padding:0 16px;height:48px;display:flex;align-items:center;border-bottom:1px solid var(--border);flex-shrink:0}
   #sidebar-server-name{font-size:15px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -46,14 +44,12 @@
   .channel-row.active .channel-icon,.channel-row:hover .channel-icon{color:var(--text-normal)}
   .channel-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-  /* MAIN */
   #main{flex:1;display:flex;flex-direction:column;min-width:0}
   #channel-header{height:48px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;background:var(--bg-primary)}
   .header-name{font-size:16px;font-weight:700}
   .header-topic{font-size:13px;color:var(--text-muted);margin-left:8px;padding-left:8px;border-left:1px solid var(--border);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:400px}
   .header-spacer{flex:1}
 
-  /* SYNC BADGE */
   .sync-badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:default;user-select:none;transition:all .15s}
   .sync-badge.syncing{border-color:var(--yellow);color:var(--yellow)}
   .sync-badge.ok{border-color:var(--green);color:var(--green)}
@@ -71,7 +67,6 @@
   #next-sync-wrap:hover{opacity:1}
   #ns-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
 
-  /* MESSAGES */
   #messages-wrap{flex:1;overflow-y:auto;padding:16px 0 56px}
   .date-divider{display:flex;align-items:center;gap:12px;padding:16px 16px 8px;color:var(--text-muted);font-size:12px;font-weight:600}
   .date-divider::before,.date-divider::after{content:'';flex:1;height:1px;background:var(--border)}
@@ -87,20 +82,14 @@
   .msg-text{font-size:15px;color:var(--text-normal);line-height:1.375;word-break:break-word;white-space:pre-wrap}
   .msg-text a{color:var(--text-link);text-decoration:none}.msg-text a:hover{text-decoration:underline}
   .msg-edited{font-size:10px;color:var(--text-muted);margin-left:4px}
-
-  /* MENSAGEM APAGADA */
   .msg-group.deleted .msg-text{text-decoration:line-through;color:var(--text-muted);opacity:.7}
   .msg-group.deleted .msg-avatar{opacity:.4}
   .msg-deleted-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--red);font-weight:600;margin-left:6px;opacity:.8}
-
-  /* MENU 3 PONTOS */
   .msg-actions{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:none;align-items:center;gap:2px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:2px;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:100}
   .msg-group{position:relative}
   .msg-group:hover .msg-actions{display:flex}
   .msg-action-btn{width:28px;height:28px;border-radius:4px;background:transparent;border:none;cursor:pointer;font-size:14px;color:var(--text-muted);display:flex;align-items:center;justify-content:center;transition:background .1s,color .1s}
   .msg-action-btn:hover{background:var(--bg-hover);color:var(--text-normal)}
-
-  /* DROPDOWN HISTÓRICO */
   .msg-history-dropdown{position:absolute;right:8px;top:calc(50% + 18px);background:#18191c;border:1px solid var(--border);border-radius:8px;padding:12px;min-width:300px;max-width:480px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:200;display:none}
   .msg-history-dropdown.open{display:block}
   .history-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
@@ -125,7 +114,6 @@
   .embed-image{max-width:100%;border-radius:4px;margin-top:8px}
   .embed-footer{font-size:12px;color:var(--text-muted);margin-top:8px}
 
-  /* WELCOME */
   #welcome-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--text-muted)}
   #welcome-screen .big-icon{font-size:80px;opacity:.4}
   #welcome-screen h2{font-size:24px;font-weight:700;color:var(--text-normal)}
@@ -133,7 +121,6 @@
   .auto-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(88,101,242,.1);border:1px solid rgba(88,101,242,.3);border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;color:var(--brand)}
   .auto-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
 
-  /* PAINEL */
   #painel-screen{flex:1;overflow-y:auto;padding:24px 28px;display:none;background:var(--bg-primary)}
   .painel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
   .painel-title{font-size:20px;font-weight:700;color:var(--text-normal)}
@@ -175,7 +162,6 @@
   .status-dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);flex-shrink:0}
   .status-dot.online{background:var(--green)}.status-dot.warn{background:var(--yellow)}.status-dot.offline{background:var(--red)}
 
-  /* ═══ TERMINAL DE LOGS ═══ */
   #logs-screen{flex:1;overflow:hidden;display:none;flex-direction:column;background:var(--bg-primary)}
   .logs-header{height:48px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;background:var(--bg-primary)}
   .logs-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
@@ -266,7 +252,7 @@
     <div class="big-icon">💾</div>
     <h2>Xenon Message Viewer</h2>
     <p>Selecione um servidor para ver as mensagens salvas.</p>
-    <div class="auto-pill"><span class="dot"></span><span>Auto-sync ativo — processa lotes automaticamente</span></div>
+    <div class="auto-pill"><span class="dot"></span><span>Realtime ativo — WebSocket escutando o Supabase</span></div>
     <div style="margin-top:4px;display:flex;gap:8px">
       <div class="sync-badge" style="cursor:pointer" onclick="showPainel()"><span>📊</span><span>Abrir painel</span></div>
       <div class="sync-badge" style="cursor:pointer" onclick="showLogs()"><span>🖥️</span><span>Ver logs</span></div>
@@ -291,7 +277,7 @@
       </div>
     </div>
     <div class="metrics-grid">
-      <div class="metric-card"><div class="metric-label">Mensagens salvas</div><div class="metric-value" id="m-total">—</div><div class="metric-sub">no messages_db</div></div>
+      <div class="metric-card"><div class="metric-label">Mensagens salvas</div><div class="metric-value" id="m-total">—</div><div class="metric-sub">no GitHub</div></div>
       <div class="metric-card brand"><div class="metric-label">Canais rastreados</div><div class="metric-value" id="m-channels">—</div><div class="metric-sub">com mensagens</div></div>
       <div class="metric-card"><div class="metric-label">Servidores</div><div class="metric-value" id="m-guilds">—</div><div class="metric-sub">na base</div></div>
       <div class="metric-card yellow" id="card-pending"><div class="metric-label">Lotes pendentes</div><div class="metric-value" id="m-pending">—</div><div class="metric-sub" id="m-pending-msgs">aguardando</div></div>
@@ -318,10 +304,9 @@
     </div>
   </div>
 
-  <!-- ═══ TELA DE LOGS ═══ -->
   <div id="logs-screen">
     <div class="logs-header">
-      <div class="logs-title">🖥️ Terminal de Logs <span style="font-size:11px;font-weight:400;color:var(--text-muted)">(API Vercel)</span></div>
+      <div class="logs-title">🖥️ Terminal de Logs <span style="font-size:11px;font-weight:400;color:var(--text-muted)">(Realtime + API)</span></div>
       <div class="logs-header-spacer"></div>
       <div style="display:flex;align-items:center;gap:8px">
         <span id="log-auto-indicator" style="font-size:11px;color:var(--green);font-weight:600">● auto-refresh 5s</span>
@@ -341,7 +326,7 @@
       <span class="logs-count" id="log-count">0 linhas</span>
     </div>
     <div id="log-terminal">
-      <div class="log-empty">Aguardando logs da API...<br><span style="font-size:11px;opacity:.6">Os logs aparecem aqui assim que a API responder</span></div>
+      <div class="log-empty">Aguardando eventos do Supabase Realtime...<br><span style="font-size:11px;opacity:.6">Cada passo do fluxo aparece aqui em tempo real</span></div>
     </div>
   </div>
 </div>
@@ -359,9 +344,8 @@ const PAINEL_REFRESH = 10000;
 const MSG_REFRESH    = 20000;
 const LOG_REFRESH    = 5000;
 
-// ── Supabase Realtime ──
 const SUPABASE_URL  = 'https://kdcocwihlmptwkqgxxzq.supabase.co';
-const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtkY29jd2lobG1wdHdrcWd4eHpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODQxMjIsImV4cCI6MjA4OTk2MDEyMn0.3kPR6rj8tM45HCnkFlRiHUEd_3vOi8Y_jP9Bmg8Ja6c'; // ← troque pela anon key pública
+const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtkY29jd2lobG1wdHdrcWd4eHpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODQxMjIsImV4cCI6MjA4OTk2MDEyMn0.3kPR6rj8tM45HCnkFlRiHUEd_3vOi8Y_jP9Bmg8Ja6c';
 const SUPABASE_PROJ = 'kdcocwihlmptwkqgxxzq';
 
 // ══════════════════════════════════════════════
@@ -372,11 +356,8 @@ let currentGuildId = null, currentChannelId = null;
 let syncBusy = false;
 let currentView = 'welcome';
 let nextSyncIn = POLL_INTERVAL / 1000;
-
-// IDs já vistos — evita duplicatas no realtime
 const seenMessageIds = new Set();
 
-// ── logs ──
 let logLines       = [];
 let logFilter      = 'ALL';
 let logAutoRefresh = true;
@@ -385,133 +366,170 @@ let logAutoScroll  = true;
 let seenLogLines   = new Set();
 
 // ══════════════════════════════════════════════
-//  INIT
+//  LOG — função central
+//  Tudo passa por aqui: console + terminal visual
 // ══════════════════════════════════════════════
-async function init() {
-  await loadMessagesFromGitHub();
-  buildGuilds();
-  renderServers();
-  startAutoEngine();
-  startRealtimeListener(); // ← WebSocket Supabase
+function _log(level, msg) {
+  console.log(`[${level}] ${msg}`);
+  const ts = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const icons = {INFO:'ℹ️',OK:'✅',WARN:'⚠️',ERR:'❌',BATCH:'📦',DONE:'🏁',PERF:'⏱️'};
+  const icon = icons[level] || 'ℹ️';
+  const normalized = `[${ts}] ${icon} [${level}] ${msg}`;
+  if (seenLogLines.has(normalized)) return;
+  seenLogLines.add(normalized);
+  logLines.push({ raw: normalized, isNew: true });
+  renderLogTerminal();
 }
 
 // ══════════════════════════════════════════════
-//  SUPABASE REALTIME — WebSocket nativo
-//  Escuta INSERT/UPDATE na tabela `messages`
-//  Quando chega algo:
-//    1. Injeta em allMessages (sem duplicar)
-//    2. Atualiza sidebar e tela se canal aberto
-//    3. Salva no GitHub via action=process
-//    4. Apaga do Supabase
+//  INIT
+// ══════════════════════════════════════════════
+async function init() {
+  _log('INFO', '🚀 Xenon Viewer iniciando...');
+  _log('INFO', '📂 Carregando mensagens do GitHub...');
+  await loadMessagesFromGitHub();
+  _log('OK', `✅ GitHub carregado — ${Object.values(allMessages).flat().length} msgs`);
+  buildGuilds();
+  renderServers();
+  startAutoEngine();
+  startRealtimeListener();
+}
+
+// ══════════════════════════════════════════════
+//  SUPABASE REALTIME — WebSocket
+//  Fluxo correto:
+//    1. Recebe aviso do Supabase (INSERT/UPDATE)
+//    2. Chama action=process → salva no GitHub
+//    3. Lê do GitHub (loadMessagesFromGitHub)
+//    4. Renderiza na tela
+//    5. Apaga do Supabase
 // ══════════════════════════════════════════════
 function startRealtimeListener() {
   const wsUrl = `wss://${SUPABASE_PROJ}.supabase.co/realtime/v1/websocket?apikey=${SUPABASE_KEY}&vsn=1.0.0`;
-  let ws, heartbeatTimer, reconnectTimer;
+  let ws, heartbeatTimer;
 
   function connect() {
+    _log('INFO', '🔌 Conectando WebSocket ao Supabase Realtime...');
     ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
-      _log('INFO', '[Realtime] WebSocket conectado ✅');
+      _log('OK', '🟢 WebSocket conectado ao Supabase!');
       updateRealtimeBadge(true);
 
-      // Assina a tabela messages — INSERT e UPDATE
-      ws.send(JSON.stringify({
+      const joinPayload = {
         topic:   'realtime:public:messages',
         event:   'phx_join',
-        payload: { config: { broadcast: { self: true }, presence: { key: '' }, postgres_changes: [
-          { event: 'INSERT', schema: 'public', table: 'messages' },
-          { event: 'UPDATE', schema: 'public', table: 'messages' },
-        ]}},
-        ref:     '1',
-      }));
+        payload: {
+          config: {
+            broadcast: { self: true },
+            presence:  { key: '' },
+            postgres_changes: [
+              { event: 'INSERT', schema: 'public', table: 'messages' },
+              { event: 'UPDATE', schema: 'public', table: 'messages' },
+            ]
+          }
+        },
+        ref: '1',
+      };
+      _log('INFO', '📡 Enviando join na tabela messages...');
+      ws.send(JSON.stringify(joinPayload));
 
-      // Heartbeat a cada 30s para manter conexão viva
       heartbeatTimer = setInterval(() => {
         if (ws.readyState === WebSocket.OPEN) {
           ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: null }));
+          _log('INFO', '♥ heartbeat enviado');
         }
       }, 30000);
     };
 
     ws.onmessage = async (e) => {
-      try {
-        const msg = JSON.parse(e.data);
+      let msg;
+      try { msg = JSON.parse(e.data); } catch { return; }
 
-        // Ignora joins/confirmações
-        if (msg.event === 'phx_reply' || msg.event === 'heartbeat') return;
+      // Log de tudo que chega bruto
+      _log('INFO', `📨 Evento recebido: event="${msg.event}" topic="${msg.topic}"`);
 
-        const rec = msg.payload?.data?.record || msg.payload?.record;
-        if (!rec || !rec.message_id) return;
-
-        // Já processamos essa mensagem?
-        if (seenMessageIds.has(rec.message_id)) return;
-        seenMessageIds.add(rec.message_id);
-
-        _log('OK', `[Realtime] Nova msg de ${rec.author_name} em #${rec.channel_name}`);
-        toast(`💬 Nova msg de ${rec.author_name}`, 'info');
-
-        // 1. Injeta em allMessages
-        injectRealtimeMessage(rec);
-
-        // 2. Atualiza UI se canal aberto
-        if (currentGuildId === rec.guild_id && currentChannelId === rec.channel_id) {
-          renderChannelMessages(currentGuildId, currentChannelId, true);
+      // Confirmação do join
+      if (msg.event === 'phx_reply') {
+        const status = msg.payload?.status;
+        if (status === 'ok') {
+          _log('OK', '✅ Supabase confirmou: escutando INSERT/UPDATE na tabela messages!');
+        } else {
+          _log('WARN', `⚠️ phx_reply com status inesperado: ${JSON.stringify(msg.payload)}`);
         }
-        buildGuilds(); renderServers();
-        if (currentView === 'painel') loadPainel();
-
-        // 3. Salva no GitHub via batch (processo assíncrono, não bloqueia)
-        triggerProcess();
-
-        // 4. Apaga do Supabase depois de 3s (tempo para garantir que o batch foi enviado)
-        setTimeout(() => deleteFromSupabase(rec.message_id), 3000);
-
-      } catch(err) {
-        console.warn('[Realtime] Erro ao processar mensagem:', err);
+        return;
       }
+
+      if (msg.event === 'heartbeat') return;
+
+      // Evento de dado real (postgres_changes)
+      const rec = msg.payload?.data?.record || msg.payload?.record;
+
+      if (!rec) {
+        _log('WARN', `⚠️ Evento sem record no payload: ${JSON.stringify(msg.payload).slice(0,200)}`);
+        return;
+      }
+
+      if (!rec.message_id) {
+        _log('WARN', `⚠️ Record chegou sem message_id: ${JSON.stringify(rec).slice(0,200)}`);
+        return;
+      }
+
+      // Duplicata?
+      if (seenMessageIds.has(rec.message_id)) {
+        _log('WARN', `⚠️ Duplicata ignorada: ${rec.message_id}`);
+        return;
+      }
+      seenMessageIds.add(rec.message_id);
+
+      _log('OK', `🔔 NOVA MENSAGEM no Supabase!`);
+      _log('INFO', `   → Autor: ${rec.author_name}`);
+      _log('INFO', `   → Canal: #${rec.channel_name}`);
+      _log('INFO', `   → ID: ${rec.message_id}`);
+
+      toast(`💬 Nova msg de ${rec.author_name}`, 'info');
+
+      // ── PASSO 1: Salvar no GitHub via action=process ──
+      _log('BATCH', '📦 PASSO 1 — Salvando no GitHub via action=process...');
+      await processNow(true);
+
+      // ── PASSO 2: Ler do GitHub ──
+      _log('INFO', '📂 PASSO 2 — Relendo mensagens do GitHub...');
+      await loadMessagesFromGitHub();
+      _log('OK', `✅ GitHub relido — ${Object.values(allMessages).flat().length} msgs totais`);
+
+      // ── PASSO 3: Atualizar UI ──
+      _log('INFO', '🖥️ PASSO 3 — Atualizando interface...');
+      buildGuilds();
+      renderServers();
+      if (currentGuildId === rec.guild_id && currentChannelId === rec.channel_id) {
+        renderChannelMessages(currentGuildId, currentChannelId, true);
+      }
+      if (currentView === 'painel') loadPainel();
+
+      // ── PASSO 4: Apagar do Supabase ──
+      _log('INFO', '🗑️ PASSO 4 — Apagando do Supabase...');
+      await deleteFromSupabase(rec.message_id);
+
+      _log('DONE', '🏁 Fluxo completo! Mensagem salva no GitHub e apagada do Supabase.');
     };
 
     ws.onerror = (e) => {
-      _log('ERR', '[Realtime] Erro no WebSocket');
+      _log('ERR', '❌ Erro no WebSocket do Supabase');
       updateRealtimeBadge(false);
     };
 
-    ws.onclose = () => {
-      _log('WARN', '[Realtime] WebSocket desconectado — reconectando em 5s...');
+    ws.onclose = (e) => {
+      _log('WARN', `⚠️ WebSocket desconectado (código ${e.code}) — reconectando em 5s...`);
       updateRealtimeBadge(false);
       clearInterval(heartbeatTimer);
-      reconnectTimer = setTimeout(connect, 5000);
+      setTimeout(connect, 5000);
     };
   }
 
   connect();
 }
 
-// Injeta uma mensagem recebida via realtime em allMessages
-function injectRealtimeMessage(msg) {
-  const key = `${msg.guild_id}:${msg.channel_id}`;
-  if (!allMessages[key]) allMessages[key] = [];
-
-  const idx = allMessages[key].findIndex(m => m.message_id === msg.message_id);
-  if (idx === -1) {
-    allMessages[key].push(msg);
-  } else {
-    // UPDATE — mescla (pode ser edição ou deleção)
-    allMessages[key][idx] = { ...allMessages[key][idx], ...msg };
-  }
-  // Mantém ordem cronológica
-  allMessages[key].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-}
-
-// Dispara processamento de lotes (debounce de 2s para não disparar múltiplos)
-let _processDebounce = null;
-function triggerProcess() {
-  if (_processDebounce) clearTimeout(_processDebounce);
-  _processDebounce = setTimeout(() => processNow(true), 2000);
-}
-
-// Apaga mensagem da tabela messages do Supabase após processada
 async function deleteFromSupabase(messageId) {
   try {
     const r = await fetch(`${SUPABASE_URL}/rest/v1/messages?message_id=eq.${messageId}`, {
@@ -522,14 +540,13 @@ async function deleteFromSupabase(messageId) {
         'Content-Type':  'application/json',
       },
     });
-    if (r.ok) _log('OK', `[Realtime] Msg ${messageId} apagada do Supabase ✅`);
-    else _log('WARN', `[Realtime] Falha ao apagar ${messageId}: ${r.status}`);
+    if (r.ok) _log('OK', `🗑️ Msg ${messageId} apagada do Supabase ✅`);
+    else      _log('WARN', `⚠️ Falha ao apagar ${messageId}: HTTP ${r.status}`);
   } catch(e) {
-    _log('ERR', `[Realtime] Erro ao apagar do Supabase: ${e.message}`);
+    _log('ERR', `❌ Erro ao apagar do Supabase: ${e.message}`);
   }
 }
 
-// Badge de status do realtime no header
 function updateRealtimeBadge(connected) {
   const badge = document.getElementById('sync-badge-header');
   const label = document.getElementById('sync-label');
@@ -540,10 +557,8 @@ function updateRealtimeBadge(connected) {
   }
 }
 
-function _log(level, msg) { console.log(`[${level}] ${msg}`); }
-
 // ══════════════════════════════════════════════
-//  AUTO-ENGINE
+//  AUTO-ENGINE — polling fallback
 // ══════════════════════════════════════════════
 function startAutoEngine() {
   setInterval(autoCheckAndProcess, POLL_INTERVAL);
@@ -554,7 +569,7 @@ function startAutoEngine() {
   setInterval(() => {
     if (!syncBusy) { nextSyncIn = Math.max(0, nextSyncIn - 1); updateNsLabel(); }
   }, 1000);
-  setTimeout(autoCheckAndProcess, 2000);
+  setTimeout(autoCheckAndProcess, 3000);
   updateNsLabel();
 }
 
@@ -567,7 +582,7 @@ function updateNsLabel() {
     lbl.textContent = '⚙️ Processando...';
   } else {
     if (dot) dot.style.cssText='width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0';
-    lbl.textContent = nextSyncIn > 0 ? `Próximo sync em ${nextSyncIn}s` : 'Verificando...';
+    lbl.textContent = nextSyncIn > 0 ? `Próximo poll em ${nextSyncIn}s` : 'Verificando...';
   }
 }
 
@@ -575,15 +590,23 @@ async function autoCheckAndProcess() {
   if (syncBusy) return;
   nextSyncIn = POLL_INTERVAL / 1000;
   try {
+    _log('INFO', '🔄 Poll automático — verificando lotes pendentes...');
     const r = await fetch(`${API}?action=pending`);
     if (!r.ok) return;
     const { count } = await r.json();
-    if (count === 0) return;
+    if (count === 0) {
+      _log('INFO', `✓ Nenhum lote pendente`);
+      return;
+    }
+    _log('BATCH', `📦 ${count} lote(s) pendente(s) — processando...`);
     setProcessingState(true);
     toast(`📦 ${count} lote(s) — processando automaticamente...`, 'info');
     await processNow(true);
     setProcessingState(false);
-  } catch(e) { console.warn('Auto-engine error:', e); setProcessingState(false); }
+  } catch(e) {
+    _log('ERR', `❌ Auto-engine erro: ${e.message}`);
+    setProcessingState(false);
+  }
 }
 
 function setProcessingState(busy) {
@@ -592,32 +615,58 @@ function setProcessingState(busy) {
   if (bar)  bar.classList.toggle('active', busy);
   if (dot)  dot.className = 'adot' + (busy ? ' busy' : '');
   if (text) text.textContent = busy ? '⚙️ Processando lotes...' : '🤖 Auto-processamento ativo';
-  if (sub)  sub.textContent  = busy ? 'Salvando no GitHub...' : `Verifica a cada ${POLL_INTERVAL/1000}s e processa sozinho`;
+  if (sub)  sub.textContent  = busy ? 'Salvando no GitHub...' : `Verifica a cada ${POLL_INTERVAL/1000}s`;
   const badge=document.getElementById('sync-badge-header'), lbl=document.getElementById('sync-label');
   if (badge) badge.className = 'sync-badge ' + (busy ? 'syncing' : 'auto');
-  if (lbl)   lbl.textContent = busy ? 'Processando...' : 'Auto-sync ativo';
+  if (lbl)   lbl.textContent = busy ? 'Processando...' : '⚡ Realtime ativo';
 }
 
 async function processNow(silent = false) {
   if (syncBusy) return;
   syncBusy = true; updateNsLabel();
   try {
+    _log('BATCH', '📦 Chamando action=process na API...');
     const r = await fetch(`${API}?action=process`, { method: 'POST' });
     if (!r.ok) { const e = await r.json(); throw new Error(e.error || 'Erro na API'); }
     const result = await r.json();
     if (result.logs?.length) ingestLogLines(result.logs, false);
     if (result.processed > 0) {
+      _log('OK', `✅ API processou ${result.processed} lote(s), ${result.added} msgs novas no GitHub`);
       await loadMessagesFromGitHub();
       buildGuilds(); renderServers();
       if (currentGuildId && currentChannelId) renderChannelMessages(currentGuildId, currentChannelId, true);
       if (currentView === 'painel') loadPainel();
-      if (!silent || result.added > 0) toast(`✅ ${result.added} msgs novas! (${result.processed} lote(s))`, 'success');
+      if (!silent || result.added > 0) toast(`✅ ${result.added} msgs novas!`, 'success');
+    } else {
+      _log('INFO', '✓ Nenhuma msg nova processada');
     }
   } catch(e) {
+    _log('ERR', `❌ processNow erro: ${e.message}`);
     if (!silent) toast('Erro: ' + e.message, 'error');
-    console.warn('processNow error:', e);
   }
   syncBusy = false; updateNsLabel();
+}
+
+async function loadMessagesFromGitHub() {
+  try {
+    _log('INFO', '📂 Lendo messages_db do GitHub...');
+    const r = await fetch(`${API}?action=messages`);
+    if (r.ok) {
+      const data = await r.json();
+      allMessages = data;
+      for (const msgs of Object.values(allMessages)) {
+        for (const m of msgs) {
+          if (m.message_id) seenMessageIds.add(m.message_id);
+        }
+      }
+      _log('OK', `✅ GitHub lido — ${Object.values(allMessages).flat().length} msgs em ${Object.keys(allMessages).length} canais`);
+    } else {
+      _log('ERR', `❌ Falha ao ler GitHub: HTTP ${r.status}`);
+    }
+  } catch(e) {
+    _log('ERR', `❌ Erro ao ler GitHub: ${e.message}`);
+    allMessages = {};
+  }
 }
 
 async function silentRefreshMessages() {
@@ -630,22 +679,6 @@ async function silentRefreshMessages() {
     renderSidebar(currentGuildId);
     toast(`💬 +${next - prev} msgs novas`, 'info');
   }
-}
-
-async function loadMessagesFromGitHub() {
-  try {
-    const r = await fetch(`${API}?action=messages`);
-    if (r.ok) {
-      const data = await r.json();
-      allMessages = data;
-      // Registra todos os IDs já carregados para evitar duplicatas no realtime
-      for (const msgs of Object.values(allMessages)) {
-        for (const m of msgs) {
-          if (m.message_id) seenMessageIds.add(m.message_id);
-        }
-      }
-    }
-  } catch(e) { allMessages = {}; }
 }
 
 function buildGuilds() {
@@ -664,50 +697,31 @@ function buildGuilds() {
 // ══════════════════════════════════════════════
 //  LOGS — engine
 // ══════════════════════════════════════════════
-
-// ─────────────────────────────────────────────
-// FIX #1 — normalização de formato de log
-//
-// O backend pode retornar logs em dois formatos:
-//   A) "[HH:MM:SS] ✅ [OK] mensagem"        ← formato completo
-//   B) "mensagem simples sem timestamp"      ← fallback sem estrutura
-//
-// Esta função normaliza AMBOS para o formato A,
-// garantindo que o terminal sempre consiga parsear
-// e colorir corretamente cada linha.
-// ─────────────────────────────────────────────
 function normalizeLogLine(raw) {
   if (!raw || typeof raw !== 'string') return null;
   const trimmed = raw.trim();
   if (!trimmed) return null;
-
-  // Já está no formato esperado: [HH:MM:SS] ... [LEVEL] ...
   if (/^\[\d{2}:\d{2}:\d{2}\]/.test(trimmed)) return trimmed;
-
-  // Tenta detectar nível pela presença de palavras-chave
-  const ts = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  const ts = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
   let level = 'INFO', icon = 'ℹ️';
   if (/error|erro|fail|falh/i.test(trimmed))       { level='ERR';   icon='❌'; }
   else if (/warn|aviso/i.test(trimmed))             { level='WARN';  icon='⚠️'; }
   else if (/ok|success|sucesso|salvo|saved/i.test(trimmed)) { level='OK'; icon='✅'; }
   else if (/batch|lote/i.test(trimmed))             { level='BATCH'; icon='📦'; }
-  else if (/perf|tempo|ms\b|latên/i.test(trimmed)) { level='PERF';  icon='⏱️'; }
-
+  else if (/perf|tempo|ms\b/i.test(trimmed))        { level='PERF';  icon='⏱️'; }
   return `[${ts}] ${icon} [${level}] ${trimmed}`;
 }
 
 function ingestLogLines(lines, markNew = true) {
   if (!Array.isArray(lines)) return;
-  let added = 0;
   for (const raw of lines) {
     const normalized = normalizeLogLine(raw);
     if (!normalized) continue;
     if (seenLogLines.has(normalized)) continue;
     seenLogLines.add(normalized);
     logLines.push({ raw: normalized, isNew: markNew });
-    added++;
   }
-  if (added > 0) renderLogTerminal();
+  renderLogTerminal();
 }
 
 function parseLogLine(raw) {
@@ -721,18 +735,13 @@ const LEVEL_ICONS = { INFO:'ℹ️', OK:'✅', WARN:'⚠️', ERR:'❌', BATCH:'
 function renderLogTerminal() {
   const term = document.getElementById('log-terminal');
   if (!term) return;
-
-  const filtered = logFilter === 'ALL'
-    ? logLines
-    : logLines.filter(l => parseLogLine(l.raw).level === logFilter);
-
-  document.getElementById('log-count').textContent = `${filtered.length} linha(s)`;
-
+  const filtered = logFilter === 'ALL' ? logLines : logLines.filter(l => parseLogLine(l.raw).level === logFilter);
+  const countEl = document.getElementById('log-count');
+  if (countEl) countEl.textContent = `${filtered.length} linha(s)`;
   if (filtered.length === 0) {
     term.innerHTML = `<div class="log-empty">Nenhuma linha para o filtro <strong>${logFilter}</strong></div>`;
     return;
   }
-
   const frag = document.createDocumentFragment();
   for (const entry of filtered) {
     const { ts, level, msg } = parseLogLine(entry.raw);
@@ -746,46 +755,27 @@ function renderLogTerminal() {
     frag.appendChild(div);
     entry.isNew = false;
   }
-
   term.innerHTML = '';
   term.appendChild(frag);
-
   if (logAutoScroll) term.scrollTop = term.scrollHeight;
 }
 
-// ─────────────────────────────────────────────
-// FIX #1 — fetchAndIngestLogs robusto
-//
-// Antes: só tentava action=logs
-// Agora: tenta action=logs, e se a API não
-//        retornar o campo "logs", cai para o
-//        campo "recent_logs" do action=status
-//        como fallback, garantindo que sempre
-//        haja algo para mostrar no terminal.
-// ─────────────────────────────────────────────
 async function fetchAndIngestLogs() {
   try {
-    // Tentativa 1: endpoint dedicado de logs
     const r = await fetch(`${API}?action=logs&lines=300`);
     if (r.ok) {
       const data = await r.json();
-      // Aceita "logs" OU "recent_logs" OU array direto
       const lines = data.logs ?? data.recent_logs ?? (Array.isArray(data) ? data : null);
-      if (lines?.length) {
-        ingestLogLines(lines, true);
-        return; // sucesso, não precisa do fallback
-      }
+      if (lines?.length) { ingestLogLines(lines, true); return; }
     }
-  } catch(e) { /* tenta fallback abaixo */ }
-
-  // Fallback: action=status sempre tem recent_logs
+  } catch(e) {}
   try {
     const r2 = await fetch(`${API}?action=status`);
     if (r2.ok) {
       const data2 = await r2.json();
       if (data2.recent_logs?.length) ingestLogLines(data2.recent_logs, true);
     }
-  } catch(e) { /* silencioso */ }
+  } catch(e) {}
 }
 
 function startLogAutoRefresh() {
@@ -813,9 +803,8 @@ function setFilter(btn) {
 
 function copyLogs() {
   const text = logLines.map(l => l.raw).join('\n');
-  navigator.clipboard.writeText(text).then(() => {
-    toast(`📋 ${logLines.length} linhas copiadas!`, 'success');
-  }).catch(() => {
+  navigator.clipboard.writeText(text).then(() => toast(`📋 ${logLines.length} linhas copiadas!`, 'success'))
+  .catch(() => {
     const ta = document.createElement('textarea');
     ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
     document.body.appendChild(ta); ta.select();
@@ -826,24 +815,21 @@ function copyLogs() {
 
 function clearLogDisplay() {
   logLines = []; seenLogLines.clear();
-  document.getElementById('log-terminal').innerHTML =
-    '<div class="log-empty">Tela limpa. Próximo fetch em alguns segundos...</div>';
-  document.getElementById('log-count').textContent = '0 linhas';
+  document.getElementById('log-terminal').innerHTML = '<div class="log-empty">Tela limpa. Próximo evento aparece aqui automaticamente.</div>';
+  const countEl = document.getElementById('log-count');
+  if (countEl) countEl.textContent = '0 linhas';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   const term = document.getElementById('log-terminal');
-  if (term) {
-    term.addEventListener('scroll', () => {
-      logAutoScroll = term.scrollTop + term.clientHeight >= term.scrollHeight - 40;
-    });
-  }
+  if (term) term.addEventListener('scroll', () => {
+    logAutoScroll = term.scrollTop + term.clientHeight >= term.scrollHeight - 40;
+  });
 });
 
 // ══════════════════════════════════════════════
-//  NAVEGAÇÃO — telas
+//  NAVEGAÇÃO
 // ══════════════════════════════════════════════
-
 function _hideAll() {
   document.getElementById('channel-header').style.display  = 'none';
   document.getElementById('welcome-screen').style.display  = 'none';
@@ -859,17 +845,8 @@ async function showLogs() {
   document.getElementById('home-btn').classList.add('active');
   document.querySelectorAll('.server-icon[data-gid]').forEach(e => e.classList.remove('active'));
   document.getElementById('sidebar-server-name').textContent = 'Xenon Viewer';
-  document.getElementById('channels-list').innerHTML = `
-    <div class="painel-nav-row" onclick="showPainel()"><span>📊</span><span>Painel geral</span></div>
-    <div class="painel-nav-row active" onclick="showLogs()"><span>🖥️</span><span>Terminal de Logs</span></div>
-    <div style="padding:16px 8px 4px 8px"><span style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px">Servidores</span></div>
-    ${Object.entries(guilds).map(([gid,g])=>`
-      <div class="painel-nav-row" onclick="selectGuild('${gid}')">
-        <span>${g.icon?`<img src="${g.icon}" style="width:16px;height:16px;border-radius:50%;object-fit:cover">`:'🖥️'}</span>
-        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(g.name)}</span>
-        <span style="font-size:11px;color:var(--text-muted)">${Object.keys(g.channels).length}ch</span>
-      </div>`).join('')}`;
-
+  document.getElementById('channels-list').innerHTML = _sidebarNavHtml('logs');
+  renderLogTerminal();
   await fetchAndIngestLogs();
   startLogAutoRefresh();
 }
@@ -882,11 +859,16 @@ async function showPainel() {
   document.querySelectorAll('.server-icon[data-gid]').forEach(e => e.classList.remove('active'));
   document.querySelectorAll('.channel-row').forEach(e => e.classList.remove('active'));
   document.getElementById('sidebar-server-name').textContent = 'Xenon Viewer';
-  document.getElementById('channels-list').innerHTML = `
-    <div class="painel-nav-row active" onclick="showPainel()">
+  document.getElementById('channels-list').innerHTML = _sidebarNavHtml('painel');
+  await loadPainel();
+}
+
+function _sidebarNavHtml(active) {
+  return `
+    <div class="painel-nav-row${active==='painel'?' active':''}" onclick="showPainel()">
       <span class="status-dot online" id="sidebar-status-dot"></span><span>Painel geral</span>
     </div>
-    <div class="painel-nav-row" onclick="showLogs()"><span>🖥️</span><span>Terminal de Logs</span></div>
+    <div class="painel-nav-row${active==='logs'?' active':''}" onclick="showLogs()"><span>🖥️</span><span>Terminal de Logs</span></div>
     <div style="padding:16px 8px 4px 8px"><span style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px">Servidores</span></div>
     ${Object.entries(guilds).map(([gid,g])=>`
       <div class="painel-nav-row" onclick="selectGuild('${gid}')">
@@ -894,7 +876,6 @@ async function showPainel() {
         <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(g.name)}</span>
         <span style="font-size:11px;color:var(--text-muted)">${Object.keys(g.channels).length}ch</span>
       </div>`).join('')}`;
-  await loadPainel();
 }
 
 async function loadPainel() {
@@ -1039,43 +1020,21 @@ function showWelcomeInServer() {
 }
 
 // ══════════════════════════════════════════════
-//  MENSAGENS — SEM PAGINAÇÃO
+//  MENSAGENS
 // ══════════════════════════════════════════════
-
-// ─────────────────────────────────────────────
-// FIX #2 — paginação completamente removida
-//
-// Antes: exibia apenas 100 msgs por vez com
-//        botões "anteriores" / "seguintes",
-//        usando pageIndex para controle de offset.
-//
-// Agora: renderiza TODAS as mensagens de uma vez,
-//        sem limite, sem botões de paginação,
-//        com scroll contínuo estilo Discord.
-//
-// Variáveis removidas: PAGE_SIZE, pageIndex
-// Lógica removida: slice(offset, offset+PAGE_SIZE),
-//   botão "⬆️ Mensagens anteriores",
-//   botão "⬇️ Mensagens seguintes"
-// ─────────────────────────────────────────────
 function renderChannelMessages(gid, cid, reset) {
   const key = `${gid}:${cid}`;
   const msgs = allMessages[key] || [];
   const wrap = document.getElementById('messages-wrap');
-
   if (reset) wrap.innerHTML = '';
-
   if (msgs.length === 0) {
     wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-muted)">Nenhuma mensagem neste canal ainda.</div>';
     document.getElementById('hdr-topic').textContent = '0 msgs · aguardando...';
     return;
   }
-
-  // Renderiza TODAS as mensagens sem slice / paginação
   renderMessages(msgs, wrap);
-
   wrap.scrollTop = wrap.scrollHeight;
-  document.getElementById('hdr-topic').textContent = `${msgs.length.toLocaleString('pt-BR')} msgs · auto-sync`;
+  document.getElementById('hdr-topic').textContent = `${msgs.length.toLocaleString('pt-BR')} msgs · realtime`;
 }
 
 function renderMessages(msgs, wrap) {
@@ -1083,60 +1042,42 @@ function renderMessages(msgs, wrap) {
   const frag = document.createDocumentFragment();
   for (const msg of msgs) {
     const ts = new Date(msg.timestamp);
-    const ds = ts.toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
+    const ds = ts.toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
     if (ds !== lastDate) {
       const d = document.createElement('div'); d.className='date-divider'; d.textContent=ds; frag.appendChild(d);
       lastDate=ds; lastAuthor='';
     }
     const isFirst = msg.author_id !== lastAuthor || (ts.getTime() - lastTs) > 300000;
     lastAuthor = msg.author_id; lastTs = ts.getTime();
-
-    const isDeleted  = !!msg.deleted;
-    const editHist   = parseJson(msg.edit_history, []);
+    const isDeleted = !!msg.deleted;
+    const editHist  = parseJson(msg.edit_history, []);
     const hasHistory = editHist.length > 0;
-    const msgId      = msg.message_id || Math.random().toString(36).slice(2);
-
+    const msgId = msg.message_id || Math.random().toString(36).slice(2);
     const div = document.createElement('div');
-    div.className = 'msg-group' + (isFirst ? ' first-in-group' : '') + (isDeleted ? ' deleted' : '');
-
+    div.className = 'msg-group'+(isFirst?' first-in-group':'')+(isDeleted?' deleted':'');
     let inner = '';
-
-    // Avatar
     if (isFirst) {
       inner += msg.author_avatar
         ? `<img class="msg-avatar" src="${msg.author_avatar}" alt="" onerror="this.style.display='none'">`
         : `<div class="msg-avatar" style="display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;background:var(--brand);color:#fff">${(msg.author_name||'?')[0].toUpperCase()}</div>`;
     } else inner += `<div class="msg-avatar-spacer"></div>`;
-
     inner += `<div class="msg-content-wrap">`;
-
-    // Reply
     if (msg.reply_to) {
       let rep = msg.reply_to;
       if (typeof rep === 'string') try { rep = JSON.parse(rep) } catch {}
       if (rep?.author_name) inner += `<div class="msg-reply">↩ <span class="reply-author">${esc(rep.author_name)}</span> <span class="reply-content">${esc(rep.content||'')}</span></div>`;
     }
-
-    // Header
     if (isFirst) {
-      const t = ts.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-      inner += `<div class="msg-header">
-        <span class="msg-author${msg.author_bot?' bot-tag':''}" style="color:${authorColor(msg.author_id)}">${esc(msg.author_name)}</span>
-        <span class="msg-timestamp">${t}</span>
-        ${isDeleted ? `<span class="msg-deleted-badge">🗑️ apagada</span>` : ''}
-      </div>`;
+      const t = ts.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      inner += `<div class="msg-header"><span class="msg-author${msg.author_bot?' bot-tag':''}" style="color:${authorColor(msg.author_id)}">${esc(msg.author_name)}</span><span class="msg-timestamp">${t}</span>${isDeleted?`<span class="msg-deleted-badge">🗑️ apagada</span>`:''}</div>`;
     }
-
-    // Conteúdo — riscado se apagada
     if (msg.content) {
       inner += `<div class="msg-text">${formatText(msg.content)}`;
       if (!isDeleted && msg.edited_at) inner += `<span class="msg-edited">(editado)</span>`;
       inner += `</div>`;
-    } else if (isDeleted && !msg.content) {
+    } else if (isDeleted) {
       inner += `<div class="msg-text" style="font-style:italic;opacity:.5">[mensagem apagada]</div>`;
     }
-
-    // Attachments
     const atts = parseJson(msg.attachments, []);
     if (atts.length) {
       inner += `<div class="msg-attachments">`;
@@ -1146,8 +1087,6 @@ function renderMessages(msgs, wrap) {
       }
       inner += `</div>`;
     }
-
-    // Embeds
     const embs = parseJson(msg.embeds, []);
     if (embs.length) {
       inner += `<div class="msg-embeds">`;
@@ -1163,56 +1102,30 @@ function renderMessages(msgs, wrap) {
       }
       inner += `</div>`;
     }
-
-    inner += `</div>`; // fecha msg-content-wrap
-
-    // ── Menu 3 pontos ──────────────────────────
-    // Só aparece ao hover (via CSS)
-    inner += `<div class="msg-actions">`;
-    if (hasHistory) {
-      inner += `<button class="msg-action-btn" title="Ver histórico de edições" onclick="toggleHistory('hist-${msgId}', event)">📋</button>`;
-    }
-    if (isDeleted) {
-      inner += `<button class="msg-action-btn" title="Mensagem apagada" style="color:var(--red);cursor:default">🗑️</button>`;
-    }
-    inner += `<button class="msg-action-btn" title="Mais opções">···</button>`;
     inner += `</div>`;
-
-    // ── Dropdown histórico de edições ──────────
+    inner += `<div class="msg-actions">`;
+    if (hasHistory) inner += `<button class="msg-action-btn" title="Ver histórico" onclick="toggleHistory('hist-${msgId}',event)">📋</button>`;
+    if (isDeleted)  inner += `<button class="msg-action-btn" style="color:var(--red);cursor:default">🗑️</button>`;
+    inner += `<button class="msg-action-btn" title="Mais opções">···</button></div>`;
     if (hasHistory) {
-      inner += `<div class="msg-history-dropdown" id="hist-${msgId}">
-        <div class="history-title">📋 Histórico de edições</div>`;
+      inner += `<div class="msg-history-dropdown" id="hist-${msgId}"><div class="history-title">📋 Histórico de edições</div>`;
       for (const entry of editHist) {
         const ets = entry.edited_at ? new Date(entry.edited_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
-        inner += `<div class="history-entry">
-          <div class="history-entry-ts">Antes — ${ets}</div>
-          <div class="history-entry-text">${esc(entry.content||'')}</div>
-        </div>`;
+        inner += `<div class="history-entry"><div class="history-entry-ts">Antes — ${ets}</div><div class="history-entry-text">${esc(entry.content||'')}</div></div>`;
       }
-      // Versão atual ao final
-      inner += `<div class="history-entry" style="border-left-color:var(--brand)">
-        <div class="history-entry-ts" style="color:var(--brand)">Versão atual</div>
-        <div class="history-entry-text" style="text-decoration:none;opacity:1;color:var(--text-normal)">${esc(msg.content||'')}</div>
-      </div>`;
-      inner += `</div>`;
+      inner += `<div class="history-entry" style="border-left-color:var(--brand)"><div class="history-entry-ts" style="color:var(--brand)">Versão atual</div><div class="history-entry-text" style="text-decoration:none;opacity:1;color:var(--text-normal)">${esc(msg.content||'')}</div></div></div>`;
     }
-
     div.innerHTML = inner;
     frag.appendChild(div);
   }
   wrap.appendChild(frag);
 }
 
-// Abre/fecha dropdown de histórico de edições
 function toggleHistory(id, e) {
   e.stopPropagation();
-  // Fecha todos os outros abertos
-  document.querySelectorAll('.msg-history-dropdown.open').forEach(el => {
-    if (el.id !== id) el.classList.remove('open');
-  });
+  document.querySelectorAll('.msg-history-dropdown.open').forEach(el => { if(el.id!==id) el.classList.remove('open'); });
   document.getElementById(id)?.classList.toggle('open');
 }
-// Clicou fora → fecha todos os dropdowns
 document.addEventListener('click', () => {
   document.querySelectorAll('.msg-history-dropdown.open').forEach(el => el.classList.remove('open'));
 });
