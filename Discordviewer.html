@@ -87,6 +87,27 @@
   .msg-text{font-size:15px;color:var(--text-normal);line-height:1.375;word-break:break-word;white-space:pre-wrap}
   .msg-text a{color:var(--text-link);text-decoration:none}.msg-text a:hover{text-decoration:underline}
   .msg-edited{font-size:10px;color:var(--text-muted);margin-left:4px}
+
+  /* MENSAGEM APAGADA */
+  .msg-group.deleted .msg-text{text-decoration:line-through;color:var(--text-muted);opacity:.7}
+  .msg-group.deleted .msg-avatar{opacity:.4}
+  .msg-deleted-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--red);font-weight:600;margin-left:6px;opacity:.8}
+
+  /* MENU 3 PONTOS */
+  .msg-actions{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:none;align-items:center;gap:2px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:2px;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:100}
+  .msg-group{position:relative}
+  .msg-group:hover .msg-actions{display:flex}
+  .msg-action-btn{width:28px;height:28px;border-radius:4px;background:transparent;border:none;cursor:pointer;font-size:14px;color:var(--text-muted);display:flex;align-items:center;justify-content:center;transition:background .1s,color .1s}
+  .msg-action-btn:hover{background:var(--bg-hover);color:var(--text-normal)}
+
+  /* DROPDOWN HISTÓRICO */
+  .msg-history-dropdown{position:absolute;right:8px;top:calc(50% + 18px);background:#18191c;border:1px solid var(--border);border-radius:8px;padding:12px;min-width:300px;max-width:480px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:200;display:none}
+  .msg-history-dropdown.open{display:block}
+  .history-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+  .history-entry{border-left:2px solid var(--border);padding:6px 10px;margin-bottom:8px;border-radius:0 4px 4px 0}
+  .history-entry:last-child{margin-bottom:0}
+  .history-entry-ts{font-size:10px;color:var(--text-muted);margin-bottom:2px}
+  .history-entry-text{font-size:13px;color:var(--text-normal);text-decoration:line-through;opacity:.7;word-break:break-word}
   .msg-reply{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);margin-bottom:4px;padding-left:8px;border-left:2px solid var(--border)}
   .reply-author{font-weight:600}.reply-content{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:400px}
   .msg-attachments{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
@@ -338,6 +359,10 @@ const PAINEL_REFRESH = 10000;
 const MSG_REFRESH    = 20000;
 const LOG_REFRESH    = 5000;
 
+// Supabase — leitura direta da tabela messages (tempo real)
+const SUPABASE_URL = 'https://kdcocwihlmptwkqgxxzq.supabase.co';
+const SUPABASE_KEY = 'SUA_SUPABASE_ANON_KEY'; // ← troque pela sua anon key pública
+
 // ══════════════════════════════════════════════
 //  ESTADO
 // ══════════════════════════════════════════════
@@ -456,8 +481,57 @@ async function silentRefreshMessages() {
 }
 
 async function loadMessagesFromGitHub() {
-  try { const r = await fetch(`${API}?action=messages`); if (r.ok) allMessages = await r.json(); }
-  catch(e) { allMessages = {}; }
+  try {
+    const r = await fetch(`${API}?action=messages`);
+    if (r.ok) allMessages = await r.json();
+  } catch(e) { allMessages = {}; }
+
+  // Mescla com mensagens em tempo real da tabela `messages` do Supabase
+  await mergeRealtimeMessages();
+}
+
+// ─────────────────────────────────────────────
+// Lê tabela `messages` do Supabase e mescla
+// com allMessages (sem duplicar por message_id)
+// ─────────────────────────────────────────────
+async function mergeRealtimeMessages() {
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/messages?select=*&order=timestamp.asc&limit=5000`;
+    const r = await fetch(url, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+      }
+    });
+    if (!r.ok) return;
+    const rows = await r.json();
+    if (!Array.isArray(rows) || rows.length === 0) return;
+
+    let merged = 0;
+    for (const msg of rows) {
+      const key = `${msg.guild_id}:${msg.channel_id}`;
+      if (!allMessages[key]) allMessages[key] = [];
+
+      const ids = new Set(allMessages[key].map(m => m.message_id));
+      if (!ids.has(msg.message_id)) {
+        allMessages[key].push(msg);
+        merged++;
+      } else {
+        // Atualiza o registro existente (pode ter sido editado ou apagado)
+        const idx = allMessages[key].findIndex(m => m.message_id === msg.message_id);
+        if (idx !== -1) allMessages[key][idx] = { ...allMessages[key][idx], ...msg };
+      }
+    }
+
+    // Re-ordena por timestamp
+    for (const key of Object.keys(allMessages)) {
+      allMessages[key].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    }
+
+    if (merged > 0) console.log(`[mergeRealtime] +${merged} msgs novas do Supabase`);
+  } catch(e) {
+    console.warn('[mergeRealtime] Erro ao ler Supabase:', e);
+  }
 }
 
 function buildGuilds() {
@@ -902,34 +976,64 @@ function renderMessages(msgs, wrap) {
     }
     const isFirst = msg.author_id !== lastAuthor || (ts.getTime() - lastTs) > 300000;
     lastAuthor = msg.author_id; lastTs = ts.getTime();
+
+    const isDeleted  = !!msg.deleted;
+    const editHist   = parseJson(msg.edit_history, []);
+    const hasHistory = editHist.length > 0;
+    const msgId      = msg.message_id || Math.random().toString(36).slice(2);
+
     const div = document.createElement('div');
-    div.className = 'msg-group' + (isFirst ? ' first-in-group' : '');
+    div.className = 'msg-group' + (isFirst ? ' first-in-group' : '') + (isDeleted ? ' deleted' : '');
+
     let inner = '';
+
+    // Avatar
     if (isFirst) {
       inner += msg.author_avatar
         ? `<img class="msg-avatar" src="${msg.author_avatar}" alt="" onerror="this.style.display='none'">`
         : `<div class="msg-avatar" style="display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;background:var(--brand);color:#fff">${(msg.author_name||'?')[0].toUpperCase()}</div>`;
     } else inner += `<div class="msg-avatar-spacer"></div>`;
+
     inner += `<div class="msg-content-wrap">`;
+
+    // Reply
     if (msg.reply_to) {
       let rep = msg.reply_to;
       if (typeof rep === 'string') try { rep = JSON.parse(rep) } catch {}
       if (rep?.author_name) inner += `<div class="msg-reply">↩ <span class="reply-author">${esc(rep.author_name)}</span> <span class="reply-content">${esc(rep.content||'')}</span></div>`;
     }
+
+    // Header
     if (isFirst) {
       const t = ts.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-      inner += `<div class="msg-header"><span class="msg-author${msg.author_bot?' bot-tag':''}" style="color:${authorColor(msg.author_id)}">${esc(msg.author_name)}</span><span class="msg-timestamp">${t}</span></div>`;
+      inner += `<div class="msg-header">
+        <span class="msg-author${msg.author_bot?' bot-tag':''}" style="color:${authorColor(msg.author_id)}">${esc(msg.author_name)}</span>
+        <span class="msg-timestamp">${t}</span>
+        ${isDeleted ? `<span class="msg-deleted-badge">🗑️ apagada</span>` : ''}
+      </div>`;
     }
-    if (msg.content) inner += `<div class="msg-text">${formatText(msg.content)}${msg.edited_at?'<span class="msg-edited">(editado)</span>':''}</div>`;
+
+    // Conteúdo — riscado se apagada
+    if (msg.content) {
+      inner += `<div class="msg-text">${formatText(msg.content)}`;
+      if (!isDeleted && msg.edited_at) inner += `<span class="msg-edited">(editado)</span>`;
+      inner += `</div>`;
+    } else if (isDeleted && !msg.content) {
+      inner += `<div class="msg-text" style="font-style:italic;opacity:.5">[mensagem apagada]</div>`;
+    }
+
+    // Attachments
     const atts = parseJson(msg.attachments, []);
     if (atts.length) {
       inner += `<div class="msg-attachments">`;
       for (const a of atts) {
-        if (a.content_type?.startsWith('image/')) inner += `<img class="attachment-img" src="${a.url}" alt="${esc(a.filename)}" loading="lazy" onclick="openLightbox('${a.url}')">`;
+        if (a.content_type?.startsWith('image/')) inner += `<img class="attachment-img" src="${a.url}" alt="${esc(a.filename)}" loading="lazy" onclick="openLightbox('${a.url}')" style="${isDeleted?'opacity:.4;filter:grayscale(1)':''}">`;
         else inner += `<div class="attachment-file"><span class="attachment-file-icon">📄</span><div class="attachment-file-info"><div class="attachment-file-name">${esc(a.filename)}</div><div class="attachment-file-size">${formatSize(a.size)}</div></div><a class="attachment-file-dl" href="${a.url}" target="_blank" download>⬇️</a></div>`;
       }
       inner += `</div>`;
     }
+
+    // Embeds
     const embs = parseJson(msg.embeds, []);
     if (embs.length) {
       inner += `<div class="msg-embeds">`;
@@ -945,12 +1049,59 @@ function renderMessages(msgs, wrap) {
       }
       inner += `</div>`;
     }
+
+    inner += `</div>`; // fecha msg-content-wrap
+
+    // ── Menu 3 pontos ──────────────────────────
+    // Só aparece ao hover (via CSS)
+    inner += `<div class="msg-actions">`;
+    if (hasHistory) {
+      inner += `<button class="msg-action-btn" title="Ver histórico de edições" onclick="toggleHistory('hist-${msgId}', event)">📋</button>`;
+    }
+    if (isDeleted) {
+      inner += `<button class="msg-action-btn" title="Mensagem apagada" style="color:var(--red);cursor:default">🗑️</button>`;
+    }
+    inner += `<button class="msg-action-btn" title="Mais opções">···</button>`;
     inner += `</div>`;
+
+    // ── Dropdown histórico de edições ──────────
+    if (hasHistory) {
+      inner += `<div class="msg-history-dropdown" id="hist-${msgId}">
+        <div class="history-title">📋 Histórico de edições</div>`;
+      for (const entry of editHist) {
+        const ets = entry.edited_at ? new Date(entry.edited_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+        inner += `<div class="history-entry">
+          <div class="history-entry-ts">Antes — ${ets}</div>
+          <div class="history-entry-text">${esc(entry.content||'')}</div>
+        </div>`;
+      }
+      // Versão atual ao final
+      inner += `<div class="history-entry" style="border-left-color:var(--brand)">
+        <div class="history-entry-ts" style="color:var(--brand)">Versão atual</div>
+        <div class="history-entry-text" style="text-decoration:none;opacity:1;color:var(--text-normal)">${esc(msg.content||'')}</div>
+      </div>`;
+      inner += `</div>`;
+    }
+
     div.innerHTML = inner;
     frag.appendChild(div);
   }
   wrap.appendChild(frag);
 }
+
+// Abre/fecha dropdown de histórico de edições
+function toggleHistory(id, e) {
+  e.stopPropagation();
+  // Fecha todos os outros abertos
+  document.querySelectorAll('.msg-history-dropdown.open').forEach(el => {
+    if (el.id !== id) el.classList.remove('open');
+  });
+  document.getElementById(id)?.classList.toggle('open');
+}
+// Clicou fora → fecha todos os dropdowns
+document.addEventListener('click', () => {
+  document.querySelectorAll('.msg-history-dropdown.open').forEach(el => el.classList.remove('open'));
+});
 
 // ══════════════════════════════════════════════
 //  HELPERS
